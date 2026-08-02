@@ -735,11 +735,23 @@
       const name = (row["Nombre"] || '').trim();
       const catLabel = (row["Categoría"] || '').trim();
       const subLabelRaw = (row.subcategoria || '').trim();
-      const price = parsePrice(row.precio);
+      const price = parsePrice(row.precio || row["Precio"]);
       const priceCERaw = (row.precio_contraentrega || '').trim();
       const priceCE = priceCERaw ? parsePrice(priceCERaw) : price;
-      const images = [row.imagen, row.imagen2, row.imagen3, row.imagen4]
-        .map(v=>(v||'').trim()).filter(Boolean);
+      const images = [
+  row.imagen || row["IMG 1"],
+  row.imagen2 || row["IMG 2"],
+  row.imagen3 || row["IMG 3"],
+  row.imagen4 || row["IMG 4"],
+  row.imagen5 || row["IMG 5"],
+  row.imagen6 || row["IMG 6"],
+  row.imagen7 || row["IMG 7"],
+  row.imagen8 || row["IMG 8"],
+  row.imagen9 || row["IMG 9"],
+  row.imagen10 || row["IMG 10"]
+]
+.map(v => (v || '').trim())
+.filter(Boolean);
       let lot = (row.lote || '').trim();
       const nuevo = isTrue(row.nuevo);
       const restock = isTrue(row.restock);
