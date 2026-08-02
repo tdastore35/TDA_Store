@@ -1235,12 +1235,27 @@
   renderDrawer();
 }
   function changeQty(key, delta){
-    if(!cart[key]) return;
-    cart[key].qty += delta;
-    if(cart[key].qty<=0) delete cart[key];
-    renderCartCount();
-    renderDrawer();
+  if(!cart[key]) return;
+
+  const product = PRODUCTS.find(p => p.id === cart[key].productId);
+  if(!product) return;
+
+  const newQty = cart[key].qty + delta;
+
+  if(newQty > product.stock){
+    alert(`Solo puedes comprar ${product.stock} unidad${product.stock != 1 ? 'es' : ''} de este producto.`);
+    return;
   }
+
+  cart[key].qty = newQty;
+
+  if(cart[key].qty <= 0){
+    delete cart[key];
+  }
+
+  renderCartCount();
+  renderDrawer();
+}
   function removeFromCart(key){
     delete cart[key];
     renderCartCount();
