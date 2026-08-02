@@ -595,11 +595,16 @@
   const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7sCjPavLgakcxWpDEutTKHl1ejawpUUDip0Ht_uGtYpklOd1uV396iajegq5rbRu8FeaKDaOSEbba/pub?gid=0&single=true&output=csv";
 
   // Columnas esperadas en el Sheet de productos (primera fila = encabezados):
-  // nombre | categoria | subcategoria | precio | precio_contraentrega | imagen | imagen2 | imagen3 | imagen4 | lote | nuevo | restock | descripcion | variantes
-  //   - subcategoria, precio_contraentrega, imagen2/3/4, lote, nuevo, restock, descripcion, variantes pueden ir vacíos.
+  // nombre | categoria | subcategoria | precio | precio_contraentrega | imagen | imagen2...imagen10 | lote | nuevo | restock | descripcion | variantes
+  //   - Los encabezados son flexibles: no importa si usas mayúsculas, tildes,
+  //     espacios o guiones bajos ("Categoría", "CATEGORIA", "categoria" se
+  //     reconocen igual). Las columnas de imagen pueden llamarse "imagen",
+  //     "imagen2"..."imagen10", "IMG 1"..."IMG 10", o "foto1", "foto2", etc.
+  //   - Si no tienes una columna "lote", se usa "codigo" en su lugar (si existe).
+  //   - subcategoria, precio_contraentrega, lote/codigo, nuevo, restock, descripcion, variantes pueden ir vacíos.
   //   - precio_contraentrega: si lo dejas vacío, se usa el mismo precio de contado.
-  //   - imagen2, imagen3, imagen4: si cargas más de una foto, la tarjeta se muestra en mosaico
-  //     y todas las fotos aparecen en la galería de la ficha del producto.
+  //   - Si cargas más de una foto (imagen2, imagen3...), todas aparecen en la
+  //     galería de la ficha del producto (la tarjeta del catálogo solo muestra la primera).
   //   - nuevo / restock: escribe "si" para activar la etiqueta correspondiente.
   //   - descripcion: texto libre, aparece resumido en la tarjeta y completo en la ficha.
   //   - variantes: opciones separadas por coma (ej: "Rojo, Azul, Verde"). Si la llenas,
@@ -951,26 +956,51 @@
       .map(city=>`<option value="${city}"></option>`).join('');
   }
 
+  // Normaliza un encabezado de columna para que "Categoría", "categoria",
+  // "CATEGORIA " o "categoría" se reconozcan como lo mismo — así no importa
+  // cómo lo escriban en el Sheet.
+  function normalizeHeader(h){
+    return String(h||'').toLowerCase().trim()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[\s_]+/g,'');
+  }
+
   function buildDataFromRows(rows){
     const catMap = new Map();
     const products = [];
     let lotCounter = 0;
 
-    rows.forEach((row, idx)=>{
-      const name = (row.nombre || '').trim();
-      const catLabel = (row.categoria || '').trim();
-      const subLabelRaw = (row.subcategoria || '').trim();
-      const price = parsePrice(row.precio);
-      const priceCERaw = (row.precio_contraentrega || '').trim();
+    rows.forEach((rawRow, idx)=>{
+      // Reconstruir la fila con claves normalizadas (sin tildes/mayúsculas/espacios)
+      // y juntar aparte todas las columnas de imagen, sea cual sea su nombre
+      // (imagen, imagen2, IMG 1, Img2, imagenes... hasta 10 columnas).
+      const row = {};
+      const imageKeys = [];
+      Object.keys(rawRow).forEach(key=>{
+        const nk = normalizeHeader(key);
+        row[nk] = rawRow[key];
+        if(/^(img|imagen|foto)\d*$/.test(nk)) imageKeys.push(nk);
+      });
+      imageKeys.sort((a,b)=>{
+        const na = parseInt(a.replace(/\D/g,''),10) || 1;
+        const nb = parseInt(b.replace(/\D/g,''),10) || 1;
+        return na - nb;
+      });
+
+      const name = (row['nombre'] || '').toString().trim();
+      const catLabel = (row['categoria'] || '').toString().trim();
+      const subLabelRaw = (row['subcategoria'] || '').toString().trim();
+      const price = parsePrice(row['precio']);
+      const priceCERaw = (row['preciocontraentrega'] || '').toString().trim();
       const priceCE = priceCERaw ? parsePrice(priceCERaw) : price;
-      const images = [row.imagen, row.imagen2, row.imagen3, row.imagen4]
-        .map(v=>(v||'').trim()).filter(Boolean);
-      let lot = (row.lote || '').trim();
-      const nuevo = isTrue(row.nuevo);
-      const restock = isTrue(row.restock);
-      const description = (row.descripcion || '').trim();
-      const variants = (row.variantes || '').trim()
-        ? row.variantes.split(',').map(v=>v.trim()).filter(Boolean)
+      const images = imageKeys.map(k=>(row[k]||'').toString().trim()).filter(Boolean);
+      // "lote" o, si no existe esa columna, se usa "código" como identificador.
+      let lot = (row['lote'] || row['codigo'] || '').toString().trim();
+      const nuevo = isTrue(row['nuevo']);
+      const restock = isTrue(row['restock']);
+      const description = (row['descripcion'] || '').toString().trim();
+      const variants = (row['variantes'] || '').toString().trim()
+        ? String(row['variantes']).split(',').map(v=>v.trim()).filter(Boolean)
         : [];
 
       if(!name || !catLabel) return;
