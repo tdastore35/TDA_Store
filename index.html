@@ -732,8 +732,8 @@
     let lotCounter = 0;
 
     rows.forEach((row, idx)=>{
-      const name = (row.nombre || '').trim();
-      const catLabel = (row.categoria || '').trim();
+      const name = (row["Nombre"] || '').trim();
+      const catLabel = (row["Categoría"] || '').trim();
       const subLabelRaw = (row.subcategoria || '').trim();
       const price = parsePrice(row.precio);
       const priceCERaw = (row.precio_contraentrega || '').trim();
