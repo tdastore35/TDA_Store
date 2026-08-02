@@ -999,6 +999,7 @@
       const catLabel = (row['categoria'] || '').toString().trim();
       const subLabelRaw = (row['subcategoria'] || '').toString().trim();
       const price = parsePrice(row['precio']);
+      const stock = Number(row.cantidad || row["Cantidad"] || 999);
       const priceCERaw = (row['preciocontraentrega'] || '').toString().trim();
       const priceCE = priceCERaw ? parsePrice(priceCERaw) : price;
       const images = imageKeys.map(k=>(row[k]||'').toString().trim()).filter(Boolean);
@@ -1027,11 +1028,23 @@
       if(!lot) lot = "LOTE-" + String(lotCounter).padStart(3,'0');
 
       products.push({
-        id: slug(name+'-'+catId+'-'+subId+'-'+lotCounter),
-        name, cat:catId, catLabel, sub:subId, subLabel:subLabelRaw,
-        price, priceCE, images, lot, nuevo, restock, rowIndex: idx,
-        description, variants,
-      });
+  id: slug(name+'-'+catId+'-'+subId+'-'+lotCounter),
+  name,
+  cat:catId,
+  catLabel,
+  sub:subId,
+  subLabel:subLabelRaw,
+  price,
+  priceCE,
+  images,
+  stock,
+  lot,
+  nuevo,
+  restock,
+  rowIndex: idx,
+  description,
+  variants,
+});
     });
 
     CATEGORIES = Array.from(catMap.values()).map(c=>({
@@ -1196,12 +1209,31 @@
     return variant ? productId + '::' + slug(variant) : productId;
   }
   function addToCart(productId, variant, qty){
-    const key = cartKey(productId, variant);
-    if(cart[key]) cart[key].qty += qty;
-    else cart[key] = { productId, variant: variant||'', qty };
-    renderCartCount();
-    renderDrawer();
+  const product = PRODUCTS.find(p => p.id === productId);
+  if(!product) return;
+
+  const key = cartKey(productId, variant);
+
+  const currentQty = cart[key] ? cart[key].qty : 0;
+
+  if(currentQty + qty > product.stock){
+    alert(`Solo puedes comprar ${product.stock} unidad${product.stock != 1 ? 'es' : ''} de este producto.`);
+    return;
   }
+
+  if(cart[key]){
+    cart[key].qty += qty;
+  }else{
+    cart[key] = {
+      productId,
+      variant: variant || '',
+      qty
+    };
+  }
+
+  renderCartCount();
+  renderDrawer();
+}
   function changeQty(key, delta){
     if(!cart[key]) return;
     cart[key].qty += delta;
