@@ -1235,84 +1235,63 @@ onerror="this.parentElement.innerHTML='📦'">`;
     }).join('');
 
     // Click en la tarjeta (fuera de botones) abre la ficha del producto.
-grid.querySelectorAll('.add-btn').forEach(btn=>{
-    btn.addEventListener('click', (ev)=>{
+    // Click en la tarjeta (fuera del botón) abre la ficha del producto.
+    grid.querySelectorAll('.card').forEach(card=>{
+      card.addEventListener('click', ()=> openProductModal(card.dataset.id));
+    });
+grid.querySelectorAll('.card__art img').forEach(img => {
 
+  const images = JSON.parse(img.dataset.images || "[]");
+
+  if(images.length <= 1) return;
+
+  let index = 0;
+  let timer = null;
+
+  img.parentElement.addEventListener('mouseenter', () => {
+
+    clearInterval(timer);
+
+    timer = setInterval(() => {
+      index = (index + 1) % images.length;
+
+      img.style.opacity = "0";
+
+      setTimeout(() => {
+        img.src = images[index];
+        img.style.opacity = "1";
+      }, 150);
+
+    }, 1000);
+
+  });
+
+  img.parentElement.addEventListener('mouseleave', () => {
+
+    clearInterval(timer);
+    index = 0;
+    img.src = images[0];
+    img.style.opacity = "1";
+
+  });
+
+});
+    grid.querySelectorAll('.add-btn').forEach(btn=>{
+      btn.addEventListener('click', (ev)=>{
         ev.stopPropagation();
-
         const product = PRODUCTS.find(p=>p.id===btn.dataset.id);
-
         if(!product) return;
-
         if(product.variants.length > 0){
-            openProductModal(product.id);
-            return;
+          openProductModal(product.id);
+          return;
         }
-
         addToCart(product.id, '', 1);
-
         btn.textContent = "✓ Agregado";
         btn.classList.add('is-added');
-
-        setTimeout(()=>{
-            btn.textContent="Agregar";
-            btn.classList.remove('is-added');
-        },900);
-
+        setTimeout(()=>{ btn.textContent = "Agregar"; btn.classList.remove('is-added'); }, 900);
+      });
     });
-});
-
-
-// Cambio de imágenes
-grid.querySelectorAll('.card__art img').forEach(img=>{
-
-    const images = JSON.parse(img.dataset.images || "[]");
-
-    if(images.length <= 1) return;
-
-    let index = 0;
-    let timer = null;
-
-    const container = img.parentElement;
-
-
-    // PC: cambio automático al pasar el mouse
-    container.addEventListener("mouseenter", ()=>{
-
-        timer = setInterval(()=>{
-
-            index = (index + 1) % images.length;
-            img.src = images[index];
-
-        },700);
-
-    });
-
-
-    container.addEventListener("mouseleave", ()=>{
-
-        clearInterval(timer);
-        timer = null;
-
-        index = 0;
-        img.src = images[0];
-
-    });
-
-
-    // Celular: tocar imagen cambia foto
-    container.addEventListener("click",(e)=>{
-
-        if(window.innerWidth > 900) return;
-
-        e.stopPropagation();
-
-        index = (index + 1) % images.length;
-        img.src = images[index];
-
-    });
-
-});
+  }
 
   // ---------- Cart logic ----------
   // cart[key] = { productId, variant, qty }  — key = productId, o productId::variante si aplica.
