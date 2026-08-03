@@ -994,7 +994,6 @@ function loadCart(){
 
     renderAll();
 })
-      })
       .catch(err=>{
         showStatus('No se pudo cargar el catálogo (' + err.message + '). Revisa que el Sheet esté publicado como CSV y sea público.', true);
         renderAll();
@@ -1279,6 +1278,7 @@ function loadCart(){
 
   renderCartCount();
   renderDrawer();
+    saveCart();
 }
   function changeQty(key, delta){
   if(!cart[key]) return;
@@ -1654,6 +1654,7 @@ saveCart();
     renderGrid();
     renderCartCount();
     renderDrawer();
+    saveCart();
   }
 
   loadCatalog();
