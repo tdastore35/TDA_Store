@@ -1042,6 +1042,7 @@ function loadCart(){
       const subLabelRaw = (row['subcategoria'] || '').toString().trim();
       const price = parsePrice(row['precio']);
       const stock = Number(row.cantidad || row["Cantidad"] || 999);
+      const code = (row['codigo'] || '').toString().trim();
       const priceCERaw = (row['preciocontraentrega'] || '').toString().trim();
       const priceCE = priceCERaw ? parsePrice(priceCERaw) : price;
       const images = imageKeys.map(k=>(row[k]||'').toString().trim()).filter(Boolean);
@@ -1071,6 +1072,7 @@ function loadCart(){
 
       products.push({
   id: slug(name+'-'+catId+'-'+subId+'-'+lotCounter),
+  code,
   name,
   cat:catId,
   catLabel,
@@ -1526,16 +1528,13 @@ saveCart();
     
     let msg = `🛒 *Nueva orden - TDA Store*\n\n`;
     msg += `Cliente: ${name || 'No especificado'}\n`;
-    msg += `WhatsApp cliente: ${phoneRaw}\n`;
-    msg += `Dirección de entrega: ${address}\n`;
     if(cityVal) msg += `Ciudad: ${cityVal}\n`;
-    if(deptVal) msg += `Departamento: ${deptVal}\n`;
     msg += `Forma de pago: ${payMethod === 'contraentrega' ? 'Contraentrega' : 'Pago directo'}\n`;
     msg += `\nProductos:\n`;
     entries.forEach(e=>{
       const up = unitPrice(e.product);
       const variantTxt = e.variant ? ` (${e.variant})` : '';
-      msg += `- [${e.product.lot}] ${e.qty}x ${e.product.name}${variantTxt} — ${fmt.format(up)} c/u = ${fmt.format(up*e.qty)}\n`;
+      msg += `- [${e.product.code || e.product.lot}] ${e.qty}x ${e.product.name}${variantTxt} — ${fmt.format(up)} c/u = ${fmt.format(up*e.qty)}\n`;
     });
     msg += `\nSubtotal: ${fmt.format(subtotal)}\n`;
     if(discount > 0) msg += `Descuento por cantidad: -${fmt.format(discount)}\n`;
