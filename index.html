@@ -1294,17 +1294,6 @@ grid.querySelectorAll('.card__art img').forEach(img => {
   img.parentElement.addEventListener('touchend',()=>{
     img.src = images[0];
     index = 0;
-  });
-
-});
-  img.parentElement.addEventListener('mouseleave', () => {
-
-    clearInterval(timer);
-    index = 0;
-    img.src = images[0];
-    img.style.opacity = "1";
-
-  });
 
 });
     grid.querySelectorAll('.add-btn').forEach(btn=>{
