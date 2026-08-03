@@ -558,12 +558,13 @@
         </div>
         <div class="option-block region-select">
           <div class="option-block__label">Ciudad de entrega</div>
-          <input type="text" id="cityInput" list="cityDatalist" placeholder="Escribe tu ciudad...">
+          <input
+    type="text"
+    id="cityInput"
+    list="cityDatalist"
+    autocomplete="off"
+    placeholder="Ej: Bogotá, Ibagué, Medellín...">
           <datalist id="cityDatalist"></datalist>
-        </div>
-        <div class="option-block region-select">
-          <div class="option-block__label">Departamento</div>
-          <input type="text" id="deptInput" placeholder="Ej: Tolima">
         </div>
       </div>
       <div class="receipt" id="receiptBox" style="display:none;"></div>
@@ -742,6 +743,7 @@
     "Herrera": 11000,
     "Hispania": 16000,
     "Honda": 16000,
+    "Ibagué": 11000,
     "Icononzo": 11000,
     "Ipiales": 16000,
     "Irra": 16000,
@@ -1530,8 +1532,8 @@ saveCart();
     const shipping = shippingCost();
     const insurance = codInsurance(productsTotal, shipping);
     const cityVal = document.getElementById('cityInput').value.trim();
-    const deptVal = document.getElementById('deptInput').value.trim();
-
+    const deptVal = "";
+    
     let msg = `🛒 *Nueva orden - TDA Store*\n\n`;
     msg += `Cliente: ${name || 'No especificado'}\n`;
     msg += `WhatsApp cliente: ${phoneRaw}\n`;
