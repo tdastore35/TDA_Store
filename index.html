@@ -1234,10 +1234,35 @@ onerror="this.parentElement.innerHTML='📦'">`;
     `;
     }).join('');
 
-    // Click en la tarjeta (fuera del botón) abre la ficha del producto.
-    grid.querySelectorAll('.card').forEach(card=>{
-      card.addEventListener('click', ()=> openProductModal(card.dataset.id));
+    // Click en la tarjeta (fuera de botones) abre la ficha del producto.
+grid.querySelectorAll('.add-btn').forEach(btn=>{
+    btn.addEventListener('click', (ev)=>{
+
+        ev.stopPropagation();
+
+        const product = PRODUCTS.find(p=>p.id===btn.dataset.id);
+
+        if(!product) return;
+
+        if(product.variants.length > 0){
+            openProductModal(product.id);
+            return;
+        }
+
+        addToCart(product.id, '', 1);
+
+        btn.textContent = "✓ Agregado";
+        btn.classList.add('is-added');
+
+        setTimeout(()=>{
+            btn.textContent="Agregar";
+            btn.classList.remove('is-added');
+        },900);
+
     });
+});
+
+
 // Cambio de imágenes
 grid.querySelectorAll('.card__art img').forEach(img=>{
 
@@ -1248,62 +1273,46 @@ grid.querySelectorAll('.card__art img').forEach(img=>{
     let index = 0;
     let timer = null;
 
-    // PC
-    img.parentElement.addEventListener("mouseenter", ()=>{
+    const container = img.parentElement;
+
+
+    // PC: cambio automático al pasar el mouse
+    container.addEventListener("mouseenter", ()=>{
 
         timer = setInterval(()=>{
+
             index = (index + 1) % images.length;
             img.src = images[index];
+
         },700);
 
     });
 
-    img.parentElement.addEventListener("mouseleave", ()=>{
+
+    container.addEventListener("mouseleave", ()=>{
 
         clearInterval(timer);
+        timer = null;
+
         index = 0;
         img.src = images[0];
 
     });
 
-    // Celular
-    img.parentElement.addEventListener("click",(e)=>{
+
+    // Celular: tocar imagen cambia foto
+    container.addEventListener("click",(e)=>{
 
         if(window.innerWidth > 900) return;
 
         e.stopPropagation();
 
-        index++;
-
-        if(index >= images.length){
-            index = 0;
-        }
-
+        index = (index + 1) % images.length;
         img.src = images[index];
 
     });
 
 });
-      grid.querySelectorAll('.add-btn').forEach(btn=>{
-    btn.addEventListener('click', (ev)=>{
-        ev.stopPropagation();
-        const product = PRODUCTS.find(p=>p.id===btn.dataset.id);
-        if(!product) return;
-        if(product.variants.length > 0){
-          openProductModal(product.id);
-          return;
-        }
-        addToCart(product.id, '', 1);
-        btn.textContent = "✓ Agregado";
-        btn.classList.add('is-added');
-                setTimeout(()=>{
-            btn.textContent="Agregar";
-            btn.classList.remove('is-added');
-        },900);
-    });
-});
-
-}
 
   // ---------- Cart logic ----------
   // cart[key] = { productId, variant, qty }  — key = productId, o productId::variante si aplica.
