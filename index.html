@@ -1245,26 +1245,58 @@ grid.querySelectorAll('.card__art img').forEach(img => {
   if(images.length <= 1) return;
 
   let index = 0;
-  let timer = null;
+  let startX = 0;
 
-  img.parentElement.addEventListener('mouseenter', () => {
-
-    clearInterval(timer);
-
-    timer = setInterval(() => {
-      index = (index + 1) % images.length;
-
-      img.style.opacity = "0";
-
-      setTimeout(() => {
-        img.src = images[index];
-        img.style.opacity = "1";
-      }, 150);
-
-    }, 1000);
-
+  // PC
+  img.parentElement.addEventListener('mouseenter', ()=>{
+    index = 0;
+    img.src = images[index];
   });
 
+  img.parentElement.addEventListener('mousemove', (e)=>{
+    const rect = img.parentElement.getBoundingClientRect();
+    const percent = (e.clientX - rect.left) / rect.width;
+    const newIndex = Math.min(images.length-1, Math.floor(percent * images.length));
+
+    if(newIndex !== index){
+      index = newIndex;
+      img.src = images[index];
+    }
+  });
+
+  img.parentElement.addEventListener('mouseleave', ()=>{
+    img.src = images[0];
+    index = 0;
+  });
+
+  // Celular
+  img.parentElement.addEventListener('touchstart',(e)=>{
+    startX = e.touches[0].clientX;
+  },{passive:true});
+
+  img.parentElement.addEventListener('touchmove',(e)=>{
+
+    const diff = e.touches[0].clientX - startX;
+
+    if(Math.abs(diff) < 30) return;
+
+    if(diff < 0){
+      index = Math.min(index + 1, images.length-1);
+    }else{
+      index = Math.max(index - 1, 0);
+    }
+
+    img.src = images[index];
+    startX = e.touches[0].clientX;
+
+  },{passive:true});
+
+  img.parentElement.addEventListener('touchend',()=>{
+    img.src = images[0];
+    index = 0;
+  });
+
+});
   img.parentElement.addEventListener('mouseleave', () => {
 
     clearInterval(timer);
@@ -1470,10 +1502,21 @@ saveCart();
     });
 
     const subtotal = cartSubtotal();
-    const discount = quantityDiscount();
-    const productsTotal = subtotal - discount;
-    const shipping = shippingCost();
-    const insurance = codInsurance(productsTotal, shipping);
+const discount = quantityDiscount();
+const productsTotal = subtotal - discount;
+const shipping = shippingCost();
+const insurance = codInsurance(productsTotal, shipping);
+
+const contraEntrega = document.getElementById('payCE');
+const minimoContraEntrega = 45000;
+
+if((productsTotal + shipping) < minimoContraEntrega){
+  contraEntrega.checked = false;
+  document.getElementById('payDirecto').checked = true;
+  contraEntrega.disabled = true;
+}else{
+  contraEntrega.disabled = false;
+}
 
     let receiptHtml = `<div class="receipt__row"><span>Artículos (${cartCount()})</span><span class="mono">${fmt.format(subtotal)}</span></div>`;
     if(discount > 0){
