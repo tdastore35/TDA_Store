@@ -1284,7 +1284,8 @@ grid.querySelectorAll('.card__art img').forEach(img=>{
     });
 
 });
-      btn.addEventListener('click', (ev)=>{
+      grid.querySelectorAll('.add-btn').forEach(btn=>{
+    btn.addEventListener('click', (ev)=>{
         ev.stopPropagation();
         const product = PRODUCTS.find(p=>p.id===btn.dataset.id);
         if(!product) return;
@@ -1295,10 +1296,14 @@ grid.querySelectorAll('.card__art img').forEach(img=>{
         addToCart(product.id, '', 1);
         btn.textContent = "✓ Agregado";
         btn.classList.add('is-added');
-        setTimeout(()=>{ btn.textContent = "Agregar"; btn.classList.remove('is-added'); }, 900);
-      });
+                setTimeout(()=>{
+            btn.textContent="Agregar";
+            btn.classList.remove('is-added');
+        },900);
     });
-  }
+});
+
+}
 
   // ---------- Cart logic ----------
   // cart[key] = { productId, variant, qty }  — key = productId, o productId::variante si aplica.
