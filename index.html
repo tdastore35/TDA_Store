@@ -920,7 +920,25 @@
   let searchTerm = "";
   let sortMode = "az";
   const cart = {}; // key -> { productId, variant, qty }
+function saveCart(){
+  localStorage.setItem("tda_cart", JSON.stringify(cart));
+}
 
+function loadCart(){
+  const saved = localStorage.getItem("tda_cart");
+  if(!saved) return;
+
+  try{
+    const data = JSON.parse(saved);
+
+    Object.keys(cart).forEach(k => delete cart[k]);
+
+    Object.assign(cart, data);
+
+  }catch(e){
+    console.error("No se pudo cargar el carrito", e);
+  }
+}
   function slug(str){
     return String(str||"").toLowerCase().trim()
       .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
@@ -961,15 +979,21 @@
     showStatus('Cargando catálogo desde Google Sheets...', false);
 
     fetch(SHEET_CSV_URL)
-      .then(res=>{
-        if(!res.ok) throw new Error('No se pudo leer el Sheet (' + res.status + ')');
-        return res.arrayBuffer().then(buf => new TextDecoder('utf-8').decode(buf));
-      })
       .then(csvText=>{
-        const parsed = Papa.parse(csvText, { header:true, skipEmptyLines:true, transformHeader: h => h.trim() });
-        buildDataFromRows(parsed.data);
-        hideStatus();
-        renderAll();
+    const parsed = Papa.parse(csvText, {
+        header:true,
+        skipEmptyLines:true,
+        transformHeader:h=>h.trim()
+    });
+
+    buildDataFromRows(parsed.data);
+
+    loadCart();   // ← Agrega esta línea
+
+    hideStatus();
+
+    renderAll();
+})
       })
       .catch(err=>{
         showStatus('No se pudo cargar el catálogo (' + err.message + '). Revisa que el Sheet esté publicado como CSV y sea público.', true);
@@ -1276,13 +1300,15 @@
   }
 
   renderCartCount();
-  renderDrawer();
+renderDrawer();
+saveCart();
 }
   function removeFromCart(key){
     delete cart[key];
     renderCartCount();
-    renderDrawer();
-  }
+renderDrawer();
+saveCart();
+}
   function cartEntries(){
     return Object.entries(cart).map(([key,entry])=>({
       key, variant:entry.variant, qty:entry.qty,
