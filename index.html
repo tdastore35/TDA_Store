@@ -1234,7 +1234,6 @@ onerror="this.parentElement.innerHTML='📦'">`;
     `;
     }).join('');
 
-    // Click en la tarjeta (fuera de botones) abre la ficha del producto.
     // Click en la tarjeta (fuera del botón) abre la ficha del producto.
     grid.querySelectorAll('.card').forEach(card=>{
       card.addEventListener('click', ()=> openProductModal(card.dataset.id));
@@ -1291,7 +1290,6 @@ grid.querySelectorAll('.card__art img').forEach(img => {
         setTimeout(()=>{ btn.textContent = "Agregar"; btn.classList.remove('is-added'); }, 900);
       });
     });
-  }
 
   // ---------- Cart logic ----------
   // cart[key] = { productId, variant, qty }  — key = productId, o productId::variante si aplica.
