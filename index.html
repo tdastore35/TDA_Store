@@ -979,21 +979,25 @@ function loadCart(){
     showStatus('Cargando catálogo desde Google Sheets...', false);
 
     fetch(SHEET_CSV_URL)
-      .then(csvText=>{
+  .then(res=>{
+    if(!res.ok) throw new Error('No se pudo leer el Sheet (' + res.status + ')');
+    return res.arrayBuffer().then(buf => new TextDecoder('utf-8').decode(buf));
+  })
+  .then(csvText=>{
     const parsed = Papa.parse(csvText, {
-        header:true,
-        skipEmptyLines:true,
-        transformHeader:h=>h.trim()
+      header:true,
+      skipEmptyLines:true,
+      transformHeader:h=>h.trim()
     });
 
     buildDataFromRows(parsed.data);
 
-    loadCart();   // ← Agrega esta línea
+    loadCart();
 
     hideStatus();
 
     renderAll();
-})
+  })
       .catch(err=>{
         showStatus('No se pudo cargar el catálogo (' + err.message + '). Revisa que el Sheet esté publicado como CSV y sea público.', true);
         renderAll();
