@@ -921,6 +921,7 @@
   let sortMode = "az";
   const cart = {}; // key -> { productId, variant, qty }
 function saveCart(){
+  console.log("Guardando carrito...", cart);
   localStorage.setItem("tda_cart", JSON.stringify(cart));
 }
 
