@@ -1499,22 +1499,16 @@ saveCart();
 
   document.getElementById('sendOrderBtn').addEventListener('click', ()=>{
     const name = document.getElementById('custName').value.trim();
-    const phoneRaw = document.getElementById('custPhone').value.trim();
-    const phoneDigits = phoneRaw.replace(/\D/g,'');
-    const address = document.getElementById('custAddress').value.trim();
 
-    if(phoneDigits.length < 7){
-      showToast('Ingresa un número de WhatsApp válido');
-      return;
-    }
-    if(address.length < 5){
-      showToast('Ingresa tu dirección de entrega');
-      return;
-    }
-    if(document.getElementById('cityInput').value.trim().length < 3){
-      showToast('Ingresa tu ciudad para calcular el envío');
-      return;
-    }
+if(name.length < 2){
+  showToast('Ingresa tu nombre');
+  return;
+}
+
+if(document.getElementById('cityInput').value.trim().length < 3){
+  showToast('Ingresa tu ciudad para calcular el envío');
+  return;
+}
 
     const entries = cartEntries();
     const payMethod = getPayMethod();
