@@ -1200,11 +1200,11 @@ function loadCart(){
         artHtml = '📦';
       } else {
         artHtml = `<img
-  src="${pr.images[0]}"
-  data-images='${JSON.stringify(pr.images)}'
-  alt="${pr.name}"
-  loading="lazy"
-  onerror="this.parentElement.innerHTML='📦'">`;
+src="${pr.images[0]}"
+data-images='${JSON.stringify(pr.images)}'
+alt="${pr.name}"
+loading="lazy"
+onerror="this.parentElement.innerHTML='📦'">`;
       }
 
       const badges = [];
@@ -1238,65 +1238,52 @@ function loadCart(){
     grid.querySelectorAll('.card').forEach(card=>{
       card.addEventListener('click', ()=> openProductModal(card.dataset.id));
     });
-grid.querySelectorAll('.card__art img').forEach(img => {
+// Cambio de imágenes
+grid.querySelectorAll('.card__art img').forEach(img=>{
 
-  const images = JSON.parse(img.dataset.images || "[]");
+    const images = JSON.parse(img.dataset.images || "[]");
 
-  if(images.length <= 1) return;
+    if(images.length <= 1) return;
 
-  let index = 0;
-  let startX = 0;
+    let index = 0;
+    let timer = null;
 
-  // PC
-  img.parentElement.addEventListener('mouseenter', ()=>{
-    index = 0;
-    img.src = images[index];
-  });
+    // PC
+    img.parentElement.addEventListener("mouseenter", ()=>{
 
-  img.parentElement.addEventListener('mousemove', (e)=>{
-    const rect = img.parentElement.getBoundingClientRect();
-    const percent = (e.clientX - rect.left) / rect.width;
-    const newIndex = Math.min(images.length-1, Math.floor(percent * images.length));
+        timer = setInterval(()=>{
+            index = (index + 1) % images.length;
+            img.src = images[index];
+        },700);
 
-    if(newIndex !== index){
-      index = newIndex;
-      img.src = images[index];
-    }
-  });
+    });
 
-  img.parentElement.addEventListener('mouseleave', ()=>{
-    img.src = images[0];
-    index = 0;
-  });
+    img.parentElement.addEventListener("mouseleave", ()=>{
 
-  // Celular
-  img.parentElement.addEventListener('touchstart',(e)=>{
-    startX = e.touches[0].clientX;
-  },{passive:true});
+        clearInterval(timer);
+        index = 0;
+        img.src = images[0];
 
-  img.parentElement.addEventListener('touchmove',(e)=>{
+    });
 
-    const diff = e.touches[0].clientX - startX;
+    // Celular
+    img.parentElement.addEventListener("click",(e)=>{
 
-    if(Math.abs(diff) < 30) return;
+        if(window.innerWidth > 900) return;
 
-    if(diff < 0){
-      index = Math.min(index + 1, images.length-1);
-    }else{
-      index = Math.max(index - 1, 0);
-    }
+        e.stopPropagation();
 
-    img.src = images[index];
-    startX = e.touches[0].clientX;
+        index++;
 
-  },{passive:true});
+        if(index >= images.length){
+            index = 0;
+        }
 
-  img.parentElement.addEventListener('touchend',()=>{
-    img.src = images[0];
-    index = 0;
+        img.src = images[index];
+
+    });
 
 });
-    grid.querySelectorAll('.add-btn').forEach(btn=>{
       btn.addEventListener('click', (ev)=>{
         ev.stopPropagation();
         const product = PRODUCTS.find(p=>p.id===btn.dataset.id);
