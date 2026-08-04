@@ -526,7 +526,6 @@
         <option value="za">Nombre: Z a A</option>
         <option value="precio-asc">Precio: menor a mayor</option>
         <option value="precio-desc">Precio: mayor a menor</option>
-        <option value="repuestos">Recién repuestos</option>
       </select>
     </div>
   </div>
@@ -1103,11 +1102,20 @@ function loadCart(){
     });
 
     CATEGORIES = Array.from(catMap.values()).map(c=>({
-      id:c.id, label:c.label,
-      subs:Array.from(c.subs.entries()).map(([id,label])=>({id,label})),
-    }));
-    PRODUCTS = products;
-  }
+  id:c.id,
+  label:c.label,
+  subs:Array.from(c.subs.entries()).map(([id,label])=>({id,label})),
+}));
+
+PRODUCTS = products;
+
+// Abrir el catálogo en "Bloques de construcción"
+const bloques = CATEGORIES.find(c => c.label === "Bloques de construcción");
+if(bloques){
+  activeCat = bloques.id;
+  activeSub = "all";
+}
+}
 
   // ---------- Helpers de etiquetas ----------
   function catLabel(id){ const c = CATEGORIES.find(c=>c.id===id); return c ? c.label : ""; }
