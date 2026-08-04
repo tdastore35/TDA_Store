@@ -525,7 +525,7 @@
   <option value="az">A-Z</option>
   <option value="za">Z-A</option>
 
-  <option value="recientes">🆕 Más recientes</option>
+  <option value="recientes">Más recientes</option>
 
   <option value="precio-asc">Menor precio</option>
   <option value="precio-desc">Mayor precio</option>
@@ -1080,10 +1080,12 @@ function loadCart(){
         if(!catEntry.subs.has(subId)) catEntry.subs.set(subId, subLabelRaw);
       }
 
-      lotCounter += 1;
-      if(!lot) lot = "LOTE-" + String(lotCounter).padStart(3,'0');
+     lotCounter += 1;
+if(!lot) lot = "LOTE-" + String(lotCounter).padStart(3,'0');
 
-      products.push({
+const estado = String(row["Estado"] || "").trim().toUpperCase();
+
+products.push({
   id: slug(name+'-'+catId+'-'+subId+'-'+lotCounter),
   code,
   name,
@@ -1096,6 +1098,9 @@ function loadCart(){
   images,
   stock,
   lot,
+
+  estado,
+
   nuevo,
   restock,
   rowIndex: idx,
