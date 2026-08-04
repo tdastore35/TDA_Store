@@ -522,11 +522,14 @@
     </div>
     <div class="sort-box">
       <select id="sortSelect">
-        <option value="az">Nombre: A a Z</option>
-        <option value="za">Nombre: Z a A</option>
-        <option value="precio-asc">Precio: menor a mayor</option>
-        <option value="precio-desc">Precio: mayor a menor</option>
-      </select>
+  <option value="az">A-Z</option>
+  <option value="za">Z-A</option>
+
+  <option value="recientes">🆕 Más recientes</option>
+
+  <option value="precio-asc">Menor precio</option>
+  <option value="precio-desc">Mayor precio</option>
+</select>
     </div>
   </div>
 
@@ -1179,11 +1182,24 @@ if(bloques){
       return true;
     });
 
-    if(sortMode==='precio-asc') list = list.slice().sort((a,b)=>a.price-b.price);
-    else if(sortMode==='precio-desc') list = list.slice().sort((a,b)=>b.price-a.price);
-    else if(sortMode==='repuestos') list = list.slice().sort((a,b)=>b.rowIndex-a.rowIndex);
-    else if(sortMode==='za') list = list.slice().sort((a,b)=>b.name.localeCompare(a.name,'es'));
-    else list = list.slice().sort((a,b)=>a.name.localeCompare(b.name,'es')); // az por defecto
+    if(sortMode==='recientes'){
+  list = list.slice().sort((a,b)=>{
+    if(a.estado === "N" && b.estado !== "N") return -1;
+    if(a.estado !== "N" && b.estado === "N") return 1;
+    return b.rowIndex - a.rowIndex;
+  });
+}
+if(sortMode==='recientes'){
+  list = list.slice().sort((a,b)=>{
+    if(a.estado === "N" && b.estado !== "N") return -1;
+    if(a.estado !== "N" && b.estado === "N") return 1;
+    return b.rowIndex - a.rowIndex;
+  });
+}
+else if(sortMode==='precio-asc') list = list.slice().sort((a,b)=>a.price-b.price);
+else if(sortMode==='precio-desc') list = list.slice().sort((a,b)=>b.price-a.price);
+else if(sortMode==='za') list = list.slice().sort((a,b)=>b.name.localeCompare(a.name,'es'));
+else list = list.slice().sort((a,b)=>a.name.localeCompare(b.name,'es')); // az por defecto
 
     return list;
   }
