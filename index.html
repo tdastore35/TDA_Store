@@ -1501,7 +1501,7 @@ if((productsTotal + shipping) < minimoContraEntrega){
   aviso = document.createElement('div');
   aviso.id = 'contraEntregaMsg';
   aviso.className = 'contra-msg';
-  aviso.textContent = '⚠️ Contraentrega disponible únicamente para pedidos desde $45.000 (incluyendo el envío).';
+  aviso.textContent = '⚠️ Contraentrega disponible para pedidos desde $45.000 (incluyendo el envío).';
   payToggle.insertAdjacentElement('afterend', aviso);
 }
     let receiptHtml = `<div class="receipt__row"><span>Artículos (${cartCount()})</span><span class="mono">${fmt.format(subtotal)}</span></div>`;
