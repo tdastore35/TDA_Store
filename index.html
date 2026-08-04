@@ -1085,6 +1085,8 @@ if(!lot) lot = "LOTE-" + String(lotCounter).padStart(3,'0');
 
 const estado = String(row["Estado"] || "").trim().toUpperCase();
 
+console.log(name, estado);
+
 products.push({
   id: slug(name+'-'+catId+'-'+subId+'-'+lotCounter),
   code,
