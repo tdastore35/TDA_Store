@@ -1083,9 +1083,7 @@ function loadCart(){
      lotCounter += 1;
 if(!lot) lot = "LOTE-" + String(lotCounter).padStart(3,'0');
 
-const estado = String(row["Estado"] || "").trim().toUpperCase();
-
-console.log(name, estado);
+const estado = String(row["estado"] || "").trim().toUpperCase();
 
 products.push({
   id: slug(name+'-'+catId+'-'+subId+'-'+lotCounter),
