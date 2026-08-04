@@ -1193,22 +1193,23 @@ if(bloques){
     return b.rowIndex - a.rowIndex;
   });
 }
-if(sortMode==='recientes'){
-  list = list.slice().sort((a,b)=>{
-    if(a.estado === "N" && b.estado !== "N") return -1;
-    if(a.estado !== "N" && b.estado === "N") return 1;
-    return b.rowIndex - a.rowIndex;
-  });
+else if(sortMode==='precio-asc'){
+  list = list.slice().sort((a,b)=>a.price-b.price);
 }
-else if(sortMode==='precio-asc') list = list.slice().sort((a,b)=>a.price-b.price);
-else if(sortMode==='precio-desc') list = list.slice().sort((a,b)=>b.price-a.price);
-else if(sortMode==='za') list = list.slice().sort((a,b)=>b.name.localeCompare(a.name,'es'));
-else list = list.slice().sort((a,b)=>a.name.localeCompare(b.name,'es')); // az por defecto
+else if(sortMode==='precio-desc'){
+  list = list.slice().sort((a,b)=>b.price-a.price);
+}
+else if(sortMode==='za'){
+  list = list.slice().sort((a,b)=>b.name.localeCompare(a.name,'es'));
+}
+else{
+  list = list.slice().sort((a,b)=>a.name.localeCompare(b.name,'es'));
+}
 
-    return list;
-  }
+return list;
+}
 
-  function renderGrid(){
+function renderGrid(){
     const grid = document.getElementById('productGrid');
     const list = getFilteredProducts();
 
