@@ -210,7 +210,10 @@
     padding:4px 8px; border-radius:999px; color:#fff;
   }
   .card__badge.nuevo{ background:var(--green); }
-  .card__badge.restock{ background:var(--gold); color:var(--green-dark); }
+  .card__badge.restock{
+    background:#FFD54F;
+    color:#222;
+}
   .card__badge + .card__badge{ margin-top:24px; }
   .card__body{ padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1; }
   .card{ cursor:pointer; }
@@ -1080,24 +1083,22 @@ function loadCart(){
       lotCounter += 1;
       if(!lot) lot = "LOTE-" + String(lotCounter).padStart(3,'0');
 
-      products.push({
-  id: slug(name+'-'+catId+'-'+subId+'-'+lotCounter),
-  code,
+      const estado = String(row["Estado"] || row["ESTADO"] || row["estado"] || "").trim().toUpperCase();
+
+products.push({
+  id,
   name,
-  cat:catId,
-  catLabel,
-  sub:subId,
-  subLabel:subLabelRaw,
+  cat,
+  sub,
   price,
   priceCE,
-  images,
-  stock,
-  lot,
-  nuevo,
-  restock,
-  rowIndex: idx,
   description,
+  stock,
   variants,
+  images,
+  lot,
+  estado,
+  rowIndex
 });
     });
 
@@ -1223,8 +1224,14 @@ onerror="this.parentElement.innerHTML='📦'">`;
       }
 
       const badges = [];
-      if(pr.nuevo) badges.push('<div class="card__badge nuevo">Nuevo</div>');
-      if(pr.restock) badges.push('<div class="card__badge restock">Repuesto</div>');
+
+if(pr.estado === "NUV"){
+  badges.push('<div class="card__badge nuevo">Nuevo</div>');
+}
+
+if(pr.estado === "VOL"){
+  badges.push('<div class="card__badge restock">Volvió</div>');
+}
 
       return `
       <div class="card" data-id="${pr.id}">
