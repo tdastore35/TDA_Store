@@ -1274,8 +1274,14 @@ onerror="this.parentElement.innerHTML='📦'">`;
     });
 grid.querySelectorAll('.card__art img').forEach(img => {
 
-  const images = JSON.parse(img.dataset.images || "[]");
+  let images = [];
 
+try{
+    images = JSON.parse(img.dataset.images || "[]");
+}catch(e){
+    console.log("Error en imágenes:", img.dataset.images);
+    return;
+}
   if(images.length <= 1) return;
 
   let index = 0;
