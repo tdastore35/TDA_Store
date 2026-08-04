@@ -1085,6 +1085,8 @@ function loadCart(){
 
       const estado = String(row["Estado"] || row["ESTADO"] || row["estado"] || "").trim().toUpperCase();
 
+console.log(name, estado);
+
 products.push({
   id,
   name,
@@ -1320,6 +1322,9 @@ grid.querySelectorAll('.card__art img').forEach(img => {
     return variant ? productId + '::' + slug(variant) : productId;
   }
   function addToCart(productId, variant, qty){
+
+  console.log("addToCart", productId);
+
   const product = PRODUCTS.find(p => p.id === productId);
   if(!product) return;
 
