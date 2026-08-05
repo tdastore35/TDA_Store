@@ -945,6 +945,15 @@ function loadCart(){
     console.error("No se pudo cargar el carrito", e);
   }
 }
+  function slug(str){
+  return String(str || "")
+    .toLowerCase()
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
   function normalizeText(str){
   return String(str || "")
     .toLowerCase()
