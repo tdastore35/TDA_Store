@@ -1194,6 +1194,14 @@ if(bloques){
       if(sortMode==='repuestos' && !pr.restock) return false;
       return true;
     });
+    if(searchTerm && list.length === 0){
+  list = PRODUCTS.filter(pr=>{
+    if(activeCat!=='all' && pr.cat!==activeCat) return false;
+    if(activeCat!=='all' && activeSub!=='all' && pr.sub!==activeSub) return false;
+    if(sortMode==='repuestos' && !pr.restock) return false;
+    return true;
+  });
+}
 
     if(sortMode==='recientes'){
   list = list.slice().sort((a,b)=>{
