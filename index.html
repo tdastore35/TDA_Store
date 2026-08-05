@@ -1588,7 +1588,7 @@ if((productsTotal + shipping) < minimoContraEntrega){
 
   // ---------- Search + sort ----------
   document.getElementById('searchInput').addEventListener('input', (e)=>{
-    searchTerm = e.target.value.toLowerCase().trim();
+    searchTerm = normalizeText(e.target.value).trim();
     renderGrid();
   });
   document.getElementById('sortSelect').addEventListener('change', (e)=>{
