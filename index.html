@@ -945,11 +945,12 @@ function loadCart(){
     console.error("No se pudo cargar el carrito", e);
   }
 }
-  function slug(str){
-    return String(str||"").toLowerCase().trim()
-      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-      .replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
-  }
+  function normalizeText(str){
+  return String(str || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
   function isTrue(v){
     const s = String(v||"").toLowerCase().trim();
     return s === 'si' || s === 'sí' || s === 'true' || s === 'x' || s === '1';
@@ -1180,7 +1181,7 @@ if(bloques){
     let list = PRODUCTS.filter(pr=>{
       if(activeCat!=='all' && pr.cat!==activeCat) return false;
       if(activeCat!=='all' && activeSub!=='all' && pr.sub!==activeSub) return false;
-      if(searchTerm && !pr.name.toLowerCase().includes(searchTerm)) return false;
+      if(searchTerm && !normalizeText(pr.name).includes(normalizeText(searchTerm))) return false;
       if(sortMode==='repuestos' && !pr.restock) return false;
       return true;
     });
