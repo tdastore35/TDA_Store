@@ -1507,26 +1507,17 @@ saveCart();
     }
     return base;
   }
-function codInsurance(productsTotal, shipping){
-  if(getPayMethod() !== 'contraentrega') return 0;
-
-  let insurance = (COD_INSURANCE_PCT / 100) * (shipping + productsTotal);
-
-  // Ajustar el seguro para que el TOTAL quede redondeado a miles
-  const total = productsTotal + shipping + insurance;
-  const totalRedondeado = Math.round(total / 1000) * 1000;
-
-  insurance += (totalRedondeado - total);
-
-  return Math.round(insurance);
-}
-function cartGrandTotal(){
-  const subtotal = cartSubtotal();
-  const productsTotal = subtotal - quantityDiscount();
-  const shipping = shippingCost();
-  const insurance = codInsurance(productsTotal, shipping);
-  return productsTotal + shipping + insurance;
-}
+  function codInsurance(productsTotal, shipping){
+    if(getPayMethod() !== 'contraentrega') return 0;
+    return Math.round((COD_INSURANCE_PCT/100) * (shipping + productsTotal));
+  }
+  function cartGrandTotal(){
+    const subtotal = cartSubtotal();
+    const productsTotal = subtotal - quantityDiscount();
+    const shipping = shippingCost();
+    const insurance = codInsurance(productsTotal, shipping);
+    return productsTotal + shipping + insurance;
+  }
 
   function renderCartCount(){
     document.getElementById('cartCount').textContent = cartCount();
@@ -1586,27 +1577,10 @@ function cartGrandTotal(){
       row.querySelector('[data-act="remove"]').addEventListener('click', ()=>removeFromCart(key));
     });
 
-const subtotal = cartSubtotal();
+    const subtotal = cartSubtotal();
 const discount = quantityDiscount();
 const productsTotal = subtotal - discount;
 const shipping = shippingCost();
-
-let volumeFee = 0;
-
-// Recargo por volumen
-if(getPayMethod() === 'directo'){
-  if(productsTotal > 350000){
-    volumeFee = productsTotal * 0.01;
-  }
-
-  if(productsTotal > 500000){
-    volumeFee += 10000;
-  }
-
-  // Redondear el recargo a centenas
-  volumeFee = Math.round(volumeFee / 100) * 100;
-}
-
 const insurance = codInsurance(productsTotal, shipping);
 
 const contraEntrega = document.getElementById('payCE');
@@ -1639,21 +1613,11 @@ if((productsTotal + shipping) < minimoContraEntrega){
       const cityVal = (document.getElementById('cityInput')||{}).value || '';
       receiptHtml += `<div class="receipt__row"><span>Envío${cityVal ? ' a '+cityVal : ''}</span><span class="mono">${fmt.format(shipping)}</span></div>`;
     }
-    if(volumeFee > 0){
-  receiptHtml += `<div class="receipt__row">
-    <span>Recargo por volumen</span>
-    <span class="mono">${fmt.format(volumeFee)}</span>
-  </div>`;
-}
     if(insurance > 0){
       receiptHtml += `<div class="receipt__row"><span>Seguro contraentrega</span><span class="mono">${fmt.format(insurance)}</span></div>`;
     }
-    const total = productsTotal + shipping + insurance + volumeFee;
+    receiptHtml += `<div class="receipt__row total"><span>Total</span><span class="mono">${fmt.format(cartGrandTotal())}</span></div>`;
 
-receiptHtml += `<div class="receipt__row total">
-  <span>Total</span>
-  <span class="mono">${fmt.format(total)}</span>
-</div>`;
     receiptBox.style.display = 'block';
     receiptBox.innerHTML = receiptHtml;
 
