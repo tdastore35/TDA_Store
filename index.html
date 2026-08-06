@@ -510,7 +510,7 @@
     .section-title{ padding:0 14px; }
 
     .assistant-btn{
-    right:-125px;
+    right:-150px;
     bottom:85px;
     padding:9px 16px;
     font-size:12px;
@@ -655,15 +655,12 @@
   </div>
 
   <div class="toast" id="toast"></div>
-
 <a class="assistant-btn"
-   href="#"
-   id="assistantBtn"
+   href="https://wa.me/message/QOFYU7K65RBTC1"
+   target="_blank"
    aria-label="Hablar con un asesor">
 
-<svg viewBox="0 0 32 32" fill="currentColor">
-...
-</svg>
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
 
 <span>Habla con un asesor</span>
 
@@ -1243,19 +1240,16 @@ if(bloques){
     let list = PRODUCTS.filter(pr=>{
       if(activeCat!=='all' && pr.cat!==activeCat) return false;
       if(activeCat!=='all' && activeSub!=='all' && pr.sub!==activeSub) return false;
+      if(searchTerm && !normalizeText(pr.name).includes(normalizeText(searchTerm))) return false;
       if(sortMode==='repuestos' && !pr.restock) return false;
       return true;
     });
-    if(searchTerm){
-  const txt = normalizeText(searchTerm);
-
-  list = list.slice().sort((a,b)=>{
-    const aMatch = normalizeText(a.name).includes(txt);
-    const bMatch = normalizeText(b.name).includes(txt);
-
-    if(aMatch && !bMatch) return -1;
-    if(!aMatch && bMatch) return 1;
-    return 0;
+    if(searchTerm && list.length === 0){
+  list = PRODUCTS.filter(pr=>{
+    if(activeCat!=='all' && pr.cat!==activeCat) return false;
+    if(activeCat!=='all' && activeSub!=='all' && pr.sub!==activeSub) return false;
+    if(sortMode==='repuestos' && !pr.restock) return false;
+    return true;
   });
 }
 
@@ -1827,13 +1821,7 @@ if(document.getElementById('cityInput').value.trim().length < 3){
     renderDrawer();
     saveCart();
   }
-document.getElementById("assistantBtn").addEventListener("click", function(e){
-  e.preventDefault();
 
-  if(confirm("💬 ¿Necesitas ayuda con tu compra?")){
-    window.open("https://wa.me/message/QOFYU7K65RBTC1","_blank");
-  }
-});
   loadCatalog();
 </script>
 </body>
