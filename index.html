@@ -1508,28 +1508,21 @@ saveCart();
     return base;
   }
   function codInsurance(productsTotal, shipping){
-    if(getPayMethod() !== 'contraentrega') return 0;
-    return Math.round((COD_INSURANCE_PCT/100) * (shipping + productsTotal));
-  }
+  if(getPayMethod() !== 'contraentrega') return 0;
+
+  let insurance = (COD_INSURANCE_PCT / 100) * (shipping + productsTotal);
+
+  // Redondear el seguro a miles
+  insurance = Math.round(insurance / 1000) * 1000;
+
+  return insurance;
+}
 function cartGrandTotal(){
   const subtotal = cartSubtotal();
   const productsTotal = subtotal - quantityDiscount();
   const shipping = shippingCost();
   const insurance = codInsurance(productsTotal, shipping);
-
-  let total = productsTotal + shipping + insurance;
-
-  // Pago anticipado: redondear a centenas
-  if(getPayMethod() === 'directo'){
-    total = Math.round(total / 100) * 100;
-  }
-
-  // Contra entrega: redondear a miles
-  if(getPayMethod() === 'contraentrega'){
-    total = Math.round(total / 1000) * 1000;
-  }
-
-  return total;
+  return productsTotal + shipping + insurance;
 }
 
   function renderCartCount(){
