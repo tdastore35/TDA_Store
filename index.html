@@ -1507,15 +1507,18 @@ saveCart();
     }
     return base;
   }
-  function codInsurance(productsTotal, shipping){
+function codInsurance(productsTotal, shipping){
   if(getPayMethod() !== 'contraentrega') return 0;
 
   let insurance = (COD_INSURANCE_PCT / 100) * (shipping + productsTotal);
 
-  // Redondear el seguro a miles
-  insurance = Math.round(insurance / 1000) * 1000;
+  // Ajustar el seguro para que el TOTAL quede redondeado a miles
+  const total = productsTotal + shipping + insurance;
+  const totalRedondeado = Math.round(total / 1000) * 1000;
 
-  return insurance;
+  insurance += (totalRedondeado - total);
+
+  return Math.round(insurance);
 }
 function cartGrandTotal(){
   const subtotal = cartSubtotal();
