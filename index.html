@@ -655,7 +655,7 @@
   </div>
 
   <div class="toast" id="toast"></div>
-<a class="assistant-btn"
+<a class="assistant-btn" href="#" id="assistantBtn">
    href="https://wa.me/message/QOFYU7K65RBTC1"
    target="_blank"
    aria-label="Hablar con un asesor">
@@ -1255,14 +1255,6 @@ if(bloques){
     return 0;
   });
 }
-    if(searchTerm && list.length === 0){
-  list = PRODUCTS.filter(pr=>{
-    if(activeCat!=='all' && pr.cat!==activeCat) return false;
-    if(activeCat!=='all' && activeSub!=='all' && pr.sub!==activeSub) return false;
-    if(sortMode==='repuestos' && !pr.restock) return false;
-    return true;
-  });
-}
 
     if(sortMode==='recientes'){
   list = list.slice().sort((a,b)=>{
@@ -1832,7 +1824,13 @@ if(document.getElementById('cityInput').value.trim().length < 3){
     renderDrawer();
     saveCart();
   }
+document.getElementById("assistantBtn").addEventListener("click", function(e){
+  e.preventDefault();
 
+  if(confirm("💬 ¿Necesitas ayuda con tu compra?")){
+    window.open("https://wa.me/message/QOFYU7K65RBTC1","_blank");
+  }
+});
   loadCatalog();
 </script>
 </body>
