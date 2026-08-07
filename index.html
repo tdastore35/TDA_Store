@@ -1496,32 +1496,52 @@ saveCart();
   Object.keys(SHIPPING_BY_CITY).forEach(city=>{
     SHIPPING_LOOKUP[normalizeCity(city)] = SHIPPING_BY_CITY[city];
   });
-  function shippingCost(){
-    const input = document.getElementById('cityInput');
-    const city = input ? input.value.trim() : '';
-    if(!city) return 0;
-    const key = normalizeCity(city);
-    let base = SHIPPING_LOOKUP.hasOwnProperty(key) ? SHIPPING_LOOKUP[key] : SHIPPING_DEFAULT;
-    if(cartCount() > SHIPPING_BULK_QTY){
-      base = Math.round(base * (1 + SHIPPING_BULK_SURCHARGE_PCT/100));
-    }
-    return base;
+function shippingCost(){
+  const input = document.getElementById('cityInput');
+  const city = input ? input.value.trim() : '';
+  if(!city) return 0;
+
+  const key = normalizeCity(city);
+  let shipping = SHIPPING_LOOKUP.hasOwnProperty(key)
+      ? SHIPPING_LOOKUP[key]
+      : SHIPPING_DEFAULT;
+
+  // Recargo por cantidad (ya lo tenías)
+  if(cartCount() > SHIPPING_BULK_QTY){
+    shipping = Math.round(shipping * (1 + SHIPPING_BULK_SURCHARGE_PCT/100));
   }
+
+  // ---------- Ajuste para redondear ----------
+  const subtotal = cartSubtotal();
+  const productsTotal = subtotal - quantityDiscount();
+
+  const insurance = getPayMethod()==='contraentrega'
+      ? Math.round((COD_INSURANCE_PCT/100)*(productsTotal+shipping))
+      : 0;
+
+  let total = productsTotal + shipping + insurance;
+
+  if(getPayMethod()==='contraentrega'){
+      const redondeado = Math.round(total/1000)*1000;
+      shipping += (redondeado-total);
+  }else{
+      const redondeado = Math.round(total/100)*100;
+      shipping += (redondeado-total);
+  }
+
+  return Math.round(shipping);
+}
   function codInsurance(productsTotal, shipping){
     if(getPayMethod() !== 'contraentrega') return 0;
     return Math.round((COD_INSURANCE_PCT/100) * (shipping + productsTotal));
   }
- function cartGrandTotal(){
+function cartGrandTotal(){
   const subtotal = cartSubtotal();
   const productsTotal = subtotal - quantityDiscount();
   const shipping = shippingCost();
   const insurance = codInsurance(productsTotal, shipping);
 
-  let total = productsTotal + shipping + insurance;
-
-// Contraentrega: redondear a miles
-if(getPayMethod() === 'contraentrega'){
-  total = Math.round(total / 1000) * 1000;
+  return productsTotal + shipping + insurance;
 }
 
 // Pago directo: redondear a centenas
