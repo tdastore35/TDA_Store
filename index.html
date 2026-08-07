@@ -1536,21 +1536,30 @@ function shippingCost(){
     return Math.round((COD_INSURANCE_PCT/100) * (shipping + productsTotal));
   }
 function cartGrandTotal(){
-  const subtotal = cartSubtotal();
-  const productsTotal = subtotal - quantityDiscount();
-  const shipping = shippingCost();
-  const insurance = codInsurance(productsTotal, shipping);
+const subtotal = cartSubtotal();
+const discount = quantityDiscount();
+const productsTotal = subtotal - discount;
 
-  return productsTotal + shipping + insurance;
+let shipping = shippingCost();
+let insurance = codInsurance(productsTotal, shipping);
+
+let total = productsTotal + shipping + insurance;
+
+// Redondear agregando la diferencia al envío
+let redondeado;
+
+if(getPayMethod() === 'contraentrega'){
+  redondeado = Math.round(total / 1000) * 1000;
+}else{
+  redondeado = Math.round(total / 100) * 100;
 }
 
-// Pago directo: redondear a centenas
-if(getPayMethod() === 'directo'){
-  total = Math.round(total / 100) * 100;
-}
+shipping += redondeado - total;
+total = redondeado;
 
-  return total;
-}
+// recalcular seguro si cambió el envío
+insurance = codInsurance(productsTotal, shipping);
+
 
   function renderCartCount(){
     document.getElementById('cartCount').textContent = cartCount();
@@ -1649,7 +1658,7 @@ if((productsTotal + shipping) < minimoContraEntrega){
     if(insurance > 0){
       receiptHtml += `<div class="receipt__row"><span>Seguro contraentrega</span><span class="mono">${fmt.format(insurance)}</span></div>`;
     }
-    receiptHtml += `<div class="receipt__row total"><span>Total</span><span class="mono">${fmt.format(cartGrandTotal())}</span></div>`;
+    receiptHtml += `<div class="receipt__row total"><span>Total</span><span class="mono">${fmt.format(total)}</span></div>`;
 
     receiptBox.style.display = 'block';
     receiptBox.innerHTML = receiptHtml;
