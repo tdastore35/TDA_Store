@@ -1777,13 +1777,14 @@ if(document.getElementById('cityInput').value.trim().length < 3){
       </div>
     ` : '';
 
-    const body = document.getElementById('productModalBody');
-    body.innerHTML = `
-      ${galleryHtml}
-      <div class="pd-cat">${product.sub ? subLabel(product.cat, product.sub) : catLabel(product.cat)}</div>
-      <h2 class="pd-name">${product.name}</h2>
-      ${product.description ? `<div class="pd-desc">${product.description}</div>` : ''}
-      <div class="pd-price">${fmt.format(unitPrice(product))}</div>
+const body = document.getElementById('productModalBody');
+
+body.innerHTML = `
+  ${galleryHtml}
+  <div class="pd-cat">${product.sub ? subLabel(product.cat, product.sub) : catLabel(product.cat)}</div>
+  <h2 class="pd-name">${product.name}</h2>
+  ${product.description ? `<div class="pd-description">${product.description}</div>` : ''}
+  <div class="pd-price">${fmt.format(unitPrice(product))}</div>
       ${product.priceCE!==product.price ? `<div class="pd-price-ce">${fmt.format(product.priceCE)} contraentrega</div>` : ''}
       ${variantHtml}
       <div class="pd-qty">
