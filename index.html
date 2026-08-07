@@ -1602,8 +1602,8 @@ function renderCartCount(){
       return;
     }
 
-    orderOptions.style.display = 'block';
-
+   if(orderOptions) orderOptions.style.display = 'block';
+    
     body.innerHTML = entries.map(e => `
       <div class="cart-item" data-key="${e.key}">
         ${e.product.images[0] ? `<img class="cart-item__art" src="${e.product.images[0]}" alt="${e.product.name}">` : `<div class="cart-item__art"></div>`}
