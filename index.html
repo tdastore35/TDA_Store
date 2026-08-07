@@ -1124,7 +1124,6 @@ function loadCart(){
       const nuevo = isTrue(row['nuevo']);
       const restock = isTrue(row['restock']);
       const description = (row['descripcion'] || '').toString().trim();
-      const bonus = Number(row['bonificacion'] || 0) || 0;
       const variants = (row['variantes'] || '').toString().trim()
         ? String(row['variantes']).split(',').map(v=>v.trim()).filter(Boolean)
         : [];
@@ -1485,18 +1484,10 @@ saveCart();
     const tier = QUANTITY_DISCOUNT_TIERS.find(t => qty >= t.min && qty <= t.max);
     return tier ? tier.perUnit : 0;
   }
- function quantityDiscount(){
-  const qty = cartCount();
-  const discount = qty * quantityDiscountPerUnit(qty);
-  const bonus = bonusDiscount();
-
-  return discount + bonus;
-}
-  function bonusDiscount(){
-  return cartEntries().reduce((sum, e) => {
-    return sum + (e.product.bonus || 0) * e.qty;
-  }, 0);
-}
+  function quantityDiscount(){
+    const qty = cartCount();
+    return qty * quantityDiscountPerUnit(qty);
+  }
   function normalizeCity(s){
     return String(s||'').toLowerCase().trim()
       .normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -1520,7 +1511,7 @@ saveCart();
     if(getPayMethod() !== 'contraentrega') return 0;
     return Math.round((COD_INSURANCE_PCT/100) * (shipping + productsTotal));
   }
-function cartGrandTotal(){
+ function cartGrandTotal(){
   const subtotal = cartSubtotal();
   const productsTotal = subtotal - quantityDiscount();
   const shipping = shippingCost();
@@ -1528,10 +1519,15 @@ function cartGrandTotal(){
 
   let total = productsTotal + shipping + insurance;
 
-  // Contraentrega: redondear a miles
-  if(getPayMethod() === 'contraentrega'){
-    total = Math.round(total / 1000) * 1000;
-  }
+// Contraentrega: redondear a miles
+if(getPayMethod() === 'contraentrega'){
+  total = Math.round(total / 1000) * 1000;
+}
+
+// Pago directo: redondear a centenas
+if(getPayMethod() === 'directo'){
+  total = Math.round(total / 100) * 100;
+}
 
   return total;
 }
@@ -1626,9 +1622,6 @@ if((productsTotal + shipping) < minimoContraEntrega){
     if(discount > 0){
       receiptHtml += `<div class="receipt__row discount"><span>Descuento por cantidad</span><span class="mono">-${fmt.format(discount)}</span></div>`;
     }
-    if(bonus > 0){
-  receiptHtml += `<div class="receipt__row discount"><span>Bonificación</span><span class="mono">-${fmt.format(bonus)}</span></div>`;
-}
     if(shipping > 0){
       const cityVal = (document.getElementById('cityInput')||{}).value || '';
       receiptHtml += `<div class="receipt__row"><span>Envío${cityVal ? ' a '+cityVal : ''}</span><span class="mono">${fmt.format(shipping)}</span></div>`;
@@ -1709,9 +1702,7 @@ if(document.getElementById('cityInput').value.trim().length < 3){
     const payMethod = getPayMethod();
     const subtotal = cartSubtotal();
     const discount = quantityDiscount();
-const bonus = bonusDiscount();
-const totalDiscount = discount + bonus;
-const productsTotal = subtotal - totalDiscount;
+    const productsTotal = subtotal - discount;
     const shipping = shippingCost();
     const insurance = codInsurance(productsTotal, shipping);
     const cityVal = document.getElementById('cityInput').value.trim();
