@@ -1496,80 +1496,43 @@ saveCart();
   Object.keys(SHIPPING_BY_CITY).forEach(city=>{
     SHIPPING_LOOKUP[normalizeCity(city)] = SHIPPING_BY_CITY[city];
   });
-function shippingCost(){
-  const input = document.getElementById('cityInput');
-  const city = input ? input.value.trim() : '';
-  if(!city) return 0;
-
-  const key = normalizeCity(city);
-  let shipping = SHIPPING_LOOKUP.hasOwnProperty(key)
-      ? SHIPPING_LOOKUP[key]
-      : SHIPPING_DEFAULT;
-
-  // Recargo por cantidad (ya lo tenías)
-  if(cartCount() > SHIPPING_BULK_QTY){
-    shipping = Math.round(shipping * (1 + SHIPPING_BULK_SURCHARGE_PCT/100));
+  function shippingCost(){
+    const input = document.getElementById('cityInput');
+    const city = input ? input.value.trim() : '';
+    if(!city) return 0;
+    const key = normalizeCity(city);
+    let base = SHIPPING_LOOKUP.hasOwnProperty(key) ? SHIPPING_LOOKUP[key] : SHIPPING_DEFAULT;
+    if(cartCount() > SHIPPING_BULK_QTY){
+      base = Math.round(base * (1 + SHIPPING_BULK_SURCHARGE_PCT/100));
+    }
+    return base;
   }
-
-  // ---------- Ajuste para redondear ----------
-  const subtotal = cartSubtotal();
-  const productsTotal = subtotal - quantityDiscount();
-
-  const insurance = getPayMethod()==='contraentrega'
-      ? Math.round((COD_INSURANCE_PCT/100)*(productsTotal+shipping))
-      : 0;
-
-  let total = productsTotal + shipping + insurance;
-
-  if(getPayMethod()==='contraentrega'){
-      const redondeado = Math.round(total/1000)*1000;
-      shipping += (redondeado-total);
-  }else{
-      const redondeado = Math.round(total/100)*100;
-      shipping += (redondeado-total);
-  }
-
-  return Math.round(shipping);
-}
   function codInsurance(productsTotal, shipping){
     if(getPayMethod() !== 'contraentrega') return 0;
     return Math.round((COD_INSURANCE_PCT/100) * (shipping + productsTotal));
   }
-function cartGrandTotal(){
-const subtotal = cartSubtotal();
-const discount = quantityDiscount();
-const productsTotal = subtotal - discount;
+ function cartGrandTotal(){
+  const subtotal = cartSubtotal();
+  const productsTotal = subtotal - quantityDiscount();
+  const shipping = shippingCost();
+  const insurance = codInsurance(productsTotal, shipping);
 
-let shipping = shippingCost();
-let insurance = codInsurance(productsTotal, shipping);
+  let total = productsTotal + shipping + insurance;
 
-let total = productsTotal + shipping + insurance;
-
-// Redondear agregando la diferencia al envío
-let redondeado;
-
+// Contraentrega: redondear a miles
 if(getPayMethod() === 'contraentrega'){
-  redondeado = Math.round(total / 1000) * 1000;
-}else{
-  redondeado = Math.round(total / 100) * 100;
+  total = Math.round(total / 1000) * 1000;
 }
 
-shipping += redondeado - total;
-total = redondeado;
-
-// recalcular seguro si cambió el envío
-insurance = codInsurance(productsTotal, shipping);
-
-return {
-  productsTotal,
-  shipping,
-  insurance,
-  total
-};
-
+// Pago directo: redondear a centenas
+if(getPayMethod() === 'directo'){
+  total = Math.round(total / 100) * 100;
 }
 
-function renderCartCount(){
+  return total;
+}
+
+  function renderCartCount(){
     document.getElementById('cartCount').textContent = cartCount();
     renderDiscountBanner();
   }
@@ -1602,8 +1565,8 @@ function renderCartCount(){
       return;
     }
 
-   if(orderOptions) orderOptions.style.display = 'block';
-    
+    orderOptions.style.display = 'block';
+
     body.innerHTML = entries.map(e => `
       <div class="cart-item" data-key="${e.key}">
         ${e.product.images[0] ? `<img class="cart-item__art" src="${e.product.images[0]}" alt="${e.product.name}">` : `<div class="cart-item__art"></div>`}
@@ -1666,7 +1629,7 @@ if((productsTotal + shipping) < minimoContraEntrega){
     if(insurance > 0){
       receiptHtml += `<div class="receipt__row"><span>Seguro contraentrega</span><span class="mono">${fmt.format(insurance)}</span></div>`;
     }
-    receiptHtml += `<div class="receipt__row total"><span>Total</span><span class="mono">${fmt.format(total)}</span></div>`;
+    receiptHtml += `<div class="receipt__row total"><span>Total</span><span class="mono">${fmt.format(cartGrandTotal())}</span></div>`;
 
     receiptBox.style.display = 'block';
     receiptBox.innerHTML = receiptHtml;
