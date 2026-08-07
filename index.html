@@ -1560,8 +1560,16 @@ total = redondeado;
 // recalcular seguro si cambió el envío
 insurance = codInsurance(productsTotal, shipping);
 
+return {
+  productsTotal,
+  shipping,
+  insurance,
+  total
+};
 
-  function renderCartCount(){
+}
+
+function renderCartCount(){
     document.getElementById('cartCount').textContent = cartCount();
     renderDiscountBanner();
   }
