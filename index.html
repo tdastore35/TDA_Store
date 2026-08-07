@@ -1485,10 +1485,13 @@ saveCart();
     const tier = QUANTITY_DISCOUNT_TIERS.find(t => qty >= t.min && qty <= t.max);
     return tier ? tier.perUnit : 0;
   }
-  function quantityDiscount(){
-    const qty = cartCount();
-    return qty * quantityDiscountPerUnit(qty);
-  }
+ function quantityDiscount(){
+  const qty = cartCount();
+  const discount = qty * quantityDiscountPerUnit(qty);
+  const bonus = bonusDiscount();
+
+  return discount + bonus;
+}
   function bonusDiscount(){
   return cartEntries().reduce((sum, e) => {
     return sum + (e.product.bonus || 0) * e.qty;
@@ -1517,12 +1520,9 @@ saveCart();
     if(getPayMethod() !== 'contraentrega') return 0;
     return Math.round((COD_INSURANCE_PCT/100) * (shipping + productsTotal));
   }
- function cartGrandTotal(){
+function cartGrandTotal(){
   const subtotal = cartSubtotal();
-  const discount = quantityDiscount();
-  const bonus = bonusDiscount();
-  const productsTotal = subtotal - discount - bonus;
-
+  const productsTotal = subtotal - quantityDiscount();
   const shipping = shippingCost();
   const insurance = codInsurance(productsTotal, shipping);
 
