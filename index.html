@@ -1113,8 +1113,9 @@ function loadCart(){
       const name = (row['nombre'] || '').toString().trim();
       const catLabel = (row['categoria'] || '').toString().trim();
       const subLabelRaw = (row['subcategoria'] || '').toString().trim();
-      const price = parsePrice(row['precio']);
-      const stock = Number(row.cantidad || row["Cantidad"] || 999);
+     const price = parsePrice(row['precio']);
+const bonificacion = parsePrice(row['descuento']);
+const stock = Number(row.cantidad || row["Cantidad"] || 999);
       const code = (row['codigo'] || '').toString().trim();
       const priceCERaw = (row['preciocontraentrega'] || '').toString().trim();
       const priceCE = priceCERaw ? parsePrice(priceCERaw) : price;
@@ -1153,9 +1154,10 @@ products.push({
   catLabel,
   sub:subId,
   subLabel:subLabelRaw,
-  price,
-  priceCE,
-  images,
+price,
+priceCE,
+bonificacion,
+images,
   stock,
   lot,
   estado,
@@ -1488,6 +1490,11 @@ saveCart();
     const qty = cartCount();
     return qty * quantityDiscountPerUnit(qty);
   }
+  function cartBonificacion(){
+  return cartEntries().reduce((sum, e) => {
+    return sum + ((Number(e.product.bonificacion) || 0) * e.qty);
+  }, 0);
+}
   function normalizeCity(s){
     return String(s||'').toLowerCase().trim()
       .normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -1592,7 +1599,8 @@ if(getPayMethod() === 'directo'){
 
     const subtotal = cartSubtotal();
 const discount = quantityDiscount();
-const productsTotal = subtotal - discount;
+const bonificacion = cartBonificacion();
+const productsTotal = subtotal - discount - bonificacion;
 const shipping = shippingCost();
 const insurance = codInsurance(productsTotal, shipping);
 
@@ -1619,13 +1627,19 @@ if((productsTotal + shipping) < minimoContraEntrega){
   payToggle.insertAdjacentElement('afterend', aviso);
 }
     let receiptHtml = `<div class="receipt__row"><span>Artículos (${cartCount()})</span><span class="mono">${fmt.format(subtotal)}</span></div>`;
-    if(discount > 0){
-      receiptHtml += `<div class="receipt__row discount"><span>Descuento por cantidad</span><span class="mono">-${fmt.format(discount)}</span></div>`;
-    }
-    if(shipping > 0){
-      const cityVal = (document.getElementById('cityInput')||{}).value || '';
-      receiptHtml += `<div class="receipt__row"><span>Envío${cityVal ? ' a '+cityVal : ''}</span><span class="mono">${fmt.format(shipping)}</span></div>`;
-    }
+
+if(discount > 0){
+  receiptHtml += `<div class="receipt__row discount"><span>Descuento por cantidad</span><span class="mono">-${fmt.format(discount)}</span></div>`;
+}
+
+if(bonificacion > 0){
+  receiptHtml += `<div class="receipt__row discount"><span>Bonificación</span><span class="mono">-${fmt.format(bonificacion)}</span></div>`;
+}
+
+if(shipping > 0){
+  const cityVal = (document.getElementById('cityInput')||{}).value || '';
+  receiptHtml += `<div class="receipt__row"><span>Envío${cityVal ? ' a '+cityVal : ''}</span><span class="mono">${fmt.format(shipping)}</span></div>`;
+}
     if(insurance > 0){
       receiptHtml += `<div class="receipt__row"><span>Seguro contraentrega</span><span class="mono">${fmt.format(insurance)}</span></div>`;
     }
