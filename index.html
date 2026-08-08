@@ -989,10 +989,26 @@ function loadCart(){
 
     Object.keys(cart).forEach(k => delete cart[k]);
 
-    Object.assign(cart, data);
+    Object.entries(data).forEach(([key, entry]) => {
+      const product = PRODUCTS.find(p => p.id === entry.productId);
+      const qty = Number(entry.qty);
+
+      // Solo recuperar productos válidos con cantidad válida
+      if(product && Number.isFinite(qty) && qty > 0){
+        cart[key] = {
+          productId: entry.productId,
+          variant: entry.variant || '',
+          qty: Math.floor(qty)
+        };
+      }
+    });
+
+    // Guardar nuevamente el carrito limpio
+    saveCart();
 
   }catch(e){
     console.error("No se pudo cargar el carrito", e);
+    Object.keys(cart).forEach(k => delete cart[k]);
   }
 }
   function slug(str){
