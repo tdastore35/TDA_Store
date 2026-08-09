@@ -1552,6 +1552,11 @@ let shipping = shippingCost();
 if(productsTotal > 300000){
   shipping += 1000 + Math.round(productsTotal * 0.01);
 }
+   console.log('DEBUG ENVÍO:', {
+  productsTotal,
+  shippingBase: shippingCost(),
+  shippingFinal: shipping
+});
 
   let insurance = codInsurance(productsTotal, shipping);
 
