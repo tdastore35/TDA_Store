@@ -1550,7 +1550,7 @@ function cartCount(){
   }
  function cartGrandTotal(){
   const subtotal = cartSubtotal();
-  const productsTotal = subtotal - quantityDiscount();
+  const productsTotal = subtotal - quantityDiscount() - cartBonificacion();
   const shipping = shippingCost();
   const insurance = codInsurance(productsTotal, shipping);
 
