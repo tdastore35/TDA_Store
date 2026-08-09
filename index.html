@@ -1552,13 +1552,17 @@ function cartCount(){
   const subtotal = cartSubtotal();
   const productsTotal = subtotal - quantityDiscount() - cartBonificacion();
   const shipping = shippingCost();
-  const insurance = codInsurance(productsTotal, shipping);
+  let insurance = codInsurance(productsTotal, shipping);
 
-  let total = productsTotal + shipping + insurance;
+let total = productsTotal + shipping + insurance;
 
-// Contraentrega: redondear a miles
+// Contraentrega: redondear a miles y ajustar el seguro
 if(getPayMethod() === 'contraentrega'){
-  total = Math.round(total / 1000) * 1000;
+  const totalRedondeado = Math.round(total / 1000) * 1000;
+  const ajusteRedondeo = totalRedondeado - total;
+
+  insurance += ajusteRedondeo;
+  total = totalRedondeado;
 }
 
 // Pago directo: redondear a centenas
@@ -1632,7 +1636,16 @@ const discount = quantityDiscount();
 const bonificacion = cartBonificacion();
 const productsTotal = subtotal - discount - bonificacion;
 const shipping = shippingCost();
-const insurance = codInsurance(productsTotal, shipping);
+let insurance = codInsurance(productsTotal, shipping);
+
+if(getPayMethod() === 'contraentrega'){
+  const totalAntesRedondeo = productsTotal + shipping + insurance;
+  const totalRedondeado = Math.round(totalAntesRedondeo / 1000) * 1000;
+  const ajusteRedondeo = totalRedondeado - totalAntesRedondeo;
+
+  insurance += ajusteRedondeo;
+}
+
 
 const contraEntrega = document.getElementById('payCE');
 const minimoContraEntrega = 45000;
