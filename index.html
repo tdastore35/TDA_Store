@@ -940,10 +940,6 @@
   };
   const SHIPPING_DEFAULT = 16000; // envío para ciudades que no están en la lista
 
-  // Si el pedido tiene más de esta cantidad de piezas, el envío sube el porcentaje indicado.
-  const SHIPPING_BULK_QTY = 20;
-  const SHIPPING_BULK_SURCHARGE_PCT = 30;
-
   // 4) Descuento por cantidad total de piezas en el pedido.
   //    Es un descuento POR UNIDAD (no un monto fijo total): se multiplica por
   //    la cantidad de piezas del pedido. Ajusta los rangos y montos aquí.
@@ -1534,24 +1530,29 @@ function cartCount(){
     SHIPPING_LOOKUP[normalizeCity(city)] = SHIPPING_BY_CITY[city];
   });
   function shippingCost(){
-    const input = document.getElementById('cityInput');
-    const city = input ? input.value.trim() : '';
-    if(!city) return 0;
-    const key = normalizeCity(city);
-    let base = SHIPPING_LOOKUP.hasOwnProperty(key) ? SHIPPING_LOOKUP[key] : SHIPPING_DEFAULT;
-    if(cartCount() > SHIPPING_BULK_QTY){
-      base = Math.round(base * (1 + SHIPPING_BULK_SURCHARGE_PCT/100));
-    }
-    return base;
-  }
+  const input = document.getElementById('cityInput');
+  const city = input ? input.value.trim() : '';
+  if(!city) return 0;
+
+  const key = normalizeCity(city);
+  let base = SHIPPING_LOOKUP.hasOwnProperty(key) ? SHIPPING_LOOKUP[key] : SHIPPING_DEFAULT;
+
+  return base;
+}
   function codInsurance(productsTotal, shipping){
     if(getPayMethod() !== 'contraentrega') return 0;
     return Math.round((COD_INSURANCE_PCT/100) * (shipping + productsTotal));
   }
  function cartGrandTotal(){
   const subtotal = cartSubtotal();
-  const productsTotal = subtotal - quantityDiscount() - cartBonificacion();
-  const shipping = shippingCost();
+const productsTotal = subtotal - quantityDiscount() - cartBonificacion();
+
+let shipping = shippingCost();
+
+if(productsTotal > 300000){
+  shipping += 1000 + Math.round(productsTotal * 0.01);
+}
+
   let insurance = codInsurance(productsTotal, shipping);
 
 let total = productsTotal + shipping + insurance;
@@ -1635,7 +1636,12 @@ if(getPayMethod() === 'directo'){
 const discount = quantityDiscount();
 const bonificacion = cartBonificacion();
 const productsTotal = subtotal - discount - bonificacion;
-const shipping = shippingCost();
+
+let shipping = shippingCost();
+
+if(productsTotal > 300000){
+  shipping += 1000 + Math.round(productsTotal * 0.01);
+}
 let insurance = codInsurance(productsTotal, shipping);
 
 if(getPayMethod() === 'contraentrega'){
