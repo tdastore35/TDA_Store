@@ -1826,14 +1826,20 @@ if(document.getElementById('cityInput').value.trim().length < 3){
     const images = product.images.length ? product.images : [];
     const mainImg = images[mainIndex] || images[0];
 
-    const galleryHtml = `
-      <div class="pd-gallery__main">
-        ${mainImg ? `<img src="${mainImg}" alt="${product.name}" onerror="this.parentElement.innerHTML='📦'">` : '📦'}
-      </div>
-      ${images.length>1 ? `<div class="pd-gallery__thumbs">
-        ${images.map((src,i)=>`<img src="${src}" data-i="${i}" class="${i===mainIndex?'is-active':''}" alt="foto ${i+1}">`).join('')}
-      </div>` : ''}
-    `;
+const galleryHtml = `
+  <div class="pd-gallery__main">
+    ${mainImg ? `<img src="${mainImg}" alt="${product.name}" onerror="this.parentElement.innerHTML='📦'">` : '📦'}
+
+    ${images.length > 1 ? `
+      <button type="button" class="pd-gallery__arrow pd-gallery__arrow--prev" id="pdPrevImg" aria-label="Imagen anterior">‹</button>
+      <button type="button" class="pd-gallery__arrow pd-gallery__arrow--next" id="pdNextImg" aria-label="Imagen siguiente">›</button>
+    ` : ''}
+  </div>
+
+  ${images.length>1 ? `<div class="pd-gallery__thumbs">
+    ${images.map((src,i)=>`<img src="${src}" data-i="${i}" class="${i===mainIndex?'is-active':''}" alt="foto ${i+1}">`).join('')}
+  </div>` : ''}
+`;
 
     const variantHtml = product.variants.length>0 ? `
       <div class="pd-variants">
@@ -1868,9 +1874,29 @@ body.innerHTML = `
       </div>
     `;
 
-    body.querySelectorAll('.pd-gallery__thumbs img').forEach(img=>{
-      img.addEventListener('click', ()=>{ pdState.mainIndex = parseInt(img.dataset.i,10); renderProductModal(); });
-    });
+   body.querySelectorAll('.pd-gallery__thumbs img').forEach(img=>{
+  img.addEventListener('click', ()=>{ 
+    pdState.mainIndex = parseInt(img.dataset.i,10); 
+    renderProductModal(); 
+  });
+});
+
+const prevBtn = document.getElementById('pdPrevImg');
+const nextBtn = document.getElementById('pdNextImg');
+
+if(prevBtn){
+  prevBtn.addEventListener('click', ()=>{
+    pdState.mainIndex = (pdState.mainIndex - 1 + images.length) % images.length;
+    renderProductModal();
+  });
+}
+
+if(nextBtn){
+  nextBtn.addEventListener('click', ()=>{
+    pdState.mainIndex = (pdState.mainIndex + 1) % images.length;
+    renderProductModal();
+  });
+}
     body.querySelectorAll('.variant-chip').forEach(chip=>{
       chip.addEventListener('click', ()=>{ pdState.variant = chip.dataset.variant; renderProductModal(); });
     });
