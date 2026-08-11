@@ -1927,6 +1927,34 @@ if(nextBtn){
     renderProductModal();
   });
 }
+    const galleryMain = body.querySelector('.pd-gallery__main');
+
+if(galleryMain && images.length > 1){
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  galleryMain.addEventListener('touchstart', (e)=>{
+    touchStartX = e.changedTouches[0].screenX;
+  }, {passive:true});
+
+  galleryMain.addEventListener('touchend', (e)=>{
+    touchEndX = e.changedTouches[0].screenX;
+
+    const difference = touchStartX - touchEndX;
+
+    if(Math.abs(difference) < 50) return;
+
+    if(difference > 0){
+      // Deslizó hacia la izquierda → siguiente
+      pdState.mainIndex = (pdState.mainIndex + 1) % images.length;
+    }else{
+      // Deslizó hacia la derecha → anterior
+      pdState.mainIndex = (pdState.mainIndex - 1 + images.length) % images.length;
+    }
+
+    renderProductModal();
+  }, {passive:true});
+}
     body.querySelectorAll('.variant-chip').forEach(chip=>{
       chip.addEventListener('click', ()=>{ pdState.variant = chip.dataset.variant; renderProductModal(); });
     });
