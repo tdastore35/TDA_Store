@@ -1843,7 +1843,7 @@ if(document.getElementById('cityInput').value.trim().length < 3){
   function openProductModal(id){
     const product = PRODUCTS.find(p=>p.id===id);
     if(!product) return;
-    pdState = { product, mainIndex:0, variant: product.variants[0]?.name || '', qty:1 };
+    pdState = { product, mainIndex:0, variant:'', qty:1 };
     renderProductModal();
     productModalOverlay.classList.add('is-open');
   }
@@ -1882,18 +1882,32 @@ const galleryHtml = `
   </div>` : ''}
 `;
 
-    const variantHtml = product.variants.length>0 ? `
+const variantHtml = product.variants.length>0 ? `
   <div class="pd-variants">
     <div class="pd-variants__label">Elige una opción</div>
+
     <div class="variant-chips">
-      ${product.variants.map(v=>`
-        <button
-          type="button"
-          class="variant-chip ${v.name===variant?'is-selected':''}"
-          data-variant="${v.name}">
-          ${v.name}
-        </button>
-      `).join('')}
+
+      <button
+        type="button"
+        class="variant-chip ${variant === '' ? 'is-selected' : ''}"
+        data-variant="">
+        📷 Ver producto
+      </button>
+
+      ${product.variants.map(v=>{
+        const variantName = typeof v === 'object' ? v.name : String(v).split('|')[0].trim();
+
+        return `
+          <button
+            type="button"
+            class="variant-chip ${variantName===variant?'is-selected':''}"
+            data-variant="${variantName}">
+            ${variantName}
+          </button>
+        `;
+      }).join('')}
+
     </div>
   </div>
 ` : '';
