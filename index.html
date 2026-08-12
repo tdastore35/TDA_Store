@@ -731,7 +731,7 @@
   //   - nuevo / restock: escribe "si" para activar la etiqueta correspondiente.
   //   - descripcion: texto libre, aparece resumido en la tarjeta y completo en la ficha.
   //   - variantes: opciones separadas por coma (ej: "Rojo, Azul, Verde"). Si la llenas,
-  //     el botón de la tarjeta cambia a "Ver opciones" y el cliente elige una antes de agregar.
+  //     el botón de la tarjeta cambia a "Elegir" y el cliente elige una antes de agregar.
 
   // 3) Tarifas de envío por ciudad (pesos colombianos). Si la ciudad que escribe
   //    el cliente no está en esta lista, se usa SHIPPING_DEFAULT.
@@ -1389,7 +1389,7 @@ onerror="this.parentElement.innerHTML='📦'">`;
               <div class="card__price mono">${fmt.format(pr.price)}</div>
               ${pr.priceCE!==pr.price ? `<div class="card__price-ce mono">${fmt.format(pr.priceCE)} contraentrega</div>` : ''}
             </div>
-            <button class="add-btn" data-id="${pr.id}">${pr.variants.length>0 ? 'Ver opciones' : 'Agregar'}</button>
+            <button class="add-btn" data-id="${pr.id}">${pr.variants.length>0 ? 'Elegir' : 'Agregar'}</button>
           </div>
         </div>
       </div>
