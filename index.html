@@ -347,6 +347,19 @@
 
   /* ===== Product detail modal ===== */
   .product-modal{ max-width:600px; max-height:88vh; display:flex; flex-direction:column; }
+  .pd-description__text{
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+  .pd-description__more{
+  border:0;
+  background:none;
+  padding:4px 0 0;
+  font-weight:600;
+  cursor:pointer;
+}
   .product-modal .modal__body{ overflow-y:auto; }
  .pd-gallery__main{
     position:relative;
@@ -1918,7 +1931,14 @@ body.innerHTML = `
   ${galleryHtml}
   <div class="pd-cat">${product.sub ? subLabel(product.cat, product.sub) : catLabel(product.cat)}</div>
   <h2 class="pd-name">${product.name}</h2>
-  ${product.description ? `<div class="pd-description">${product.description}</div>` : ''}
+  ${product.description ? `
+  <div class="pd-description" id="pdDescription">
+    <div class="pd-description__text">${product.description}</div>
+    <button type="button" class="pd-description__more" id="pdDescriptionMore">
+      ... Ver más
+    </button>
+  </div>
+` : ''}
   <div class="pd-price">${fmt.format(unitPrice(product))}</div>
       ${product.priceCE!==product.price ? `<div class="pd-price-ce">${fmt.format(product.priceCE)} contraentrega</div>` : ''}
       ${variantHtml}
@@ -1942,6 +1962,16 @@ body.innerHTML = `
     renderProductModal(); 
   });
 });
+    const moreBtn = body.querySelector('#pdDescriptionMore');
+const descriptionText = body.querySelector('#pdDescription .pd-description__text');
+
+if (moreBtn && descriptionText) {
+  moreBtn.addEventListener('click', () => {
+    descriptionText.style.webkitLineClamp = 'unset';
+    descriptionText.style.display = 'block';
+    moreBtn.style.display = 'none';
+  });
+}
 
 const prevBtn = document.getElementById('pdPrevImg');
 const nextBtn = document.getElementById('pdNextImg');
