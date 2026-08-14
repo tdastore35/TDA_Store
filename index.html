@@ -346,7 +346,34 @@
   .modal .btn-primary{ flex:1.4; }
 
   /* ===== Product detail modal ===== */
-  .product-modal{ max-width:600px; max-height:88vh; display:flex; flex-direction:column; }
+  .product-modal{
+  width:min(920px, 94vw);
+  max-width:920px;
+  max-height:88vh;
+  display:flex;
+  flex-direction:column;
+}
+  @media (min-width: 769px){
+  .product-modal{
+    width:min(920px, 94vw);
+    max-width:920px;
+  }
+
+  .product-modal .modal__body{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:28px;
+    align-items:start;
+  }
+
+  .product-modal .pd-gallery{
+    grid-column:1;
+  }
+
+  .product-modal .pd-gallery__main{
+    max-width:100%;
+  }
+}
   .pd-description__text{
   display:-webkit-box;
   -webkit-line-clamp:2;
@@ -1881,7 +1908,8 @@ const images = selectedVariant && selectedVariant.images.length
 const mainImg = images[mainIndex] || images[0];
 
 const galleryHtml = `
-  <div class="pd-gallery__main">
+  <div class="pd-gallery">
+    <div class="pd-gallery__main">
     ${mainImg ? `<img src="${mainImg}" alt="${product.name}" onerror="this.parentElement.innerHTML='📦'">` : '📦'}
 
     ${images.length > 1 ? `
@@ -1890,9 +1918,10 @@ const galleryHtml = `
     ` : ''}
   </div>
 
-  ${images.length>1 ? `<div class="pd-gallery__thumbs">
+    ${images.length>1 ? `<div class="pd-gallery__thumbs">
     ${images.map((src,i)=>`<img src="${src}" data-i="${i}" class="${i===mainIndex?'is-active':''}" alt="foto ${i+1}">`).join('')}
   </div>` : ''}
+  </div>
 `;
 
 const variantHtml = product.variants.length>0 ? `
