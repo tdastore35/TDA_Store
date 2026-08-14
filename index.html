@@ -352,24 +352,24 @@
   display:flex;
   flex-direction:column;
 }
-  @media (min-width: 769px){
-  .product-modal{
-    width:min(920px, 94vw);
-    max-width:920px;
-  }
-
-  .product-modal .modal__body{
+ @media (min-width: 769px){
+  .product-modal .modal__body.pd-two-column{
     display:grid;
     grid-template-columns: 1fr 1fr;
     gap:28px;
     align-items:start;
   }
 
-  .product-modal .pd-gallery{
+  .product-modal .modal__body.pd-two-column .pd-gallery{
     grid-column:1;
+    grid-row:1 / span 20;
   }
 
-  .product-modal .pd-gallery__main{
+  .product-modal .modal__body.pd-two-column > *:not(.pd-gallery){
+    grid-column:2;
+  }
+
+  .product-modal .modal__body.pd-two-column .pd-gallery__main{
     max-width:100%;
   }
 }
@@ -1954,7 +1954,8 @@ const variantHtml = product.variants.length>0 ? `
 ` : '';
 
 const body = document.getElementById('productModalBody');
-
+const useTwoColumnLayout = !!product.description || product.variants.length > 0;
+body.classList.toggle('pd-two-column', useTwoColumnLayout);
 body.innerHTML = `
   ${galleryHtml}
   <div class="pd-cat">${product.sub ? subLabel(product.cat, product.sub) : catLabel(product.cat)}</div>
