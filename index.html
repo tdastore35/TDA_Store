@@ -352,7 +352,13 @@
   display:flex;
   flex-direction:column;
 }
- @media (min-width: 769px){
+@media (min-width: 769px){
+
+  .product-modal:has(.modal__body.pd-two-column){
+    width:min(920px, 94vw);
+    max-width:920px;
+  }
+
   .product-modal .modal__body.pd-two-column{
     display:grid;
     grid-template-columns: 1fr 1fr;
