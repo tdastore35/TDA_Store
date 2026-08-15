@@ -360,6 +360,11 @@
     max-height:88vh;
   }
 
+  .product-modal:has(.modal__body.pd-two-column) .modal__body{
+    height:auto;
+    max-height:calc(88vh - 80px);
+  }
+
   .product-modal .modal__body.pd-two-column{
     display:grid;
     grid-template-columns: 1fr 1fr;
