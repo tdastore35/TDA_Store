@@ -1334,37 +1334,26 @@ if(activeCat === "all"){
 
   // ---------- Render: category rail ----------
   function renderCategoryRail(){
-    const rail = document.getElementById('categoryRail');
-    let html = `<button class="patch ${activeCat==='all'?'is-active':''}" data-cat="all"><span class="patch__icon">🗂️</span>Todo</button>`;
-    CATEGORIES.forEach(c=>{
-  html += `<button class="patch ${activeCat===c.id?'is-active':''}" data-cat="${c.id}"><span class="patch__icon">${iconFor(c.label)}</span>${c.label}</button>`;
-});
+  const rail = document.getElementById('categoryRail');
 
-rail.innerHTML = html;
+  let html = `<button class="patch ${activeCat==='all'?'is-active':''}" data-cat="all"><span class="patch__icon">🗂️</span>Todo</button>`;
 
-rail.querySelectorAll('.patch').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    activeCat = btn.dataset.cat;
-
-    const category = CATEGORIES.find(c => c.id === activeCat);
-
-    if(activeCat === "all"){
-      history.pushState({}, "", "/TDA_Store/");
-    } else if(category){
-      const slug = category.label
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/\s+/g, "-");
-
-      history.pushState({}, "", "/TDA_Store/" + slug);
-    }
-
-    activeSub = "all";
-    renderCategoryRail();
-    renderSubRail();
-    renderGrid();
+  CATEGORIES.forEach(c=>{
+    html += `<button class="patch ${activeCat===c.id?'is-active':''}" data-cat="${c.id}"><span class="patch__icon">${iconFor(c.label)}</span>${c.label}</button>`;
   });
-});
+
+  rail.innerHTML = html;
+
+  rail.querySelectorAll('.patch').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      activeCat = btn.dataset.cat;
+      activeSub = "all";
+
+      renderCategoryRail();
+      renderSubRail();
+      renderGrid();
+    });
+  });
 }
 
   function renderSubRail(){
