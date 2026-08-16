@@ -1312,12 +1312,14 @@ if (urlCategory) {
 }
 PRODUCTS = products;
 
-// Abrir el catálogo en "Bloques de construcción"
-const bloques = CATEGORIES.find(c => c.label === "Bloques de construcción");
-if(bloques){
-  activeCat = bloques.id;
-  activeSub = "all";
-}
+// Abrir en la categoría indicada por la URL.
+// Si no hay una categoría válida, abrir en "Bloques de construcción".
+if(activeCat === "all"){
+  const bloques = CATEGORIES.find(c => c.label === "Bloques de construcción");
+  if(bloques){
+    activeCat = bloques.id;
+    activeSub = "all";
+  }
 }
 
   // ---------- Helpers de etiquetas ----------
