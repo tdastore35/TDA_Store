@@ -1055,6 +1055,20 @@
   let PRODUCTS = [];     // [{ id, name, cat, sub, price, priceCE, images:[], lot, nuevo, restock, rowIndex }]
   // (el envío ahora se calcula por ciudad, ver SHIPPING_BY_CITY)
   let activeCat = "all";
+
+// Leer categoría desde la URL
+const urlCategory = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '');
+
+if (urlCategory) {
+  const foundCategory = CATEGORIES.find(c =>
+    c.label.toLowerCase() === urlCategory.toLowerCase() ||
+    c.id.toLowerCase() === urlCategory.toLowerCase()
+  );
+
+  if (foundCategory) {
+    activeCat = foundCategory.id;
+  }
+}
   let activeSub = "all";
   let searchTerm = "";
   let sortMode = "az";
@@ -1280,7 +1294,22 @@ images,
   label:c.label,
   subs:Array.from(c.subs.entries()).map(([id,label])=>({id,label})),
 }));
+// Leer categoría desde la URL
+const urlCategory = decodeURIComponent(
+  location.pathname.split('/').filter(Boolean).pop() || ''
+);
 
+if (urlCategory) {
+  const foundCategory = CATEGORIES.find(c =>
+    c.label.toLowerCase() === urlCategory.toLowerCase() ||
+    c.id.toLowerCase() === urlCategory.toLowerCase()
+  );
+
+  if (foundCategory) {
+    activeCat = foundCategory.id;
+    activeSub = "all";
+  }
+}
 PRODUCTS = products;
 
 // Abrir el catálogo en "Bloques de construcción"
