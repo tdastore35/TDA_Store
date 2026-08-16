@@ -1337,9 +1337,12 @@ if(activeCat === "all"){
     const rail = document.getElementById('categoryRail');
     let html = `<button class="patch ${activeCat==='all'?'is-active':''}" data-cat="all"><span class="patch__icon">🗂️</span>Todo</button>`;
     CATEGORIES.forEach(c=>{
-      html += `<button class="patch ${activeCat===c.id?'is-active':''}" data-cat="${c.id}"><span class="patch__icon">${iconFor(c.label)}</span>${c.label}</button>`;
-    });
-   rail.querySelectorAll('.patch').forEach(btn=>{
+  html += `<button class="patch ${activeCat===c.id?'is-active':''}" data-cat="${c.id}"><span class="patch__icon">${iconFor(c.label)}</span>${c.label}</button>`;
+});
+
+rail.innerHTML = html;
+
+rail.querySelectorAll('.patch').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     activeCat = btn.dataset.cat;
     console.log("CATEGORIA CLICKEADA:", btn.dataset.cat);
