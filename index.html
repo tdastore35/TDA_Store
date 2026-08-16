@@ -1294,22 +1294,7 @@ images,
   label:c.label,
   subs:Array.from(c.subs.entries()).map(([id,label])=>({id,label})),
 }));
-// Leer categoría desde la URL
-const urlCategory = decodeURIComponent(
-  location.pathname.split('/').filter(Boolean).pop() || ''
-);
 
-if (urlCategory) {
-  const foundCategory = CATEGORIES.find(c =>
-    c.label.toLowerCase() === urlCategory.toLowerCase() ||
-    c.id.toLowerCase() === urlCategory.toLowerCase()
-  );
-
-  if (foundCategory) {
-    activeCat = foundCategory.id;
-    activeSub = "all";
-  }
-}
 PRODUCTS = products;
 
 // Abrir en la categoría indicada por la URL.
