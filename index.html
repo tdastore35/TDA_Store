@@ -1339,15 +1339,28 @@ if(activeCat === "all"){
     CATEGORIES.forEach(c=>{
       html += `<button class="patch ${activeCat===c.id?'is-active':''}" data-cat="${c.id}"><span class="patch__icon">${iconFor(c.label)}</span>${c.label}</button>`;
     });
-    rail.innerHTML = html;
-    rail.querySelectorAll('.patch').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        activeCat = btn.dataset.cat;
-        activeSub = "all";
-        renderCategoryRail();
-        renderSubRail();
-        renderGrid();
-      });
+   rail.querySelectorAll('.patch').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    activeCat = btn.dataset.cat;
+
+    const category = CATEGORIES.find(c => c.id === activeCat);
+
+    if(activeCat === "all"){
+      history.pushState({}, "", "/TDA_Store/");
+    } else if(category){
+      const slug = category.label
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/\s+/g, "-");
+
+      history.pushState({}, "", "/TDA_Store/" + slug);
+    }
+
+    activeSub = "all";
+    renderCategoryRail();
+    renderSubRail();
+    renderGrid();
+  });
     });
   }
 
