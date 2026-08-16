@@ -1342,7 +1342,8 @@ if(activeCat === "all"){
    rail.querySelectorAll('.patch').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     activeCat = btn.dataset.cat;
-
+    console.log("CATEGORIA CLICKEADA:", btn.dataset.cat);
+    
     const category = CATEGORIES.find(c => c.id === activeCat);
 
     if(activeCat === "all"){
