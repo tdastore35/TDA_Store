@@ -1055,20 +1055,6 @@
   let PRODUCTS = [];     // [{ id, name, cat, sub, price, priceCE, images:[], lot, nuevo, restock, rowIndex }]
   // (el envío ahora se calcula por ciudad, ver SHIPPING_BY_CITY)
   let activeCat = "all";
-
-// Leer categoría desde la URL
-const urlCategory = decodeURIComponent(location.pathname.split('/').filter(Boolean).pop() || '');
-
-if (urlCategory) {
-  const foundCategory = CATEGORIES.find(c =>
-    c.label.toLowerCase() === urlCategory.toLowerCase() ||
-    c.id.toLowerCase() === urlCategory.toLowerCase()
-  );
-
-  if (foundCategory) {
-    activeCat = foundCategory.id;
-  }
-}
   let activeSub = "all";
   let searchTerm = "";
   let sortMode = "az";
@@ -1297,14 +1283,12 @@ images,
 
 PRODUCTS = products;
 
-// Abrir en la categoría indicada por la URL.
-// Si no hay una categoría válida, abrir en "Bloques de construcción".
-if(activeCat === "all"){
-  const bloques = CATEGORIES.find(c => c.label === "Bloques de construcción");
-  if(bloques){
-    activeCat = bloques.id;
-    activeSub = "all";
-  }
+// Abrir el catálogo en "Bloques de construcción"
+const bloques = CATEGORIES.find(c => c.label === "Bloques de construcción");
+if(bloques){
+  activeCat = bloques.id;
+  activeSub = "all";
+}
 }
 
   // ---------- Helpers de etiquetas ----------
@@ -1319,27 +1303,22 @@ if(activeCat === "all"){
 
   // ---------- Render: category rail ----------
   function renderCategoryRail(){
-  const rail = document.getElementById('categoryRail');
-
-  let html = `<button class="patch ${activeCat==='all'?'is-active':''}" data-cat="all"><span class="patch__icon">🗂️</span>Todo</button>`;
-
-  CATEGORIES.forEach(c=>{
-    html += `<button class="patch ${activeCat===c.id?'is-active':''}" data-cat="${c.id}"><span class="patch__icon">${iconFor(c.label)}</span>${c.label}</button>`;
-  });
-
-  rail.innerHTML = html;
-
-  rail.querySelectorAll('.patch').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      activeCat = btn.dataset.cat;
-      activeSub = "all";
-
-      renderCategoryRail();
-      renderSubRail();
-      renderGrid();
+    const rail = document.getElementById('categoryRail');
+    let html = `<button class="patch ${activeCat==='all'?'is-active':''}" data-cat="all"><span class="patch__icon">🗂️</span>Todo</button>`;
+    CATEGORIES.forEach(c=>{
+      html += `<button class="patch ${activeCat===c.id?'is-active':''}" data-cat="${c.id}"><span class="patch__icon">${iconFor(c.label)}</span>${c.label}</button>`;
     });
-  });
-}
+    rail.innerHTML = html;
+    rail.querySelectorAll('.patch').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        activeCat = btn.dataset.cat;
+        activeSub = "all";
+        renderCategoryRail();
+        renderSubRail();
+        renderGrid();
+      });
+    });
+  }
 
   function renderSubRail(){
     const wrap = document.getElementById('subRail');
