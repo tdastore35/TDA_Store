@@ -210,8 +210,9 @@
     padding:4px 8px; border-radius:999px; color:#fff;
   }
   .card__badge.nuevo{ background:var(--green); }
-  .card__badge.restock{ background:var(--gold); color:var(--green-dark); }
-  .card__badge + .card__badge{ margin-top:24px; }
+.card__badge.restock{ background:var(--gold); color:var(--green-dark); }
+.card__badge.reciente{ background:#FFD54A; color:#5C4800; }
+.card__badge + .card__badge{ margin-top:24px; }
   .card__body{ padding:12px 14px 14px; display:flex; flex-direction:column; gap:6px; flex:1; }
   .card{ cursor:pointer; }
   .card__cat{ font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:var(--ink-soft); font-weight:700; }
@@ -1418,8 +1419,9 @@ onerror="this.parentElement.innerHTML='📦'">`;
       }
 
       const badges = [];
-      if(pr.nuevo) badges.push('<div class="card__badge nuevo">Nuevo</div>');
-      if(pr.restock) badges.push('<div class="card__badge restock">Repuesto</div>');
+if(pr.nuevo) badges.push('<div class="card__badge nuevo">Nuevo</div>');
+if(pr.restock) badges.push('<div class="card__badge restock">Repuesto</div>');
+if(pr.estado === "N") badges.push('<div class="card__badge reciente">Recién Agregado</div>');
 
       return `
       <div class="card" data-id="${pr.id}">
