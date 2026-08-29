@@ -1643,25 +1643,21 @@ if(productsTotal > 300000){
   shippingFinal: shipping
 });
 
-  let insurance = codInsurance(productsTotal, shipping);
+let insurance = codInsurance(productsTotal, shipping);
 
 let total = productsTotal + shipping + insurance;
 
-// Contraentrega: redondear a miles y ajustar el seguro
+// Redondear siempre al millar más cercano
+const totalRedondeado = Math.round(total / 1000) * 1000;
+
+// En contraentrega, el ajuste del redondeo se suma al seguro
 if(getPayMethod() === 'contraentrega'){
-  const totalRedondeado = Math.round(total / 1000) * 1000;
-  const ajusteRedondeo = totalRedondeado - total;
-
-  insurance += ajusteRedondeo;
-  total = totalRedondeado;
+  insurance += totalRedondeado - total;
 }
 
-// Pago directo: redondear a centenas
-if(getPayMethod() === 'directo'){
-  total = Math.round(total / 100) * 100;
-}
+total = totalRedondeado;
 
-  return total;
+return total;
 }
 
   function renderCartCount(){
