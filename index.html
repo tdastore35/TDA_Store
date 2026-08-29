@@ -1643,21 +1643,25 @@ if(productsTotal > 300000){
   shippingFinal: shipping
 });
 
-let insurance = codInsurance(productsTotal, shipping);
+  let insurance = codInsurance(productsTotal, shipping);
 
 let total = productsTotal + shipping + insurance;
 
-// Redondear siempre al millar más cercano
-const totalRedondeado = Math.round(total / 1000) * 1000;
-
-// En contraentrega, el ajuste del redondeo se suma al seguro
+// Contraentrega: redondear a miles y ajustar el seguro
 if(getPayMethod() === 'contraentrega'){
-  insurance += totalRedondeado - total;
+  const totalRedondeado = Math.round(total / 1000) * 1000;
+  const ajusteRedondeo = totalRedondeado - total;
+
+  insurance += ajusteRedondeo;
+  total = totalRedondeado;
 }
 
-total = totalRedondeado;
+// Pago directo: redondear a centenas
+if(getPayMethod() === 'directo'){
+  total = Math.round(total / 100) * 100;
+}
 
-return total;
+  return total;
 }
 
   function renderCartCount(){
@@ -1740,7 +1744,7 @@ if(getPayMethod() === 'contraentrega'){
 
 
 const contraEntrega = document.getElementById('payCE');
-const minimoContraEntrega = 45000;
+const minimoContraEntrega = 30000;
 
 if((productsTotal + shipping) < minimoContraEntrega){
   contraEntrega.checked = false;
