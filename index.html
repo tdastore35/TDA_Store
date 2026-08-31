@@ -175,6 +175,16 @@
     max-width:1180px; margin:8px auto 0; padding:0 20px;
     display:flex; align-items:baseline; gap:10px;
   }
+  .products-section{
+  background-color:#0A0A0A;
+  background-image:radial-gradient(
+    rgba(255,249,233,.13) 1px,
+    transparent 1px
+  );
+  background-size:24px 24px;
+  border-top:3px solid var(--gold);
+  padding-top:4px;
+}
   .section-title h2{ font-size:18px; color:var(--green-dark); margin:0; }
   .section-title span{ color:var(--ink-soft); font-size:13px; }
 
@@ -684,13 +694,18 @@
   </div>
   <div class="subrail" id="subRail"></div>
 
+<div class="products-section">
+
   <div class="section-title">
     <h2 id="sectionTitle">Todo el catálogo</h2>
     <span id="sectionCount"></span>
   </div>
+
   <div class="grid" id="productGrid"></div>
 
-  <footer>
+</div>
+
+<footer>
     Esta es una versión BETA de TDA Store. Reporte errores o fallas 3133863517
   </footer>
 
