@@ -9,25 +9,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Baloo+2:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
-:root{
-  --green:#00A83B;
-  --green-dark:#006B2D;
-  --green-light:#6FE05A;
-
-  --gold:#FFD21F;
-
+  
+  :root{
+    --green:#037F35;
+    --green-dark:#025226;
+    --green-light:#7BC955;
+    --gold:#FFD21F;
   --cream:#FFF6D8;
   --paper:#FFFFFF;
-
   --red:#E52B2B;
-
   --ink:#151515;
   --ink-soft:#555555;
-
   --line:rgba(0,0,0,0.16);
-
   --radius:20px;
-
   --banner-black:#080808;
 }
   *{box-sizing:border-box;}
@@ -92,30 +86,13 @@
 
   /* ===== Hero strip ===== */
   .hero{
-  max-width:1180px; margin:0 auto;
-  padding:28px 20px 8px;
-  display:flex; align-items:center; gap:18px; flex-wrap:wrap;
-}
-
-.hero__badge{
-  width:76px;
-  height:76px;
-  flex-shrink:0;
-  object-fit:contain;
-}
-
-.hero h1{
-  font-size:26px;
-  margin:0 0 4px;
-  color:#fff;
-}
-
-.hero p{
-  margin:0;
-  color:#e5e5e5;
-  font-size:15px;
-  max-width:60ch;
-}
+    max-width:1180px; margin:0 auto;
+    padding:28px 20px 8px;
+    display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  }
+  .hero__badge{ width:76px; height:76px; flex-shrink:0; object-fit:contain; }
+  .hero h1{ font-size:26px; margin:0 0 4px; color:var(--green-dark); }
+  .hero p{ margin:0; color:var(--ink-soft); font-size:15px; max-width:60ch; }
 
   /* ===== Search + sort bar ===== */
   .toolbar{
@@ -143,7 +120,7 @@
     display:flex; gap:10px; overflow-x:auto; padding-bottom:6px;
     scrollbar-width:thin;
   }
-.patch{
+  .patch{
   flex-shrink:0;
   display:flex;
   align-items:center;
@@ -202,14 +179,10 @@
   .section-title span{ color:var(--ink-soft); font-size:13px; }
 
   .grid{
-  max-width:1180px;
-  margin:0 auto;
-  padding:16px 20px 60px;
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(210px,1fr));
-  gap:18px;
-  background:#000;
-}
+    max-width:1180px; margin:0 auto; padding:16px 20px 60px;
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(210px,1fr));
+    gap:18px;
+  }
   .card{
     background:var(--paper);
     border-radius:var(--radius);
