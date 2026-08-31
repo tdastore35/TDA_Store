@@ -182,7 +182,7 @@
     transparent 1px
   );
   background-size:24px 24px;
-  border-top:3px solid var(--gold);
+  border-top:3px solid var(--green);
   padding-top:4px;
 }
   .section-title h2{ font-size:18px; color:#fff; margin:0; }
@@ -1317,12 +1317,9 @@ images,
 
 PRODUCTS = products;
 
-// Abrir el catálogo en "Bloques de construcción"
-const bloques = CATEGORIES.find(c => c.label === "Bloques de construcción");
-if(bloques){
-  activeCat = bloques.id;
-  activeSub = "all";
-}
+// Abrir el catálogo en "Todos los productos"
+activeCat = "all";
+activeSub = "all";
 }
 
   // ---------- Helpers de etiquetas ----------
