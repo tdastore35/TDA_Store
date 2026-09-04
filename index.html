@@ -1905,8 +1905,9 @@ if(document.getElementById('cityInput').value.trim().length < 3){
       msg += `- [${e.product.code || e.product.lot}] ${e.qty}x ${e.product.name}${variantTxt} — ${fmt.format(up)} c/u = ${fmt.format(up*e.qty)}\n`;
     });
     msg += `\nSubtotal: ${fmt.format(subtotal)}\n`;
-    if(discount > 0) msg += `Descuento por cantidad: -${fmt.format(discount)}\n`;
-    if(shipping > 0) msg += `Envío: ${fmt.format(shipping)}\n`;
+if(discount > 0) msg += `Descuento por cantidad: -${fmt.format(discount)}\n`;
+if(bonificacion > 0) msg += `Bonificación: -${fmt.format(bonificacion)}\n`;
+if(shipping > 0) msg += `Envío: ${fmt.format(shipping)}\n`;
     if(insurance > 0) msg += `Seguro contraentrega: ${fmt.format(insurance)}\n`;
     msg += `*Total: ${fmt.format(cartGrandTotal())}*\n\n`;
     msg += `Por favor confirmar disponibilidad y forma de entrega. ¡Gracias!`;
