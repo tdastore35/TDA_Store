@@ -1888,7 +1888,8 @@ if(document.getElementById('cityInput').value.trim().length < 3){
     const payMethod = getPayMethod();
     const subtotal = cartSubtotal();
     const discount = quantityDiscount();
-    const productsTotal = subtotal - discount;
+    const bonificacion = cartBonificacion();
+    const productsTotal = subtotal - discount - bonificacion;
     const shipping = shippingCost();
     const insurance = codInsurance(productsTotal, shipping);
     const cityVal = document.getElementById('cityInput').value.trim();
@@ -1908,8 +1909,8 @@ if(document.getElementById('cityInput').value.trim().length < 3){
 if(discount > 0) msg += `Descuento por cantidad: -${fmt.format(discount)}\n`;
 if(bonificacion > 0) msg += `Bonificación: -${fmt.format(bonificacion)}\n`;
 if(shipping > 0) msg += `Envío: ${fmt.format(shipping)}\n`;
-    if(insurance > 0) msg += `Seguro contraentrega: ${fmt.format(insurance)}\n`;
-    msg += `*Total: ${fmt.format(cartGrandTotal())}*\n\n`;
+if(insurance > 0) msg += `Seguro contraentrega: ${fmt.format(insurance)}\n`;
+msg += `*Total: ${fmt.format(cartGrandTotal())}*\n\n`;
     msg += `Por favor confirmar disponibilidad y forma de entrega. ¡Gracias!`;
 
     const url = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(msg)}`;
