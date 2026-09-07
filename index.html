@@ -15,7 +15,7 @@
   --green-dark:#006B2D;
   --green-light:#7BC955;
   --gold:#FFD21F;
-  --cream:#FFF4D0;
+  --cream:#FFF6D8;
   --paper:#FFFFFF;
   --red:#E52B2B;
   --ink:#151515;
@@ -175,21 +175,8 @@
     max-width:1180px; margin:8px auto 0; padding:0 20px;
     display:flex; align-items:baseline; gap:10px;
   }
-  .products-section{
-  background-color:#FFF4D0;
-  background-image:radial-gradient(
-    rgba(255,255,255,.13) 1px,
-    transparent 1px
-  );
-  background-size:24px 24px;
-  border-top:3px solid var(--green);
-  padding-top:4px;
-}
   .section-title h2{ font-size:18px; color:var(--green-dark); margin:0; }
-  .section-title span{
-  color:var(--ink-soft);
-  font-size:13px;
-}
+  .section-title span{ color:var(--ink-soft); font-size:13px; }
 
   .grid{
     max-width:1180px; margin:0 auto; padding:16px 20px 60px;
@@ -388,47 +375,29 @@
   .product-modal:has(.modal__body.pd-two-column){
     width:min(920px, 94vw);
     max-width:920px;
-    height:min(92vh, 800px);
-    max-height:92vh;
+    max-height:92vh;    
   }
 
   .product-modal .modal__body.pd-two-column{
-    display:grid;
-    grid-template-columns:minmax(0, 1fr) minmax(0, 1fr);
-    column-gap:28px;
-    align-items:start;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap:28px;
+  row-gap:8px;
+  align-items:start;
+}
 
-    flex:1;
-    min-height:0;
-    overflow:hidden;
-  }
-
-  /* GALERÍA — izquierda, fija */
   .product-modal .modal__body.pd-two-column .pd-gallery{
     grid-column:1;
-    grid-row:1;
-    position:relative;
-    align-self:start;
-    min-width:0;
+    grid-row:1 / span 20;
   }
 
-  /* INFORMACIÓN — derecha, único elemento que hace scroll */
-  .product-modal .modal__body.pd-two-column .pd-info{
+  .product-modal .modal__body.pd-two-column > *:not(.pd-gallery){
     grid-column:2;
-    grid-row:1;
-
-    min-width:0;
-    min-height:0;
-    height:100%;
-    overflow-y:auto;
-
-    padding-right:6px;
   }
 
   .product-modal .modal__body.pd-two-column .pd-gallery__main{
     max-width:100%;
   }
-
 }
   .pd-description__text{
   display:-webkit-box;
@@ -443,13 +412,7 @@
   font-weight:600;
   cursor:pointer;
 }
- .product-modal .modal__body{
-  overflow-y:auto;
-}
-
-.product-modal .modal__body.pd-two-column{
-  overflow:hidden;
-}
+  .product-modal .modal__body{ overflow-y:auto; }
  .pd-gallery__main{
     position:relative;
     width:100%;
@@ -722,18 +685,13 @@
   </div>
   <div class="subrail" id="subRail"></div>
 
-<div class="products-section">
-
   <div class="section-title">
     <h2 id="sectionTitle">Todo el catálogo</h2>
     <span id="sectionCount"></span>
   </div>
-
   <div class="grid" id="productGrid"></div>
 
-</div>
-
-<footer>
+  <footer>
     Esta es una versión BETA de TDA Store. Reporte errores o fallas 3133863517
   </footer>
 
@@ -844,7 +802,7 @@
   //    el cliente no está en esta lista, se usa SHIPPING_DEFAULT.
   //    Para agregar o corregir una ciudad, solo edita este listado.
   const SHIPPING_BY_CITY = {
-    "Acacías": 17000,
+    "Acacías": 16000,
     "Aguachica": 17000,
     "Aguazul": 17000,
     "Alcalá": 17000,
@@ -981,7 +939,7 @@
     "Montería": 17000,
     "Monterrey": 17000,
     "Morelia": 17000,
-    "Mosquera (Cundinamarca)": 11000,
+    "Mosquera": 11000,
     "Murillo": 11000,
     "Natagaima": 11000,
     "Necoclí": 17000,
@@ -1010,7 +968,6 @@
     "Quibdó": 17000,
     "Quimbaya": 17000,
     "Quinchia": 17000,
-    "Ricaurte (Nariño)": 17000,
     "Rionegro (Antioquia)": 17000,
     "Rionegro (Santander)": 17000,
     "Rivera": 11000,
@@ -1066,6 +1023,7 @@
     "Ubaté": 17000,
     "Valledupar": 17000,
     " Valparaíso (Caquetá)": 17000,
+
     "Venadillo": 11000,
     "Villa Rica": 17000,
     "Villahermosa": 11000,
@@ -1076,7 +1034,7 @@
     "Zarzal": 17000,
     "Zipaquirá": 11000,
   };
-  const SHIPPING_DEFAULT = 17000; // envío para ciudades que no están en la lista
+  const SHIPPING_DEFAULT = 16000; // envío para ciudades que no están en la lista
 
   // 4) Descuento por cantidad total de piezas en el pedido.
   //    Es un descuento POR UNIDAD (no un monto fijo total): se multiplica por
@@ -1345,9 +1303,12 @@ images,
 
 PRODUCTS = products;
 
-// Abrir el catálogo en "Todos los productos"
-activeCat = "all";
-activeSub = "all";
+// Abrir el catálogo en "Bloques de construcción"
+const bloques = CATEGORIES.find(c => c.label === "Bloques de construcción");
+if(bloques){
+  activeCat = bloques.id;
+  activeSub = "all";
+}
 }
 
   // ---------- Helpers de etiquetas ----------
@@ -1913,8 +1874,7 @@ if(document.getElementById('cityInput').value.trim().length < 3){
     const payMethod = getPayMethod();
     const subtotal = cartSubtotal();
     const discount = quantityDiscount();
-    const bonificacion = cartBonificacion();
-    const productsTotal = subtotal - discount - bonificacion;
+    const productsTotal = subtotal - discount;
     const shipping = shippingCost();
     const insurance = codInsurance(productsTotal, shipping);
     const cityVal = document.getElementById('cityInput').value.trim();
@@ -1931,11 +1891,10 @@ if(document.getElementById('cityInput').value.trim().length < 3){
       msg += `- [${e.product.code || e.product.lot}] ${e.qty}x ${e.product.name}${variantTxt} — ${fmt.format(up)} c/u = ${fmt.format(up*e.qty)}\n`;
     });
     msg += `\nSubtotal: ${fmt.format(subtotal)}\n`;
-if(discount > 0) msg += `Descuento por cantidad: -${fmt.format(discount)}\n`;
-if(bonificacion > 0) msg += `Bonificación: -${fmt.format(bonificacion)}\n`;
-if(shipping > 0) msg += `Envío: ${fmt.format(shipping)}\n`;
-if(insurance > 0) msg += `Seguro contraentrega: ${fmt.format(insurance)}\n`;
-msg += `*Total: ${fmt.format(cartGrandTotal())}*\n\n`;
+    if(discount > 0) msg += `Descuento por cantidad: -${fmt.format(discount)}\n`;
+    if(shipping > 0) msg += `Envío: ${fmt.format(shipping)}\n`;
+    if(insurance > 0) msg += `Seguro contraentrega: ${fmt.format(insurance)}\n`;
+    msg += `*Total: ${fmt.format(cartGrandTotal())}*\n\n`;
     msg += `Por favor confirmar disponibilidad y forma de entrega. ¡Gracias!`;
 
     const url = `https://wa.me/${STORE_WHATSAPP}?text=${encodeURIComponent(msg)}`;
