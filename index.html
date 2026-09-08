@@ -17,7 +17,7 @@
 
   --gold:#FFD21F;
 
-  --cream:#FFF6D8;
+  --cream:#FFF1C2;
   --paper:#FFFFFF;
 
   --red:#E52B2B;
@@ -183,7 +183,10 @@
     display:flex; align-items:baseline; gap:10px;
   }
   .section-title h2{ font-size:18px; color:var(--green-dark); margin:0; }
-.section-title span{ color:var(--ink-soft); font-size:13px; }
+.section-title span{
+  color:#fff;
+  font-size:13px;
+}
 
 .products-section{
   background-color:#0A0A0A;
@@ -193,7 +196,7 @@
   );
   background-size:24px 24px;
 
-  border-top:3px solid var(--gold);
+  border-top:3px solid var(--green);
 }
 
 .grid{
@@ -1324,12 +1327,9 @@ images,
 
 PRODUCTS = products;
 
-// Abrir el catálogo en "Bloques de construcción"
-const bloques = CATEGORIES.find(c => c.label === "Bloques de construcción");
-if(bloques){
-  activeCat = bloques.id;
-  activeSub = "all";
-}
+// Abrir el catálogo en "Todos los productos"
+activeCat = "all";
+activeSub = "all";
 }
 
   // ---------- Helpers de etiquetas ----------
