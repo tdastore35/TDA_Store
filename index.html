@@ -1675,10 +1675,7 @@ const productsTotal = subtotal - quantityDiscount() - cartBonificacion();
 const cityVal = (document.getElementById('cityInput')||{}).value.trim();
 
 let shipping = shippingCost();
-
-if(!cityVal){
-  shipping = 11000;
-}
+const cityVal = (document.getElementById('cityInput')||{}).value.trim();
 
 if(productsTotal > 300000){
   shipping += 1000 + Math.round(productsTotal * 0.01);
@@ -1822,7 +1819,8 @@ if(bonificacion > 0){
 }
 
 if(shipping > 0){
-  receiptHtml += `<div class="receipt__row"><span>${cityVal ? 'Envío a '+cityVal : 'Domicilio estimado'}</span><span class="mono">${fmt.format(shipping)}</span></div>`;
+  const shippingDisplay = cityVal ? shipping : 11000;
+  receiptHtml += `<div class="receipt__row"><span>${cityVal ? 'Envío a '+cityVal : 'Domicilio estimado'}</span><span class="mono">${fmt.format(shippingDisplay)}</span></div>`;
 }
     if(insurance > 0){
       receiptHtml += `<div class="receipt__row"><span>Seguro contraentrega</span><span class="mono">${fmt.format(insurance)}</span></div>`;
