@@ -1657,7 +1657,8 @@ function cartCount(){
   function shippingCost(){
   const input = document.getElementById('cityInput');
   const city = input ? input.value.trim() : '';
-  if(!city) return 0;
+
+  if(!city) return SHIPPING_DEFAULT;
 
   const key = normalizeCity(city);
   let base = SHIPPING_LOOKUP.hasOwnProperty(key) ? SHIPPING_LOOKUP[key] : SHIPPING_DEFAULT;
@@ -1817,7 +1818,7 @@ if(bonificacion > 0){
 
 if(shipping > 0){
   const cityVal = (document.getElementById('cityInput')||{}).value || '';
-  receiptHtml += `<div class="receipt__row"><span>Envío${cityVal ? ' a '+cityVal : ''}</span><span class="mono">${fmt.format(shipping)}</span></div>`;
+  receiptHtml += `<div class="receipt__row"><span>${cityVal ? 'Envío a '+cityVal : 'Domicilio estimado'}</span><span class="mono">${fmt.format(shipping)}</span></div>`;
 }
     if(insurance > 0){
       receiptHtml += `<div class="receipt__row"><span>Seguro contraentrega</span><span class="mono">${fmt.format(insurance)}</span></div>`;
