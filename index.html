@@ -1653,16 +1653,23 @@ function cartCount(){
   Object.keys(SHIPPING_BY_CITY).forEach(city=>{
     SHIPPING_LOOKUP[normalizeCity(city)] = SHIPPING_BY_CITY[city];
   });
+  
   function shippingCost(){
   const input = document.getElementById('cityInput');
   const city = input ? input.value.trim() : '';
 
-  if(!city) return SHIPPING_DEFAULT;
+  // Sin ciudad: tarifa promocional inicial
+  if(!city) return 11000;
 
   const key = normalizeCity(city);
-  let base = SHIPPING_LOOKUP.hasOwnProperty(key) ? SHIPPING_LOOKUP[key] : SHIPPING_DEFAULT;
 
-  return base;
+  // Ciudad registrada: usa su tarifa
+  if(SHIPPING_LOOKUP.hasOwnProperty(key)){
+    return SHIPPING_LOOKUP[key];
+  }
+
+  // Ciudad no registrada: tarifa estándar
+  return SHIPPING_DEFAULT;
 }
   function codInsurance(productsTotal, shipping){
     if(getPayMethod() !== 'contraentrega') return 0;
