@@ -1670,14 +1670,11 @@ function cartCount(){
   }
  function cartGrandTotal(){
   const subtotal = cartSubtotal();
-const productsTotal = subtotal - quantityDiscount() - cartBonificacion();
+  const productsTotal = subtotal - quantityDiscount() - cartBonificacion();
 
-const cityVal = (document.getElementById('cityInput')||{}).value.trim();
+  let shipping = shippingCost();
 
-let shipping = shippingCost();
-const cityVal = (document.getElementById('cityInput')||{}).value.trim();
-
-if(productsTotal > 300000){
+  if(productsTotal > 300000){
   shipping += 1000 + Math.round(productsTotal * 0.01);
 }
    console.log('DEBUG ENVÍO:', {
