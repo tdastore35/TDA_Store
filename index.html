@@ -11,46 +11,79 @@
 <style>
 
 /* ==========================================================
-     ESTILOS HALLOWEEN (TDA STORE)
+     TEMÁTICA HALLOWEEN — TEXTURAS Y TELARAÑAS
      ========================================================== */
   :root {
-    --green: #FF6B00 !important;          /* Pasa de verde a Naranja Calabaza */
-    --green-dark: #C94F00 !important;     /* Naranja Oscuro */
-    --green-light: #FF8533 !important;    /* Naranja Claro */
+    --green: #E65100 !important;          /* Naranja Calabaza Cálido */
+    --green-dark: #8C2A00 !important;     /* Naranja Cobre Oscuro */
+    --green-light: #FF9800 !important;    /* Naranja Cálido Brillante */
 
-    --gold: #A8FF00 !important;           /* Verde Neón / Tóxico */
+    --gold: #FFC107 !important;           /* Dorado / Amarillo Bruja */
 
-    --cream: #0D0614 !important;          /* Fondo Púrpura Nocturno muy oscuro */
-    --paper: #180D26 !important;          /* Fondo de Tarjetas (Púrpura Oscuro) */
+    --cream: #120A16 !important;          /* Noche Oscura Cálida */
+    --paper: #1E1225 !important;          /* Tarjetas Púrpura Tenebroso */
 
-    --ink: #FFFFFF !important;            /* Texto principal en blanco */
-    --ink-soft: #D1C4E9 !important;       /* Texto secundario en morado claro */
+    --ink: #FFF8E7 !important;            /* Texto Crema / Hueso */
+    --ink-soft: #C2B3CE !important;       /* Texto Secundario en tono Místico */
 
-    --line: rgba(255, 107, 0, 0.3) !important; /* Bordes en color naranja con transparencia */
-
-    --banner-black: #050208 !important;   /* Barra superior casi negra */
+    --line: rgba(230, 81, 0, 0.35) !important;
+    --banner-black: #0A050D !important;
   }
 
-  /* Fondo general de la página con textura oscura */
+  /* Fondo con patrón de telaraña sutil */
   body {
-    background-color: #0D0614 !important;
-    background-image: radial-gradient(circle at 1px 1px, rgba(255, 107, 0, 0.12) 1px, transparent 0) !important;
-    color: #FFFFFF !important;
+    background-color: #120A16 !important;
+    background-image: 
+      radial-gradient(circle at 50% 20%, rgba(230, 81, 0, 0.12) 0%, transparent 70%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M60 0 L60 120 M0 60 L120 60 M17.5 17.5 L102.5 102.5 M17.5 102.5 L102.5 17.5 M60 30 Q45 45 30 60 Q45 75 60 90 Q75 75 90 60 Q75 45 60 30 Z M60 15 Q37.5 37.5 15 60 Q37.5 82.5 60 105 Q82.5 82.5 105 60 Q82.5 37.5 60 15 Z' stroke='rgba(255,255,255,0.04)' stroke-width='1' fill='none'/%3E%3C/svg%3E") !important;
+    color: #FFF8E7 !important;
   }
 
-  /* Ajustes de color de texto para las tarjetas */
+  /* Telarañas en las esquinas superiores */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 140px;
+    height: 140px;
+    pointer-events: none;
+    z-index: 100;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L0 100 Z M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M20 0 Q20 20 0 20 M40 0 Q40 40 0 40 M60 0 Q60 60 0 60 M80 0 Q80 80 0 80' stroke='rgba(255,152,0,0.35)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 140px;
+    height: 140px;
+    pointer-events: none;
+    z-index: 100;
+    transform: scaleX(-1);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L0 100 Z M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M20 0 Q20 20 0 20 M40 0 Q40 40 0 40 M60 0 Q60 60 0 60 M80 0 Q80 80 0 80' stroke='rgba(255,152,0,0.35)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  /* Títulos y textos principales */
   .card__name, .pd-name, .hero h1, .section-title h2 {
-    color: #FF8533 !important;
+    color: #FF9800 !important;
   }
 
-  /* Sombra flotante de Halloween para las tarjetas */
+  /* Borde temático en las tarjetas */
   .card {
-    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.15) !important;
-    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    border: 1px solid rgba(230, 81, 0, 0.4) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
   }
+
   .card:hover {
     transform: translateY(-4px) !important;
-    box-shadow: 0 8px 20px rgba(255, 107, 0, 0.35) !important;
+    box-shadow: 0 6px 20px rgba(230, 81, 0, 0.35) !important;
+    border-color: #FF9800 !important;
   }
   
   :root{
@@ -710,11 +743,11 @@
     </div>
   </div>
 
-  <!-- ===== Hero ===== -->
+ <!-- ===== Hero Halloween ===== -->
  <div class="hero">
   <div>
-    <h1>Catálogo TDA Store</h1>
-    <p>Elige tus productos favoritos, arma tu carrito y envía tu pedido. Del resto nos encargamos nosotros. 😉</p>
+    <h1>🎃 Edición de Espanto · TDA Store 🕷️</h1>
+    <p>¡Coleccionables, mini-figuras y novedades antes de que desaparezcan! Arma tu pedido en el carrito y nos encargamos de todo. 🦇👻</p>
   </div>
   </div>
 
