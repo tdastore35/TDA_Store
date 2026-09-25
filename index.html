@@ -11,7 +11,7 @@
 <style>
 
 /* ==========================================================
-     TEMÁTICA HALLOWEEN — TEXTURAS Y TELARAÑAS
+     TEMÁTICA HALLOWEEN — CORRECCIÓN DE CONTRASTE Y VISIBILIDAD
      ========================================================== */
   :root {
     --green: #E65100 !important;          /* Naranja Calabaza Cálido */
@@ -24,19 +24,60 @@
     --paper: #1E1225 !important;          /* Tarjetas Púrpura Tenebroso */
 
     --ink: #FFF8E7 !important;            /* Texto Crema / Hueso */
-    --ink-soft: #C2B3CE !important;       /* Texto Secundario en tono Místico */
+    --ink-soft: #D1C4E9 !important;       /* Texto Secundario Clarito */
 
     --line: rgba(230, 81, 0, 0.35) !important;
     --banner-black: #0A050D !important;
   }
 
-  /* Fondo con patrón de telaraña sutil */
+  /* Fondo de la página con patrón sutil de telaraña */
   body {
     background-color: #120A16 !important;
     background-image: 
       radial-gradient(circle at 50% 20%, rgba(230, 81, 0, 0.12) 0%, transparent 70%),
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M60 0 L60 120 M0 60 L120 60 M17.5 17.5 L102.5 102.5 M17.5 102.5 L102.5 17.5 M60 30 Q45 45 30 60 Q45 75 60 90 Q75 75 90 60 Q75 45 60 30 Z M60 15 Q37.5 37.5 15 60 Q37.5 82.5 60 105 Q82.5 82.5 105 60 Q82.5 37.5 60 15 Z' stroke='rgba(255,255,255,0.04)' stroke-width='1' fill='none'/%3E%3C/svg%3E") !important;
     color: #FFF8E7 !important;
+  }
+
+  /* 1. Nombre de la tienda en la barra superior */
+  .brand__text .display {
+    color: #FFC107 !important; /* Amarillo Dorado legible */
+    text-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
+  }
+
+  /* 2. Banner: "ENTRE MÁS COMPRAS, MÁS AHORRAS" */
+  .discount-banner__title {
+    color: #FFA726 !important; /* Naranja brillante y vivo */
+    text-shadow: 0 0 6px rgba(255, 167, 38, 0.3);
+  }
+
+  /* 3. Buscador y filtro desplegable (A-Z) */
+  .search-box input {
+    background-color: #1E1225 !important;
+    color: #FFFFFF !important;
+    border-color: #E65100 !important;
+  }
+  .search-box input::placeholder {
+    color: #B3A3C4 !important; /* Texto del buscador bien visible */
+  }
+  .sort-box select {
+    background-color: #1E1225 !important;
+    color: #FFC107 !important; /* Texto A-Z en dorado claro */
+    border-color: #E65100 !important;
+  }
+
+  /* 4. Precios de los productos */
+  .card__price {
+    color: #FFC107 !important; /* Dorado vivo para resaltar los precios */
+    font-size: 16px !important;
+    text-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
+  }
+
+  /* 5. Subtítulos, cantidad de productos y descripciones de las tarjetas */
+  .section-title span,
+  .card__desc,
+  .card__cat {
+    color: #D1C4E9 !important; /* Púrpura pastel claro visible sobre oscuro */
   }
 
   /* Telarañas en las esquinas superiores */
@@ -49,7 +90,7 @@
     height: 140px;
     pointer-events: none;
     z-index: 100;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L0 100 Z M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M20 0 Q20 20 0 20 M40 0 Q40 40 0 40 M60 0 Q60 60 0 60 M80 0 Q80 80 0 80' stroke='rgba(255,152,0,0.35)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L0 100 Z M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M20 0 Q20 20 0 20 M40 0 Q40 40 0 40 M60 0 Q60 60 0 60 M80 0 Q80 80 0 80' stroke='rgba(255,152,0,0.45)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
   }
@@ -64,7 +105,7 @@
     pointer-events: none;
     z-index: 100;
     transform: scaleX(-1);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L0 100 Z M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M20 0 Q20 20 0 20 M40 0 Q40 40 0 40 M60 0 Q60 60 0 60 M80 0 Q80 80 0 80' stroke='rgba(255,152,0,0.35)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L0 100 Z M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M20 0 Q20 20 0 20 M40 0 Q40 40 0 40 M60 0 Q60 60 0 60 M80 0 Q80 80 0 80' stroke='rgba(255,152,0,0.45)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
     background-size: contain;
     background-repeat: no-repeat;
   }
