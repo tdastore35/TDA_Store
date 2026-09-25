@@ -9,6 +9,49 @@
 <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Baloo+2:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
+
+/* ==========================================================
+     ESTILOS HALLOWEEN (TDA STORE)
+     ========================================================== */
+  :root {
+    --green: #FF6B00 !important;          /* Pasa de verde a Naranja Calabaza */
+    --green-dark: #C94F00 !important;     /* Naranja Oscuro */
+    --green-light: #FF8533 !important;    /* Naranja Claro */
+
+    --gold: #A8FF00 !important;           /* Verde Neón / Tóxico */
+
+    --cream: #0D0614 !important;          /* Fondo Púrpura Nocturno muy oscuro */
+    --paper: #180D26 !important;          /* Fondo de Tarjetas (Púrpura Oscuro) */
+
+    --ink: #FFFFFF !important;            /* Texto principal en blanco */
+    --ink-soft: #D1C4E9 !important;       /* Texto secundario en morado claro */
+
+    --line: rgba(255, 107, 0, 0.3) !important; /* Bordes en color naranja con transparencia */
+
+    --banner-black: #050208 !important;   /* Barra superior casi negra */
+  }
+
+  /* Fondo general de la página con textura oscura */
+  body {
+    background-color: #0D0614 !important;
+    background-image: radial-gradient(circle at 1px 1px, rgba(255, 107, 0, 0.12) 1px, transparent 0) !important;
+    color: #FFFFFF !important;
+  }
+
+  /* Ajustes de color de texto para las tarjetas */
+  .card__name, .pd-name, .hero h1, .section-title h2 {
+    color: #FF8533 !important;
+  }
+
+  /* Sombra flotante de Halloween para las tarjetas */
+  .card {
+    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.15) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  }
+  .card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 20px rgba(255, 107, 0, 0.35) !important;
+  }
   
   :root{
   --green:#00A83B;
