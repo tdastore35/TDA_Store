@@ -11,7 +11,7 @@
 <style>
 
 /* ==========================================================
-     TEMÁTICA HALLOWEEN — CORRECCIÓN DE CONTRASTE Y VISIBILIDAD
+     TEMÁTICA HALLOWEEN — CÓDIGO COMPLETO TDA STORE
      ========================================================== */
   :root {
     --green: #E65100 !important;          /* Naranja Calabaza Cálido */
@@ -41,13 +41,13 @@
 
   /* 1. Nombre de la tienda en la barra superior */
   .brand__text .display {
-    color: #FFC107 !important; /* Amarillo Dorado legible */
+    color: #FFC107 !important;
     text-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
   }
 
   /* 2. Banner: "ENTRE MÁS COMPRAS, MÁS AHORRAS" */
   .discount-banner__title {
-    color: #FFA726 !important; /* Naranja brillante y vivo */
+    color: #FFA726 !important;
     text-shadow: 0 0 6px rgba(255, 167, 38, 0.3);
   }
 
@@ -58,17 +58,17 @@
     border-color: #E65100 !important;
   }
   .search-box input::placeholder {
-    color: #B3A3C4 !important; /* Texto del buscador bien visible */
+    color: #B3A3C4 !important;
   }
   .sort-box select {
     background-color: #1E1225 !important;
-    color: #FFC107 !important; /* Texto A-Z en dorado claro */
+    color: #FFC107 !important;
     border-color: #E65100 !important;
   }
 
-  /* 4. Precios de los productos */
+  /* 4. Precios de las tarjetas del catálogo */
   .card__price {
-    color: #FFC107 !important; /* Dorado vivo para resaltar los precios */
+    color: #FFC107 !important;
     font-size: 16px !important;
     text-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
   }
@@ -77,15 +77,50 @@
   .section-title span,
   .card__desc,
   .card__cat {
-    color: #D1C4E9 !important; /* Púrpura pastel claro visible sobre oscuro */
+    color: #D1C4E9 !important;
   }
-/* 6. Círculo flotante de categoría en la esquina de la foto del producto */
+
+  /* 6. Círculo del logo/icono flotante de la categoría en la imagen */
   .card__patch {
-    background-color: #FFFFFF !important;  /* Fondo blanco limpio */
-    border: 2px solid #FF9800 !important;  /* Borde naranja de la temática */
-    color: #120A16 !important;             /* Icono visible en tono oscuro */
+    background-color: #FFFFFF !important;
+    border: 2px solid #FF9800 !important;
+    color: #120A16 !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
   }
+
+  /* 7. Ficha del Producto (Modal) */
+  #closeProductModalBtn {
+    color: #FFFFFF !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    opacity: 1 !important;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+  }
+
+  .pd-price {
+    color: #FFC107 !important;
+    font-size: 22px !important;
+    text-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
+  }
+
+  .pd-qty__label {
+    color: #FFF8E7 !important;
+  }
+
+  .pd-qty__stepper button {
+    background-color: #2A173B !important;
+    color: #FFC107 !important;
+    border: 1.5px solid #FF9800 !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+  }
+
+  .pd-qty__stepper span {
+    color: #FFFFFF !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+  }
+
   /* Telarañas en las esquinas superiores */
   body::before {
     content: "";
