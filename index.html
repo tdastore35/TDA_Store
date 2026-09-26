@@ -163,7 +163,86 @@
     background-size: contain;
     background-repeat: no-repeat;
   }
+/* ==========================================================
+     CORRECCIONES PARA EL CARRITO / ORDEN (DRAWER)
+     ========================================================== */
 
+  /* 1. Encabezado del Carrito */
+  .drawer__head h2 {
+    color: #FFFFFF !important;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+  }
+
+  .drawer__close {
+    color: #FFFFFF !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    opacity: 1 !important;
+  }
+
+  /* 2. Items del Carrito (Precios, Quitar, Botones + y -) */
+  .cart-item__unit {
+    color: #FFC107 !important; /* Dorado visible */
+  }
+
+  .cart-item__remove {
+    color: #FF5252 !important; /* Rojo claro / neón para destacar */
+  }
+
+  .qty button {
+    background-color: #2A173B !important;
+    color: #FFC107 !important;
+    border: 1px solid #FF9800 !important;
+  }
+
+  .qty span {
+    color: #FFFFFF !important;
+  }
+
+  /* 3. Botones de Pago y Campos de Ciudad */
+  .option-block__label {
+    color: #FFF8E7 !important;
+  }
+
+  .pay-toggle label {
+    border-color: #FF9800 !important;
+    color: #FFC107 !important; /* Opción no seleccionada visible */
+  }
+
+  .region-select input {
+    background-color: #1E1225 !important;
+    color: #FFFFFF !important;
+    border-color: #E65100 !important;
+  }
+
+  .region-select input::placeholder {
+    color: #B3A3C4 !important;
+  }
+
+  /* 4. Recibo de Compra (Descuentos, Totales y Mensaje de Incentivo) */
+  .receipt {
+    background-color: #1E1225 !important;
+    border-color: #FF9800 !important;
+  }
+
+  .receipt__row {
+    color: #FFF8E7 !important;
+  }
+
+  .receipt__row.discount {
+    color: #FFA726 !important; /* Naranja brillante para los descuentos */
+  }
+
+  .receipt__row.total {
+    color: #FFC107 !important; /* Dorado para el Total */
+    font-size: 17px !important;
+  }
+
+  .drawer__nudge {
+    background-color: rgba(230, 81, 0, 0.18) !important;
+    border-color: #FF9800 !important;
+    color: #FFC107 !important; /* Texto de incentivo claro */
+  }
   /* Títulos y textos principales */
   .card__name, .pd-name, .hero h1, .section-title h2 {
     color: #FF9800 !important;
