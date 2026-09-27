@@ -48,7 +48,7 @@
   .card:hover {
     transform: translateY(-6px) scale(1.01) !important;
     border-color: #FF9800 !important;
-    box-shadow: 0 0 25px rgba(255, 152, 0, 0.65), 0 0 10px rgba(255, 107, 0, 0.4) !important; /* Alumbra con luz naranja brillante */
+    box-shadow: 0 0 25px rgba(255, 152, 0, 0.65), 0 0 10px rgba(255, 107, 0, 0.4) !important;
   }
 
   /* Título principal del Hero ("EDICIÓN DE ESPANTO") */
@@ -84,21 +84,43 @@
     border-color: #E65100 !important;
   }
 
-  /* 4. Precios de las tarjetas del catálogo */
+  /* 4. Categorías principales (.patch) y Subcategorías (.chip) */
+  .patch {
+    color: #120A16 !important;
+  }
+
+  .patch.is-active {
+    background: #E65100 !important;
+    color: #FFFFFF !important;
+  }
+
+  .chip {
+    color: #FFF8E7 !important;
+    border-color: #FF9800 !important;
+    background-color: rgba(30, 18, 37, 0.6) !important;
+  }
+
+  .chip.is-active {
+    background-color: #FF9800 !important;
+    color: #FFFFFF !important;
+    border-style: solid !important;
+  }
+
+  /* 5. Precios de las tarjetas del catálogo */
   .card__price {
     color: #FFC107 !important;
     font-size: 16px !important;
     text-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
   }
 
-  /* 5. Subtítulos, cantidad de productos y descripciones de las tarjetas */
+  /* 6. Subtítulos, cantidad de productos y descripciones de las tarjetas */
   .section-title span,
   .card__desc,
   .card__cat {
     color: #D1C4E9 !important;
   }
 
-  /* 6. Círculo del logo/icono flotante de la categoría en la imagen */
+  /* 7. Círculo del logo/icono flotante de la categoría en la imagen */
   .card__patch {
     background-color: #FFFFFF !important;
     border: 2px solid #FF9800 !important;
@@ -106,7 +128,7 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
   }
 
-  /* 7. Ficha del Producto (Modal) */
+  /* 8. Ficha del Producto (Modal) */
   .modal__head h3 {
     color: #FFFFFF !important;
     text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
@@ -120,9 +142,8 @@
     text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
   }
 
-  /* Título del producto dentro de la ficha (Modal) */
   .pd-name {
-    color: #FF9800 !important; /* Naranja brillante bien claro */
+    color: #FF9800 !important;
     text-shadow: 0 0 8px rgba(255, 152, 0, 0.4) !important;
   }
 
@@ -143,7 +164,6 @@
     color: #FFF8E7 !important;
   }
 
-  /* Botones de Variantes / Opciones de productos */
   .variant-chip {
     background-color: #1E1225 !important;
     color: #FFC107 !important;
@@ -170,7 +190,7 @@
     font-weight: 700 !important;
   }
 
-  /* 8. Carrito / Orden (Drawer) */
+  /* 9. Carrito / Orden (Drawer) */
   .drawer__head h2 {
     color: #FFFFFF !important;
     text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
