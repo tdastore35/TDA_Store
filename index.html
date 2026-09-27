@@ -39,6 +39,18 @@
     color: #FFF8E7 !important;
   }
 
+  /* EFECTO HOVER RESPLANDOR/ALUMBRADO DE HALLOWEEN EN LAS TARJETAS */
+  .card {
+    border: 1px solid rgba(230, 81, 0, 0.4) !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+  }
+
+  .card:hover {
+    transform: translateY(-6px) scale(1.01) !important;
+    border-color: #FF9800 !important;
+    box-shadow: 0 0 25px rgba(255, 152, 0, 0.65), 0 0 10px rgba(255, 107, 0, 0.4) !important; /* Alumbra con luz naranja brillante */
+  }
+
   /* Título principal del Hero ("EDICIÓN DE ESPANTO") */
   .hero h1 {
     color: #FF9800 !important;
@@ -106,6 +118,12 @@
     font-weight: 800 !important;
     opacity: 1 !important;
     text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Título del producto dentro de la ficha (Modal) */
+  .pd-name {
+    color: #FF9800 !important; /* Naranja brillante bien claro */
+    text-shadow: 0 0 8px rgba(255, 152, 0, 0.4) !important;
   }
 
   .pd-description__more {
