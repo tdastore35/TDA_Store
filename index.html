@@ -11,288 +11,274 @@
 <style>
 
 /* ==========================================================
-     TEMÁTICA HALLOWEEN — CÓDIGO COMPLETO TDA STORE
-     ========================================================== */
-  :root {
-    --green: #E65100 !important;          /* Naranja Calabaza Cálido */
-    --green-dark: #8C2A00 !important;     /* Naranja Cobre Oscuro */
-    --green-light: #FF9800 !important;    /* Naranja Cálido Brillante */
+   TEMÁTICA HALLOWEEN — CÓDIGO COMPLETO TDA STORE
+   ========================================================== */
+:root {
+  --green: #E65100 !important;          /* Naranja Calabaza Cálido */
+  --green-dark: #8C2A00 !important;     /* Naranja Cobre Oscuro */
+  --green-light: #FF9800 !important;    /* Naranja Cálido Brillante */
 
-    --gold: #FFC107 !important;           /* Dorado / Amarillo Bruja */
+  --gold: #FFC107 !important;           /* Dorado / Amarillo Bruja */
 
-    --cream: #120A16 !important;          /* Noche Oscura Cálida */
-    --paper: #1E1225 !important;          /* Tarjetas Púrpura Tenebroso */
+  --cream: #120A16 !important;          /* Noche Oscura Cálida */
+  --paper: #1E1225 !important;          /* Tarjetas Púrpura Tenebroso */
 
-    --ink: #FFF8E7 !important;            /* Texto Crema / Hueso */
-    --ink-soft: #D1C4E9 !important;       /* Texto Secundario Clarito */
+  --ink: #FFF8E7 !important;            /* Texto Crema / Hueso */
+  --ink-soft: #D1C4E9 !important;       /* Texto Secundario Clarito */
 
-    --line: rgba(230, 81, 0, 0.35) !important;
-    --banner-black: #0A050D !important;
-  }
+  --line: rgba(230, 81, 0, 0.35) !important;
+  --banner-black: #0A050D !important;
+}
 
-  /* Fondo de la página con patrón sutil de telaraña */
-  body {
-    background-color: #120A16 !important;
-    background-image: 
-      radial-gradient(circle at 50% 20%, rgba(230, 81, 0, 0.12) 0%, transparent 70%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M60 0 L60 120 M0 60 L120 60 M17.5 17.5 L102.5 102.5 M17.5 102.5 L102.5 17.5 M60 30 Q45 45 30 60 Q45 75 60 90 Q75 75 90 60 Q75 45 60 30 Z M60 15 Q37.5 37.5 15 60 Q37.5 82.5 60 105 Q82.5 82.5 105 60 Q82.5 37.5 60 15 Z' stroke='rgba(255,255,255,0.04)' stroke-width='1' fill='none'/%3E%3C/svg%3E") !important;
-    color: #FFF8E7 !important;
-  }
+/* Fondo de la página con patrón sutil de telaraña */
+body {
+  background-color: #120A16 !important;
+  background-image: 
+    radial-gradient(circle at 50% 20%, rgba(230, 81, 0, 0.12) 0%, transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M60 0 L60 120 M0 60 L120 60 M17.5 17.5 L102.5 102.5 M17.5 102.5 L102.5 17.5 M60 30 Q45 45 30 60 Q45 75 60 90 Q75 75 90 60 Q75 45 60 30 Z M60 15 Q37.5 37.5 15 60 Q37.5 82.5 60 105 Q82.5 82.5 105 60 Q82.5 37.5 60 15 Z' stroke='rgba(255,255,255,0.04)' stroke-width='1' fill='none'/%3E%3C/svg%3E") !important;
+  color: #FFF8E7 !important;
+}
 
-  /* EFECTO HOVER RESPLANDOR/ALUMBRADO DE HALLOWEEN EN LAS TARJETAS */
-  .card {
-    border: 1px solid rgba(230, 81, 0, 0.4) !important;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
-  }
+/* EFECTO HOVER RESPLANDOR/ALUMBRADO DE HALLOWEEN EN LAS TARJETAS */
+.card {
+  border: 1px solid rgba(230, 81, 0, 0.4) !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+}
 
-  .card:hover {
-    transform: translateY(-6px) scale(1.01) !important;
-    border-color: #FF9800 !important;
-    box-shadow: 0 0 25px rgba(255, 152, 0, 0.65), 0 0 10px rgba(255, 107, 0, 0.4) !important;
-  }
+.card:hover {
+  transform: translateY(-6px) scale(1.01) !important;
+  border-color: #FF9800 !important;
+  box-shadow: 0 0 25px rgba(255, 152, 0, 0.65), 0 0 10px rgba(255, 107, 0, 0.4) !important; /* Alumbra con luz naranja brillante */
+}
 
-  /* Título principal del Hero ("EDICIÓN DE ESPANTO") */
-  .hero h1 {
-    color: #FF9800 !important;
-    text-shadow: 0 0 10px rgba(255, 152, 0, 0.4) !important;
-  }
+/* Título principal del Hero ("EDICIÓN DE ESPANTO") */
+.hero h1 {
+  color: #FF9800 !important;
+  text-shadow: 0 0 10px rgba(255, 152, 0, 0.4) !important;
+}
 
-  /* 1. Nombre de la tienda en la barra superior */
-  .brand__text .display {
-    color: #FFC107 !important;
-    text-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
-  }
+/* Título de la sección del catálogo ("BLOQUES DE CONSTRUCCIÓN", etc.) */
+.section-title h2 {
+  color: #FF9800 !important; /* Naranja brillante bien legible */
+  text-shadow: 0 0 8px rgba(255, 152, 0, 0.4) !important;
+}
 
-  /* 2. Banner: "ENTRE MÁS COMPRAS, MÁS AHORRAS" */
-  .discount-banner__title {
-    color: #FFA726 !important;
-    text-shadow: 0 0 6px rgba(255, 167, 38, 0.3);
-  }
+/* 1. Nombre de la tienda en la barra superior */
+.brand__text .display {
+  color: #FFC107 !important;
+  text-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
+}
 
-  /* 3. Buscador y filtro desplegable (A-Z) */
-  .search-box input {
-    background-color: #1E1225 !important;
-    color: #FFFFFF !important;
-    border-color: #E65100 !important;
-  }
-  .search-box input::placeholder {
-    color: #B3A3C4 !important;
-  }
-  .sort-box select {
-    background-color: #1E1225 !important;
-    color: #FFC107 !important;
-    border-color: #E65100 !important;
-  }
+/* 2. Banner: "ENTRE MÁS COMPRAS, MÁS AHORRAS" */
+.discount-banner__title {
+  color: #FFA726 !important;
+  text-shadow: 0 0 6px rgba(255, 167, 38, 0.3);
+}
 
-  /* 4. Categorías principales (.patch) y Subcategorías (.chip) */
-  .patch {
-    color: #120A16 !important;
-  }
+/* 3. Buscador y filtro desplegable (A-Z) */
+.search-box input {
+  background-color: #1E1225 !important;
+  color: #FFFFFF !important;
+  border-color: #E65100 !important;
+}
+.search-box input::placeholder {
+  color: #B3A3C4 !important;
+}
+.sort-box select {
+  background-color: #1E1225 !important;
+  color: #FFC107 !important;
+  border-color: #E65100 !important;
+}
 
-  .patch.is-active {
-    background: #E65100 !important;
-    color: #FFFFFF !important;
-  }
+/* 4. Precios de las tarjetas del catálogo */
+.card__price {
+  color: #FFC107 !important;
+  font-size: 16px !important;
+  text-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
+}
 
-  .chip {
-    color: #FFF8E7 !important;
-    border-color: #FF9800 !important;
-    background-color: rgba(30, 18, 37, 0.6) !important;
-  }
+/* 5. Subtítulos, cantidad de productos y descripciones de las tarjetas */
+.section-title span,
+.card__desc,
+.card__cat {
+  color: #D1C4E9 !important;
+}
 
-  .chip.is-active {
-    background-color: #FF9800 !important;
-    color: #FFFFFF !important;
-    border-style: solid !important;
-  }
+/* 6. Círculo del logo/icono flotante de la categoría en la imagen */
+.card__patch {
+  background-color: #FFFFFF !important;
+  border: 2px solid #FF9800 !important;
+  color: #120A16 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+}
 
-  /* 5. Precios de las tarjetas del catálogo */
-  .card__price {
-    color: #FFC107 !important;
-    font-size: 16px !important;
-    text-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
-  }
+/* 7. Ficha del Producto (Modal) */
+.modal__head h3 {
+  color: #FFFFFF !important;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+}
 
-  /* 6. Subtítulos, cantidad de productos y descripciones de las tarjetas */
-  .section-title span,
-  .card__desc,
-  .card__cat {
-    color: #D1C4E9 !important;
-  }
+#closeProductModalBtn {
+  color: #FFFFFF !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+}
 
-  /* 7. Círculo del logo/icono flotante de la categoría en la imagen */
-  .card__patch {
-    background-color: #FFFFFF !important;
-    border: 2px solid #FF9800 !important;
-    color: #120A16 !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
-  }
+/* Título del producto dentro de la ficha (Modal) */
+.pd-name {
+  color: #FF9800 !important; /* Naranja brillante bien claro */
+  text-shadow: 0 0 8px rgba(255, 152, 0, 0.4) !important;
+}
 
-  /* 8. Ficha del Producto (Modal) */
-  .modal__head h3 {
-    color: #FFFFFF !important;
-    text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
-  }
+.pd-description__more {
+  color: #FFC107 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
 
-  #closeProductModalBtn {
-    color: #FFFFFF !important;
-    font-size: 24px !important;
-    font-weight: 800 !important;
-    opacity: 1 !important;
-    text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
-  }
+.pd-price {
+  color: #FFC107 !important;
+  font-size: 22px !important;
+  text-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
+}
 
-  .pd-name {
-    color: #FF9800 !important;
-    text-shadow: 0 0 8px rgba(255, 152, 0, 0.4) !important;
-  }
+.pd-qty__label,
+.pd-variants__label {
+  color: #FFF8E7 !important;
+}
 
-  .pd-description__more {
-    color: #FFC107 !important;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-  }
+/* Botones de Variantes / Opciones de productos */
+.variant-chip {
+  background-color: #1E1225 !important;
+  color: #FFC107 !important;
+  border: 1.5px solid #FF9800 !important;
+}
 
-  .pd-price {
-    color: #FFC107 !important;
-    font-size: 22px !important;
-    text-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
-  }
+.variant-chip.is-selected {
+  background-color: #E65100 !important;
+  color: #FFFFFF !important;
+  border-color: #FF9800 !important;
+}
 
-  .pd-qty__label,
-  .pd-variants__label {
-    color: #FFF8E7 !important;
-  }
+.pd-qty__stepper button {
+  background-color: #2A173B !important;
+  color: #FFC107 !important;
+  border: 1.5px solid #FF9800 !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+}
 
-  .variant-chip {
-    background-color: #1E1225 !important;
-    color: #FFC107 !important;
-    border: 1.5px solid #FF9800 !important;
-  }
+.pd-qty__stepper span {
+  color: #FFFFFF !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+}
 
-  .variant-chip.is-selected {
-    background-color: #E65100 !important;
-    color: #FFFFFF !important;
-    border-color: #FF9800 !important;
-  }
+/* 8. Carrito / Orden (Drawer) */
+.drawer__head h2 {
+  color: #FFFFFF !important;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+}
 
-  .pd-qty__stepper button {
-    background-color: #2A173B !important;
-    color: #FFC107 !important;
-    border: 1.5px solid #FF9800 !important;
-    font-size: 18px !important;
-    font-weight: 800 !important;
-  }
+.drawer__close {
+  color: #FFFFFF !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+}
 
-  .pd-qty__stepper span {
-    color: #FFFFFF !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-  }
+.cart-item__unit {
+  color: #FFC107 !important;
+}
 
-  /* 9. Carrito / Orden (Drawer) */
-  .drawer__head h2 {
-    color: #FFFFFF !important;
-    text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
-  }
+.cart-item__remove {
+  color: #FF5252 !important;
+}
 
-  .drawer__close {
-    color: #FFFFFF !important;
-    font-size: 24px !important;
-    font-weight: 800 !important;
-    opacity: 1 !important;
-  }
+.qty button {
+  background-color: #2A173B !important;
+  color: #FFC107 !important;
+  border: 1px solid #FF9800 !important;
+}
 
-  .cart-item__unit {
-    color: #FFC107 !important;
-  }
+.qty span {
+  color: #FFFFFF !important;
+}
 
-  .cart-item__remove {
-    color: #FF5252 !important;
-  }
+.option-block__label {
+  color: #FFF8E7 !important;
+}
 
-  .qty button {
-    background-color: #2A173B !important;
-    color: #FFC107 !important;
-    border: 1px solid #FF9800 !important;
-  }
+.pay-toggle label {
+  border-color: #FF9800 !important;
+  color: #FFC107 !important;
+}
 
-  .qty span {
-    color: #FFFFFF !important;
-  }
+.region-select input {
+  background-color: #1E1225 !important;
+  color: #FFFFFF !important;
+  border-color: #E65100 !important;
+}
 
-  .option-block__label {
-    color: #FFF8E7 !important;
-  }
+.region-select input::placeholder {
+  color: #B3A3C4 !important;
+}
 
-  .pay-toggle label {
-    border-color: #FF9800 !important;
-    color: #FFC107 !important;
-  }
+.receipt {
+  background-color: #1E1225 !important;
+  border-color: #FF9800 !important;
+}
 
-  .region-select input {
-    background-color: #1E1225 !important;
-    color: #FFFFFF !important;
-    border-color: #E65100 !important;
-  }
+.receipt__row {
+  color: #FFF8E7 !important;
+}
 
-  .region-select input::placeholder {
-    color: #B3A3C4 !important;
-  }
+.receipt__row.discount {
+  color: #FFA726 !important;
+}
 
-  .receipt {
-    background-color: #1E1225 !important;
-    border-color: #FF9800 !important;
-  }
+.receipt__row.total {
+  color: #FFC107 !important;
+  font-size: 17px !important;
+}
 
-  .receipt__row {
-    color: #FFF8E7 !important;
-  }
+.drawer__nudge {
+  background-color: rgba(230, 81, 0, 0.18) !important;
+  border-color: #FF9800 !important;
+  color: #FFC107 !important;
+}
 
-  .receipt__row.discount {
-    color: #FFA726 !important;
-  }
+/* Telarañas en las esquinas superiores */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 140px;
+  height: 140px;
+  pointer-events: none;
+  z-index: 100;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L0 100 Z M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M20 0 Q20 20 0 20 M40 0 Q40 40 0 40 M60 0 Q60 60 0 60 M80 0 Q80 80 0 80' stroke='rgba(255,152,0,0.45)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
 
-  .receipt__row.total {
-    color: #FFC107 !important;
-    font-size: 17px !important;
-  }
-
-  .drawer__nudge {
-    background-color: rgba(230, 81, 0, 0.18) !important;
-    border-color: #FF9800 !important;
-    color: #FFC107 !important;
-  }
-
-  /* Telarañas en las esquinas superiores */
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 140px;
-    height: 140px;
-    pointer-events: none;
-    z-index: 100;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L0 100 Z M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M20 0 Q20 20 0 20 M40 0 Q40 40 0 40 M60 0 Q60 60 0 60 M80 0 Q80 80 0 80' stroke='rgba(255,152,0,0.45)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-
-  body::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 140px;
-    height: 140px;
-    pointer-events: none;
-    z-index: 100;
-    transform: scaleX(-1);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L0 100 Z M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M20 0 Q20 20 0 20 M40 0 Q40 40 0 40 M60 0 Q60 60 0 60 M80 0 Q80 80 0 80' stroke='rgba(255,152,0,0.45)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 140px;
+  height: 140px;
+  pointer-events: none;
+  z-index: 100;
+  transform: scaleX(-1);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L0 100 Z M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M20 0 Q20 20 0 20 M40 0 Q40 40 0 40 M60 0 Q60 60 0 60 M80 0 Q80 80 0 80' stroke='rgba(255,152,0,0.45)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
   
   :root{
   --green:#00A83B;
