@@ -69,7 +69,22 @@ body {
   color: #FF9800 !important;
   text-shadow: 0 0 10px rgba(255, 152, 0, 0.4) !important;
 }
+/* 1. Color de texto dentro de los inputs del modal (Nombre, etc.) */
+  .field input {
+    color: #FFF8E7 !important; /* Texto blanco/crema muy claro y legible */
+  }
+  
+  .field input::placeholder {
+    color: #B3A3C4 !important; /* Color claro para el texto guía (placeholder) */
+  }
 
+  /* 2. Corrección para el texto del aviso flotante o de estado abajo */
+  .status-banner__box,
+  .contra-msg,
+  #statusBox {
+    color: #FFF8E7 !important; /* Texto claro para que no se pierda con el fondo */
+    font-weight: 600 !important;
+  }
 /* Título de la sección del catálogo ("BLOQUES DE CONSTRUCCIÓN", etc.) */
 .section-title h2 {
   color: #FF9800 !important; /* Naranja brillante bien legible */
