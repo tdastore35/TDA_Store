@@ -69,12 +69,54 @@ body {
   color: #FF9800 !important;
   text-shadow: 0 0 10px rgba(255, 152, 0, 0.4) !important;
 }
-/* 1. Color de texto dentro de los inputs del modal (Nombre, etc.) */
-  .field input {
+
+   /* ===== Sección de Redes Sociales en el Footer ===== */
+  .footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--paper);
+    color: var(--ink);
+    border: 1.5px solid var(--green);
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+
+  .social-btn:hover {
+    transform: translateY(-2px);
+    background: var(--green);
+    color: #FFFFFF;
+    border-color: var(--green-light);
+  }
+
+  .social-btn img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+  }
+/* 1. Color de texto dentro de TODOS los inputs (Nombre, Ciudad, etc.) */
+  .field input,
+  .region-select input,
+  .region-select select {
     color: #FFF8E7 !important; /* Texto blanco/crema muy claro y legible */
+    background-color: #1E1225 !important; /* Fondo oscuro acorde a Halloween */
   }
   
-  .field input::placeholder {
+  .field input::placeholder,
+  .region-select input::placeholder {
     color: #B3A3C4 !important; /* Color claro para el texto guía (placeholder) */
   }
 
@@ -1017,6 +1059,32 @@ body::after {
 </div>
 
   <footer>
+    <div class="footer-socials">
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/tda_store_ibague/?hl=es" target="_blank" class="social-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram">
+        Instagram
+      </a>
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/573133863517" target="_blank" class="social-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+        WhatsApp
+      </a>
+
+      <!-- TikTok -->
+      <a href="https://www.tiktok.com/@tda.store.ibague?_r=1&_t=ZS-9AQEurr2sNB" target="_blank" class="social-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Ionicons_logo-tiktok.svg" alt="TikTok">
+        TikTok
+      </a>
+
+      <!-- MercadoLibre -->
+      <a href="https://www.mercadolibre.com.co/pagina/tdastore?client=recoview-selleritems&category_id=MCO176638&item_id=MCO1716853739&seller_id=349984502&recos_listing=true#origin=vpp" target="_blank" class="social-btn">
+        <img src="https://http2.mlstatic.com/frontend-assets/ui-navigation/5.19.0/mercadolibre/logo__small.png" alt="MercadoLibre">
+        MercadoLibre
+      </a>
+    </div>
+
     Esta es una versión BETA de TDA Store. Reporte errores o fallas 3133863517
   </footer>
 
