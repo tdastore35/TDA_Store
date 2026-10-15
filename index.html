@@ -561,17 +561,17 @@ body::after {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2px; /* Reducimos el borde interno para que la imagen ocupe más espacio */
+    padding: 12px; /* Tenía un padding mayor, lo que dejaba más espacio alrededor */
     border-radius: 16px;
   }
 
   .card__art img {
-    width: 115% !important;   /* Amplía ligeramente la imagen para que la figura resalte más */
-    height: 115% !important;  
-    object-fit: cover;        /* Se adapta mejor al espacio eliminando el exceso de aire */
+    width: 100% !important;   
+    height: 100% !important;  
+    object-fit: contain;     /* Ajustaba la imagen completa mostrando todo el fondo original con aire */
     transition: opacity .2s ease;
-    border-radius: 14px;
-}
+    border-radius: 12px;
+  }
   .card__art.is-mosaic{
     display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2px;
   }
@@ -776,7 +776,7 @@ body::after {
   cursor:pointer;
 }
   .product-modal .modal__body{ overflow-y:auto; }
-.pd-gallery__main {
+    .pd-gallery__main {
     position: relative;
     width: 100%;
     max-width: 300px;
@@ -788,13 +788,13 @@ body::after {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2px;
+    padding: 12px;
   }
 
   .pd-gallery__main img {
-    width: 115% !important;
-    height: 115% !important;
-    object-fit: cover;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain;
     border-radius: 12px;
   }
 
