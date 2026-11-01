@@ -695,6 +695,38 @@
     font-size:12px;
   }
   }
+<style>
+  /* Estilo por defecto para Celulares (Vertical y cómodo) */
+  .store-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 15px auto;
+    max-width: 100%;
+    padding: 0 12px;
+  }
+  .store-toolbar .filter-container,
+  .store-toolbar .search-box,
+  .store-toolbar .sort-box {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Estilo para Computadoras / Pantallas grandes (Horizontal en una sola línea) */
+  @media (min-width: 768px) {
+    .store-toolbar {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      max-width: 1050px;
+      padding: 0 15px;
+    }
+    .store-toolbar .filter-container { flex: 1.2; min-width: 200px; }
+    .store-toolbar .search-box { flex: 2; min-width: 240px; }
+    .store-toolbar .sort-box { flex: 0.8; min-width: 120px; max-width: 150px; }
+  }
 </style>
 </head>
 <body>
@@ -735,11 +767,11 @@
 
   <!-- ===== Search + sort ===== -->
   <div class="toolbar">
-<!-- ===== Barra de herramientas compacta y optimizada (Filtro + Buscador + Orden) ===== -->
-<div class="toolbar" style="display: flex; flex-wrap: nowrap; justify-content: center; align-items: center; gap: 8px; margin: 12px auto; max-width: 1050px; padding: 0 10px;">
+<!-- ===== Barra de herramientas adaptable (Vertical en Celular / Horizontal en PC) ===== -->
+<div class="store-toolbar">
 
   <!-- 1. Selector de Subcategorías y Franquicias -->
-  <div class="filter-container" style="flex: 1.2; min-width: 180px;">
+  <div class="filter-container">
     <select id="subcatFilter" style="width: 100%; padding: 10px 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 13px; outline: none;">
 <option value="">✨ Franquicias ✨</option>
 <option value="Attack on Titan">Attack on Titan</option>
@@ -893,20 +925,20 @@ New Avengers</option>"
     </select>
   </div>
 
-  <!-- 2. Buscador de texto compacto con lupa integrada -->
-  <div class="search-box" style="flex: 2; min-width: 180px; position: relative; display: flex; align-items: center; margin: 0;">
-    <span class="search-box__icon" style="position: absolute; left: 12px; pointer-events: none; font-size: 14px; z-index: 2;">🔎</span>
-    <input type="text" id="searchInput" placeholder="Buscar producto..." style="width: 100%; padding: 10px 10px 10px 38px; background: #FFFFFF; border: 2px solid #00A83B; border-radius: 10px; font-weight: 600; font-size: 13px; outline: none; color: #151515;">
+  <!-- 2. Buscador de texto con lupa integrada -->
+  <div class="search-box" style="position: relative; display: flex; align-items: center; margin: 0;">
+    <span class="search-box__icon" style="position: absolute; left: 14px; pointer-events: none; font-size: 15px; z-index: 2;">🔎</span>
+    <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding: 12px 12px 12px 40px; background: #FFFFFF; border: 2px solid #00A83B; border-radius: 12px; font-weight: 600; font-size: 14px; outline: none; color: #151515;">
   </div>
 
-  <!-- 3. Selector de orden compacto -->
-  <div class="sort-box" style="flex: 0.8; min-width: 110px; max-width: 130px;">
-    <select id="sortSelect" style="width: 100%; padding: 10px 8px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 13px; outline: none;">
+  <!-- 3. Selector de orden -->
+  <div class="sort-box">
+    <select id="sortSelect" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; outline: none;">
       <option value="az">A-Z</option>
       <option value="za">Z-A</option>
-      <option value="recientes">Recientes</option>
-      <option value="precio-asc">Menor $</option>
-      <option value="precio-desc">Mayor $</option>
+      <option value="recientes">Más recientes</option>
+      <option value="precio-asc">Menor precio</option>
+      <option value="precio-desc">Mayor precio</option>
     </select>
   </div>
 
