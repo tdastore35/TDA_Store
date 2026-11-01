@@ -1641,8 +1641,7 @@ activeSub = "all";
 
     return list;
   }
-  function renderGrid(){
-    // Damos un respiro inmediato al procesador del celular con setTimeout
+ function renderGrid(){
     setTimeout(() => {
       const grid = document.getElementById('productGrid') || document.getElementById('grid') || document.querySelector('.grid');
       if (!grid) return;
@@ -1662,6 +1661,9 @@ activeSub = "all";
       }
 
       document.querySelectorAll('.empty-state').forEach(e => e.remove());
+      
+      const existingLoadMore = document.getElementById('loadMoreContainer');
+      if (existingLoadMore) existingLoadMore.remove();
 
       if (list.length === 0) {
         grid.innerHTML = "";
@@ -1676,8 +1678,9 @@ activeSub = "all";
         return;
       }
 
-      // Renderizado ultrarrápido optimizado para pantallas táctiles
-      grid.innerHTML = list.map(pr => {
+      const itemsToRender = list.slice(0, visibleLimit);
+
+      grid.innerHTML = itemsToRender.map(pr => {
         let artHtml;
         if (!pr.images || pr.images.length === 0) {
           artHtml = '📦';
@@ -1713,12 +1716,27 @@ activeSub = "all";
       `;
       }).join('');
 
-      // Eventos ligeros para las tarjetas
+      if (list.length > visibleLimit) {
+        const loadMoreContainer = document.createElement('div');
+        loadMoreContainer.id = 'loadMoreContainer';
+        loadMoreContainer.style.cssText = 'grid-column: 1 / -1; text-align: center; padding: 25px 0;';
+        loadMoreContainer.innerHTML = `
+          <button id="loadMoreBtn" style="background: var(--green); color: #fff; border: none; border-radius: 999px; padding: 12px 28px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+            Ver más productos (${list.length - visibleLimit} restantes) ↓
+          </button>
+        `;
+        grid.appendChild(loadMoreContainer);
+
+        document.getElementById('loadMoreBtn').addEventListener('click', () => {
+          visibleLimit += PAGE_SIZE;
+          renderGrid();
+        });
+      }
+
       grid.querySelectorAll('.card').forEach(card => {
         card.addEventListener('click', () => openProductModal(card.dataset.id));
       });
 
-      // Efecto hover/carrusel de imágenes en PC (sin afectar rendimiento en móvil)
       grid.querySelectorAll('.card__art img').forEach(img => {
         let images = [];
         try {
@@ -1751,7 +1769,6 @@ activeSub = "all";
         });
       });
 
-      // Evento de botones de compra
       grid.querySelectorAll('.add-btn').forEach(btn => {
         btn.addEventListener('click', (ev) => {
           ev.stopPropagation();
@@ -1769,7 +1786,6 @@ activeSub = "all";
       });
     }, 0);
   }
-
   // ---------- Cart logic ----------
   // cart[key] = { productId, variant, qty }  — key = productId, o productId::variante si aplica.
   function cartKey(productId, variant){
@@ -2091,6 +2107,10 @@ if(shipping > 0){
   // ---------- Search + sort ----------
   document.getElementById('searchInput').addEventListener('input', (e)=>{
     searchTerm = normalizeText(e.target.value).trim();
+
+  const checkMobile = window.innerWidth <= 768;
+    visibleLimit = checkMobile ? 40 : 99999;
+    
     renderGrid();
   });
   document.getElementById('sortSelect').addEventListener('change', (e)=>{
@@ -2370,12 +2390,16 @@ if(galleryMain && images.length > 1){
     const selectEl = document.getElementById('subcatFilter');
     if (selectEl) selectEl.value = "";
   });
+  
+  const isMobile = window.innerWidth <= 768;
+  let visibleLimit = isMobile ? 40 : 99999;
+  const PAGE_SIZE = 40;
 
   function applyFilters() {
     const searchInput = document.getElementById('searchInput');
     const selectEl = document.getElementById('subcatFilter');
     if (!selectEl) return;
-
+       
     const searchText = searchInput ? searchInput.value.toLowerCase().trim() : '';
     const subcatValue = selectEl.value.toLowerCase();
     const cards = document.querySelectorAll('.card');
@@ -2398,6 +2422,7 @@ if(galleryMain && images.length > 1){
       } else {
         card.style.display = "none";
       }
+      
     });
 
     if (subcatValue !== "") {
