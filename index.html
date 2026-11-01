@@ -738,7 +738,7 @@
 <!-- ===== FILTRO DE SUBCATEGORÍAS ===== -->
 <div class="filter-container" style="margin: 15px auto; max-width: 600px; text-align: center; padding: 0 15px;">
   <select id="subcatFilter" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px;">
-<option value="">✨ Todas las Franquicias y Subcategorías ✨</option>
+<option value="">✨ Franquicias ✨</option>
 <option value="Attack on Titan">Attack on Titan</option>
 <option value="Back to the Future (Volver al Futuro)">Back to the Future (Volver al Futuro)</option>
 <option value="Basketball">Basketball</option>
@@ -889,24 +889,20 @@ New Avengers</option>"
 <option value="WWE">WWE</option>
   </select>
 </div>
-    
-    <div class="search-box">
-      <span class="search-box__icon">🔎</span>
-      <input type="text" id="searchInput" placeholder="Buscar producto por nombre...">
+    <div class="search-box" style="position: relative; display: flex; align-items: center;">
+      <span class="search-box__icon" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; font-size: 16px;">🔎</span>
+      <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding-left: 42px;">
     </div>
     <div class="sort-box">
       <select id="sortSelect">
-  <option value="az">A-Z</option>
-  <option value="za">Z-A</option>
-
-  <option value="recientes">Más recientes</option>
-
-  <option value="precio-asc">Menor precio</option>
-  <option value="precio-desc">Mayor precio</option>
-</select>
+        <option value="az">A-Z</option>
+        <option value="za">Z-A</option>
+        <option value="recientes">Más recientes</option>
+        <option value="precio-asc">Menor precio</option>
+        <option value="precio-desc">Mayor precio</option>
+      </select>
     </div>
   </div>
-
   <!-- ===== Category rail ===== -->
   <div class="rail-wrap">
     <div class="rail" id="categoryRail"></div>
