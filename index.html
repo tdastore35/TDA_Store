@@ -2430,10 +2430,6 @@ if(galleryMain && images.length > 1){
       const grid = document.querySelector('.grid') || document.querySelector('#grid') || document.querySelector('.catalog-grid') || document.querySelector('main');
       if (grid) grid.appendChild(emptyMsg);
     }
-      
-      const grid = document.querySelector('.grid') || document.querySelector('#grid') || document.querySelector('.catalog-grid') || document.querySelector('main');
-      if (grid) grid.appendChild(emptyMsg);
-    }
 
     if (emptyMsg) {
       emptyMsg.style.display = (visibleCount === 0 && (searchText !== "" || subcatValue !== "")) ? 'block' : 'none';
