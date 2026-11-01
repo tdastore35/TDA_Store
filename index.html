@@ -1642,157 +1642,104 @@ activeSub = "all";
     return list;
   }
  function renderGrid() {
-    setTimeout(() => {
-      const grid = document.getElementById('productGrid') || document.getElementById('grid') || document.querySelector('.grid');
-      if (!grid) return;
+    const grid = document.getElementById('productGrid') || document.getElementById('grid') || document.querySelector('.grid');
+    if (!grid) return;
 
-      const list = typeof getFilteredProducts === 'function' ? getFilteredProducts() : [];
+    const list = typeof getFilteredProducts === 'function' ? getFilteredProducts() : [];
 
-      const sectionTitleEl = document.getElementById('sectionTitle');
-      const sectionCountEl = document.getElementById('sectionCount');
+    const sectionTitleEl = document.getElementById('sectionTitle');
+    const sectionCountEl = document.getElementById('sectionCount');
 
-      if (sectionTitleEl) {
-        sectionTitleEl.textContent = activeCat === 'all' ? 'Todo el catálogo' :
-          (activeSub !== 'all' ? subLabel(activeCat, activeSub) : catLabel(activeCat));
+    if (sectionTitleEl) {
+      sectionTitleEl.textContent = activeCat === 'all' ? 'Todo el catálogo' :
+        (activeSub !== 'all' ? subLabel(activeCat, activeSub) : catLabel(activeCat));
+    }
+
+    if (sectionCountEl) {
+      sectionCountEl.textContent = `${list.length} producto${list.length !== 1 ? 's' : ''}`;
+    }
+
+    document.querySelectorAll('.empty-state').forEach(e => e.remove());
+    
+    // Limpiamos el sensor anterior
+    const oldSentinel = document.getElementById('scrollSentinel');
+    if (oldSentinel) oldSentinel.remove();
+
+    if (list.length === 0) {
+      grid.innerHTML = "";
+      const empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.textContent = PRODUCTS.length === 0
+        ? 'Todavía no hay productos cargados en el Sheet.'
+        : 'No hay productos que coincidan con esta búsqueda o filtro.';
+      if (grid.parentElement) {
+        grid.parentElement.insertBefore(empty, grid.nextSibling);
+      }
+      return;
+    }
+
+    const itemsToRender = list.slice(0, visibleLimit);
+
+    grid.innerHTML = itemsToRender.map(pr => {
+      let artHtml;
+      if (!pr.images || pr.images.length === 0) {
+        artHtml = '📦';
+      } else {
+        artHtml = `<img src="${pr.images[0]}" data-images='${JSON.stringify(pr.images)}' alt="${pr.name}" loading="lazy" onerror="this.parentElement.innerHTML='📦'">`;
       }
 
-      if (sectionCountEl) {
-        sectionCountEl.textContent = `${list.length} producto${list.length !== 1 ? 's' : ''}`;
-      }
+      const badges = [];
+      if (pr.nuevo) badges.push('<div class="card__badge nuevo">Nuevo</div>');
+      if (pr.restock) badges.push('<div class="card__badge restock">Repuesto</div>');
+      if (pr.estado === "N") badges.push('<div class="card__badge reciente">Recién Agregado</div>');
 
-      document.querySelectorAll('.empty-state').forEach(e => e.remove());
-      
-      // Limpiamos el sensor anterior si existía
-      const oldSentinel = document.getElementById('scrollSentinel');
-      if (oldSentinel) oldSentinel.remove();
-
-      if (list.length === 0) {
-        grid.innerHTML = "";
-        const empty = document.createElement('div');
-        empty.className = 'empty-state';
-        empty.textContent = PRODUCTS.length === 0
-          ? 'Todavía no hay productos cargados en el Sheet.'
-          : 'No hay productos que coincidan con esta búsqueda o filtro.';
-        if (grid.parentElement) {
-          grid.parentElement.insertBefore(empty, grid.nextSibling);
-        }
-        return;
-      }
-
-      // 🚀 Recortamos la lista según los productos que deben verse por ahora
-      const itemsToRender = list.slice(0, visibleLimit);
-
-      grid.innerHTML = itemsToRender.map(pr => {
-        let artHtml;
-        if (!pr.images || pr.images.length === 0) {
-          artHtml = '📦';
-        } else {
-          artHtml = `<img src="${pr.images[0]}" data-images='${JSON.stringify(pr.images)}' alt="${pr.name}" loading="lazy" onerror="this.parentElement.innerHTML='📦'">`;
-        }
-
-        const badges = [];
-        if (pr.nuevo) badges.push('<div class="card__badge nuevo">Nuevo</div>');
-        if (pr.restock) badges.push('<div class="card__badge restock">Repuesto</div>');
-        if (pr.estado === "N") badges.push('<div class="card__badge reciente">Recién Agregado</div>');
-
-        return `
-        <div class="card" data-id="${pr.id}">
-          <div class="card__art">
-            ${artHtml}
-            <div class="card__patch">${catIcon(pr.cat)}</div>
-            ${badges.join('')}
-          </div>
-          <div class="card__body">
-            <div class="card__cat">${pr.sub ? subLabel(pr.cat, pr.sub) : catLabel(pr.cat)}</div>
-            <div class="card__name">${pr.name}</div>
-            ${pr.description ? `<div class="card__desc">${pr.description}</div>` : ''}
-            <div class="card__row">
-              <div>
-                <div class="card__price mono">${fmt.format(pr.price)}</div>
-                ${pr.priceCE !== pr.price ? `<div class="card__price-ce mono">${fmt.format(pr.priceCE)} contraentrega</div>` : ''}
-              </div>
-              <button class="add-btn" data-id="${pr.id}">${pr.variants && pr.variants.length > 0 ? 'Elegir' : 'Agregar'}</button>
+      return `
+      <div class="card" data-id="${pr.id}">
+        <div class="card__art">
+          ${artHtml}
+          <div class="card__patch">${catIcon(pr.cat)}</div>
+          ${badges.join('')}
+        </div>
+        <div class="card__body">
+          <div class="card__cat">${pr.sub ? subLabel(pr.cat, pr.sub) : catLabel(pr.cat)}</div>
+          <div class="card__name">${pr.name}</div>
+          ${pr.description ? `<div class="card__desc">${pr.description}</div>` : ''}
+          <div class="card__row">
+            <div>
+              <div class="card__price mono">${fmt.format(pr.price)}</div>
+              ${pr.priceCE !== pr.price ? `<div class="card__price-ce mono">${fmt.format(pr.priceCE)} contraentrega</div>` : ''}
             </div>
+            <button class="add-btn" data-id="${pr.id}">${pr.variants && pr.variants.length > 0 ? 'Elegir' : 'Agregar'}</button>
           </div>
         </div>
-      `;
-      }).join('');
+      </div>
+    `;
+    }).join('');
 
-      // 🎮 EL TRUCO DEL VIDEOJUEGO: Si faltan productos por mostrar, ponemos un sensor invisible al final
-      if (list.length > visibleLimit) {
-        const sentinel = document.createElement('div');
-        sentinel.id = 'scrollSentinel';
-        sentinel.style.cssText = 'grid-column: 1 / -1; height: 40px; text-align: center; padding: 10px; color: #888; font-size: 13px;';
-        sentinel.textContent = 'Cargando más productos... 🕹️';
-        grid.appendChild(sentinel);
+    // 🕹️ SENSOR INTELIGENTE: Solo aparece si REALMENTE quedan productos por mostrar
+    if (list.length > visibleLimit) {
+      const sentinel = document.createElement('div');
+      sentinel.id = 'scrollSentinel';
+      sentinel.style.cssText = 'grid-column: 1 / -1; height: 50px; text-align: center; padding: 15px; color: #888; font-size: 13px;';
+      sentinel.textContent = 'Cargando más productos... 🕹️';
+      grid.appendChild(sentinel);
 
-        // Creamos el observador que detecta cuando el usuario llega al final de la pantalla
-        const observer = new IntersectionObserver((entries) => {
-          if (entries[0].isIntersecting) {
-            observer.disconnect(); // Detenemos temporalmente el sensor
-            visibleLimit += 40;    // Sumamos 40 productos más a la zona visible
-            renderGrid();          // Volvemos a renderizar fluidamente
-          }
-        }, { rootMargin: '200px' }); // Se activa un poquito antes de llegar al final para que sea imperceptible
-
-        observer.observe(sentinel);
-      }
-
-      // Eventos de clic en tarjeta
-      grid.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('click', () => openProductModal(card.dataset.id));
-      });
-
-      // Hover / cambio de imágenes
-      grid.querySelectorAll('.card__art img').forEach(img => {
-        let images = [];
-        try {
-          images = JSON.parse(img.dataset.images || "[]");
-        } catch (e) {
-          return;
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          observer.disconnect();
+          visibleLimit += PAGE_SIZE;
+          
+          // En lugar de recargar toda la grilla de golpe causando parpadeo, 
+          // llamamos a una función ligera que añade los nuevos bloques al final de forma fluida
+          appendMoreProducts(list);
         }
-        if (images.length <= 1) return;
+      }, { rootMargin: '300px' });
 
-        let index = 0;
-        let timer = null;
+      observer.observe(sentinel);
+    }
 
-        img.parentElement.addEventListener('mouseenter', () => {
-          clearInterval(timer);
-          timer = setInterval(() => {
-            index = (index + 1) % images.length;
-            img.style.opacity = "0";
-            setTimeout(() => {
-              img.src = images[index];
-              img.style.opacity = "1";
-            }, 150);
-          }, 1000);
-        });
-
-        img.parentElement.addEventListener('mouseleave', () => {
-          clearInterval(timer);
-          index = 0;
-          img.src = images[0];
-          img.style.opacity = "1";
-        });
-      });
-
-      // Evento del botón Agregar/Elegir
-      grid.querySelectorAll('.add-btn').forEach(btn => {
-        btn.addEventListener('click', (ev) => {
-          ev.stopPropagation();
-          const product = PRODUCTS.find(p => p.id === btn.dataset.id);
-          if (!product) return;
-          if (product.variants && product.variants.length > 0) {
-            openProductModal(product.id);
-            return;
-          }
-          addToCart(product.id, '', 1);
-          btn.textContent = "✓ Agregado";
-          btn.classList.add('is-added');
-          setTimeout(() => { btn.textContent = "Agregar"; btn.classList.remove('is-added'); }, 900);
-        });
-      });
-    }, 0);
+    // Eventos de clic y botones (igual que antes)
+    attachCardEvents(grid);
   }
   // ---------- Cart logic ----------
   // cart[key] = { productId, variant, qty }  — key = productId, o productId::variante si aplica.
