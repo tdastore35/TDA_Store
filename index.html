@@ -31,6 +31,67 @@
 
   --banner-black:#080808;
 }
+  /* ===== RETÍCULA / GRID ESTILO GAMER EN EL FONDO ===== */
+body {
+  background-color: #0b0f19 !important; /* Fondo oscuro tipo setup */
+  color: #e2e8f0 !important;
+  background-image: 
+    linear-gradient(to right, rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 255, 136, 0.03) 1px, transparent 1px) !important;
+  background-size: 30px 30px !important;
+}
+
+/* ===== TÍTULO PRINCIPAL CON GRADIENTE NEÓN ===== */
+h1, .brand-title {
+  background: linear-gradient(135deg, #00ff88 0%, #00e5ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+  font-weight: 800;
+}
+
+/* ===== TARJETAS CON EFECTO TECH GAMER ===== */
+.card {
+  background: #131b2e !important;
+  border: 1px solid rgba(0, 255, 136, 0.2) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+.card:hover,
+.card.is-touched {
+  transform: translateY(-6px) scale(1.015) !important;
+  border-color: #00ff88 !important;
+  box-shadow: 0 0 25px rgba(0, 255, 136, 0.45), 0 10px 20px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* ===== BOTONES CON GLOW / NEÓN ===== */
+.btn-primary, .btn-buy, .social-btn {
+  background: linear-gradient(135deg, #00ff88 0%, #00b36b 100%) !important;
+  color: #0b0f19 !important;
+  font-weight: 700 !important;
+  border: none !important;
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.3) !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-primary:hover, .btn-buy:hover, .social-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.7) !important;
+}
+
+/* ===== REDES SOCIALES EN FOOTER CON ESTILO CYBER ===== */
+.social-btn {
+  background: #1a243b !important;
+  color: #00ff88 !important;
+  border: 1px solid rgba(0, 255, 136, 0.4) !important;
+}
+
+.social-btn:hover {
+  background: #00ff88 !important;
+  color: #0b0f19 !important;
+}
    /* ===== Efecto de luz flotante / sombra en las tarjetas ===== */
   .card {
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
