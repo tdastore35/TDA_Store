@@ -890,15 +890,25 @@ New Avengers</option>"
 <option value="Wednesday">Wednesday</option>
 <option value="World of Warcraft (WOW)">World of Warcraft (WOW)</option>
 <option value="WWE">WWE</option>
-  </select>
-</div>
-   <!-- 2. Buscador de texto con la lupa alineada por CSS -->
-  <div class="search-box" style="flex: 2; min-width: 260px; max-width: 500px; position: relative; display: flex; align-items: center;">
-    <span class="search-box__icon" style="position: absolute; left: 14px; pointer-events: none; font-size: 16px;">🔎</span>
+    </select>
+  </div>
+
+  <!-- 2. Buscador de texto con lupa arreglada -->
+  <div class="search-box" style="flex: 2; min-width: 260px; max-width: 500px; position: relative; display: flex; align-items: center; margin: 0;">
+    <span class="search-box__icon" style="position: absolute; left: 14px; pointer-events: none; font-size: 16px; z-index: 2;">🔎</span>
     <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding: 12px 12px 12px 42px; background: #FFFFFF; border: 2px solid #00A83B; border-radius: 12px; font-weight: 600; font-size: 14px; outline: none; color: #151515;">
   </div>
 
-</div> 
+  <!-- 3. Selector de orden (A-Z / Z-A / Recientes) -->
+  <div class="sort-box" style="width: 140px;">
+    <select id="sortSelect" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; outline: none;">
+      <option value="az">A-Z</option>
+      <option value="za">Z-A</option>
+      <option value="recientes">Más recientes</option>
+    </select>
+  </div>
+
+</div>
     <div class="search-box">
       <span class="search-box__icon">🔎</span>
       <input type="text" id="searchInput" placeholder="Buscar producto por nombre...">
