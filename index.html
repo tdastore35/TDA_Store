@@ -31,6 +31,25 @@
 
   --banner-black:#080808;
 }
+  <!-- ===== FILTRO DE SUBCATEGORÍAS / FRANQUICIAS ===== -->
+<div class="filter-container" style="margin: 15px auto; max-width: 600px; text-align: center;">
+  <select id="subcatFilter" class="form-control" style="width: 100%; padding: 10px; background: #131b2e; color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.4); border-radius: 8px; font-weight: 600;">
+    <option value="">✨ Todas las Franquicias y Subcategorías ✨</option>
+    <!-- Aquí agregamos las principales de tu lista -->
+    <option value="Attack on Titan">Attack on Titan</option>
+    <option value="Batman">DC / Batman</option>
+    <option value="Chainsaw Man">Chainsaw Man</option>
+    <option value="Dragon Ball Z">Dragon Ball Z</option>
+    <option value="Marvel Spider-Man">Marvel Spider-Man</option>
+    <option value="Marvel Venom">Marvel Venom</option>
+    <option value="Naruto">Naruto</option>
+    <option value="One Piece">One Piece</option>
+    <option value="Pokemon">Pokemon</option>
+    <option value="Star Wars">Star Wars</option>
+    <option value="Transformers">Transformers</option>
+    <!-- (Puedes pegar el resto de la lista aquí abajo) -->
+  </select>
+</div>
   /* ===== RETÍCULA / GRID ESTILO GAMER EN EL FONDO ===== */
 body {
   background-color: #0b0f19 !important; /* Fondo oscuro tipo setup */
@@ -48,22 +67,6 @@ h1, .brand-title {
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
   font-weight: 800;
-}
-
-/* ===== TARJETAS CON EFECTO TECH GAMER ===== */
-.card {
-  background: #131b2e !important;
-  border: 1px solid rgba(0, 255, 136, 0.2) !important;
-  border-radius: 12px !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-}
-
-.card:hover,
-.card.is-touched {
-  transform: translateY(-6px) scale(1.015) !important;
-  border-color: #00ff88 !important;
-  box-shadow: 0 0 25px rgba(0, 255, 136, 0.45), 0 10px 20px rgba(0, 0, 0, 0.6) !important;
 }
 
 /* ===== BOTONES CON GLOW / NEÓN ===== */
