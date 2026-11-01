@@ -2387,6 +2387,93 @@ if(galleryMain && images.length > 1){
       }
     });
   });
+<script>
+  // 1. Forzar que al recargar la página el filtro vuelva a la opción inicial
+  window.addEventListener('DOMContentLoaded', () => {
+    const selectEl = document.getElementById('subcatFilter');
+    if (selectEl) selectEl.value = "";
+  });
+
+  // Función principal de filtrado inteligente
+  function applyFilters() {
+    const searchInput = document.getElementById('searchInput');
+    const selectEl = document.getElementById('subcatFilter');
+    if (!selectEl) return;
+
+    const searchText = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const subcatValue = selectEl.value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+    
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const textContent = card.textContent.toLowerCase();
+      let show = false;
+
+      // 2. Prioridad: Si hay texto en el buscador, prioriza la búsqueda de texto
+      if (searchText !== "") {
+        show = textContent.includes(searchText);
+      } else {
+        // Si no hay texto de búsqueda, usa el filtro de subcategoría
+        show = (subcatValue === "" || textContent.includes(subcatValue));
+      }
+
+      if (show) {
+        card.style.display = "";
+        visibleCount++;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    // 3. Alerta visual: Cambiar el borde y brillo del selector si hay un filtro activo
+    if (subcatValue !== "") {
+      selectEl.style.borderColor = "#FFD21F";
+      selectEl.style.boxShadow = "0 0 15px rgba(255, 210, 31, 0.6)";
+    } else {
+      selectEl.style.borderColor = "#00A83B";
+      selectEl.style.boxShadow = "none";
+    }
+
+    // 4. Mensaje de "Sin resultados" en la tienda
+    let emptyMsg = document.getElementById('emptyFilterMsg');
+    if (!emptyMsg) {
+      emptyMsg = document.createElement('div');
+      emptyMsg.id = 'emptyFilterMsg';
+      emptyMsg.style.cssText = 'text-align:center; padding:40px; color:#e2e8f0; font-size:16px; font-weight:600; width:100%; display:none; grid-column: 1 / -1;';
+      emptyMsg.innerHTML = '⚠️ No se encontraron productos con este filtro o búsqueda. Prueba seleccionando otra opción.';
+      
+      const grid = document.querySelector('.grid') || document.querySelector('#grid') || document.querySelector('.catalog-grid') || document.querySelector('main');
+      if (grid) grid.appendChild(emptyMsg);
+    }
+
+    if (emptyMsg) {
+      emptyMsg.style.display = (visibleCount === 0 && (searchText !== "" || subcatValue !== "")) ? 'block' : 'none';
+    }
+  }
+
+  // Eventos para activar el filtro al cambiar el selector o escribir
+  document.getElementById('subcatFilter').addEventListener('change', applyFilters);
+  
+  const searchInputEl = document.getElementById('searchInput');
+  if (searchInputEl) {
+    searchInputEl.addEventListener('input', applyFilters);
+  }
+
+  // 5. Solución definitiva: Re-aplicar el filtro automáticamente si se cambia de sección/rail
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.category-rail') || e.target.closest('.sub-rail') || e.target.closest('[data-category]')) {
+      setTimeout(applyFilters, 120);
+    }
+  });
+
+  if (typeof window.renderGrid === 'function') {
+    const originalRenderGrid = window.renderGrid;
+    window.renderGrid = function(...args) {
+      originalRenderGrid.apply(this, args);
+      setTimeout(applyFilters, 80);
+    };
+  }
 </script>
 </body>
 </html>
