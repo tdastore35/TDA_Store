@@ -695,53 +695,6 @@
     font-size:12px;
   }
   }
-<style>
-  /* Contenedor general de la barra */
-  .store-toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin: 20px auto;
-    max-width: 950px; /* Ancho controlado para que no se estire de más en PC */
-    padding: 0 15px;
-  }
-
-  /* Elementos individuales adaptables */
-  .store-toolbar .filter-container {
-    flex: 1.2;
-    min-width: 220px;
-    max-width: 280px;
-  }
-  .store-toolbar .search-box {
-    flex: 1.8;
-    min-width: 240px;
-    max-width: 380px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin: 0;
-  }
-  .store-toolbar .sort-box {
-    flex: 0.8;
-    min-width: 130px;
-    max-width: 160px;
-  }
-
-  /* Ajuste automático para celulares pequeños */
-  @media (max-width: 768px) {
-    .store-toolbar {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .store-toolbar .filter-container,
-    .store-toolbar .search-box,
-    .store-toolbar .sort-box {
-      max-width: 100% !important;
-      width: 100% !important;
-    }
-  }
 </style>
 </head>
 <body>
@@ -782,13 +735,10 @@
 
   <!-- ===== Search + sort ===== -->
   <div class="toolbar">
-<!-- ===== Barra de herramientas elegante ===== -->
-<div class="store-toolbar">
-
-  <!-- 1. Franquicias -->
-  <div class="filter-container">
-    <select id="subcatFilter" style="width: 100%; padding: 10px 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 13px; outline: none;">
-<option value="">✨ Franquicias ✨</option>
+<!-- ===== FILTRO DE SUBCATEGORÍAS ===== -->
+<div class="filter-container" style="margin: 15px auto; max-width: 600px; text-align: center; padding: 0 15px;">
+  <select id="subcatFilter" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px;">
+<option value="">✨ Todas las Franquicias y Subcategorías ✨</option>
 <option value="Attack on Titan">Attack on Titan</option>
 <option value="Back to the Future (Volver al Futuro)">Back to the Future (Volver al Futuro)</option>
 <option value="Basketball">Basketball</option>
@@ -937,27 +887,25 @@ New Avengers</option>"
 <option value="Wednesday">Wednesday</option>
 <option value="World of Warcraft (WOW)">World of Warcraft (WOW)</option>
 <option value="WWE">WWE</option>
-    </select>
-  </div>
-
-  <!-- 2. Buscador con lupa centrada -->
-  <div class="search-box">
-    <span class="search-box__icon" style="position: absolute; left: 14px; pointer-events: none; font-size: 15px; z-index: 2;">🔎</span>
-    <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding: 11px 12px 11px 40px; background: #FFFFFF; border: 2px solid #00A83B; border-radius: 12px; font-weight: 600; font-size: 14px; outline: none; color: #151515;">
-  </div>
-
-  <!-- 3. Orden (A-Z / Precios) -->
-  <div class="sort-box">
-    <select id="sortSelect" style="width: 100%; padding: 11px 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; outline: none;">
-      <option value="az">A-Z</option>
-      <option value="za">Z-A</option>
-      <option value="recientes">Más recientes</option>
-      <option value="precio-asc">Menor precio</option>
-      <option value="precio-desc">Mayor precio</option>
-    </select>
-  </div>
-
+  </select>
 </div>
+    
+    <div class="search-box">
+      <span class="search-box__icon">🔎</span>
+      <input type="text" id="searchInput" placeholder="Buscar producto por nombre...">
+    </div>
+    <div class="sort-box">
+      <select id="sortSelect">
+  <option value="az">A-Z</option>
+  <option value="za">Z-A</option>
+
+  <option value="recientes">Más recientes</option>
+
+  <option value="precio-asc">Menor precio</option>
+  <option value="precio-desc">Mayor precio</option>
+</select>
+    </div>
+  </div>
 
   <!-- ===== Category rail ===== -->
   <div class="rail-wrap">
