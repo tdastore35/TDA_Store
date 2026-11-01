@@ -2419,8 +2419,17 @@ if(galleryMain && images.length > 1){
     if (!emptyMsg) {
       emptyMsg = document.createElement('div');
       emptyMsg.id = 'emptyFilterMsg';
-      emptyMsg.style.cssText = 'text-align:center; padding:40px; color:#e2e8f0; font-size:16px; font-weight:600; width:100%; display:none; grid-column: 1 / -1;';
-      emptyMsg.innerHTML = '⚠️ No se encontraron productos con este filtro o búsqueda. Prueba seleccionando otra opción.';
+      emptyMsg.style.cssText = 'text-align:center; padding:30px 15px; width:100%; display:none; grid-column: 1 / -1;';
+      emptyMsg.innerHTML = `
+        <div style="max-width: 320px; margin: 0 auto; background: #131b2e; border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+          <img src="TU_ENLACE_DE_IMAGEN_AQUI" alt="Technical Difficulties" style="width: 100%; border-radius: 10px; margin-bottom: 12px; object-fit: contain;">
+          <p style="color: #00ff88; font-weight: 700; font-size: 14px; margin: 0;">No encontramos productos con este filtro o búsqueda. ¡Prueba con otra opción!</p>
+        </div>
+      `;
+      
+      const grid = document.querySelector('.grid') || document.querySelector('#grid') || document.querySelector('.catalog-grid') || document.querySelector('main');
+      if (grid) grid.appendChild(emptyMsg);
+    }
       
       const grid = document.querySelector('.grid') || document.querySelector('#grid') || document.querySelector('.catalog-grid') || document.querySelector('main');
       if (grid) grid.appendChild(emptyMsg);
