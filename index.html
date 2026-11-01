@@ -9,68 +9,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Baloo+2:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
+  
+  :root{
+  --green:#00A83B;
+  --green-dark:#006B2D;
+  --green-light:#6FE05A;
 
-/* ==========================================================
-   TEMÁTICA HALLOWEEN — CÓDIGO COMPLETO TDA STORE
-   ========================================================== */
-.card {
-  border: 1px solid rgba(230, 81, 0, 0.4) !important;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+  --gold:#FFD21F;
+
+  --cream:#FFF1C2;
+  --paper:#FFFFFF;
+
+  --red:#E52B2B;
+
+  --ink:#151515;
+  --ink-soft:#555555;
+
+  --line:rgba(0,0,0,0.16);
+
+  --radius:20px;
+
+  --banner-black:#080808;
 }
+   /* ===== Efecto de luz flotante / sombra en las tarjetas ===== */
+  .card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+  }
 
-/* Al pasar el cursor en PC y al tocar en celular */
-.card:hover,
-.card.is-touched {
-  transform: translateY(-4px) scale(1.01) !important;
-  border-color: #FF9800 !important;
-  box-shadow: 0 0 25px rgba(255, 152, 0, 0.75), 0 0 12px rgba(255, 107, 0, 0.5) !important;
-}
-   
-   :root {
-  --green: #E65100 !important;          /* Naranja Calabaza Cálido */
-  --green-dark: #8C2A00 !important;     /* Naranja Cobre Oscuro */
-  --green-light: #FF9800 !important;    /* Naranja Cálido Brillante */
+  .card:hover,
+  .card.is-touched {
+    transform: translateY(-4px) scale(1.01) !important;
+    border-color: var(--green) !important;
+    box-shadow: 0 0 20px rgba(0, 168, 59, 0.35), 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
 
-  --gold: #FFC107 !important;           /* Dorado / Amarillo Bruja */
-
-  --cream: #120A16 !important;          /* Noche Oscura Cálida */
-  --paper: #1E1225 !important;          /* Tarjetas Púrpura Tenebroso */
-
-  --ink: #FFF8E7 !important;            /* Texto Crema / Hueso */
-  --ink-soft: #D1C4E9 !important;       /* Texto Secundario Clarito */
-
-  --line: rgba(230, 81, 0, 0.35) !important;
-  --banner-black: #0A050D !important;
-}
-
-/* Fondo de la página con patrón sutil de telaraña */
-body {
-  background-color: #120A16 !important;
-  background-image: 
-    radial-gradient(circle at 50% 20%, rgba(230, 81, 0, 0.12) 0%, transparent 70%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M60 0 L60 120 M0 60 L120 60 M17.5 17.5 L102.5 102.5 M17.5 102.5 L102.5 17.5 M60 30 Q45 45 30 60 Q45 75 60 90 Q75 75 90 60 Q75 45 60 30 Z M60 15 Q37.5 37.5 15 60 Q37.5 82.5 60 105 Q82.5 82.5 105 60 Q82.5 37.5 60 15 Z' stroke='rgba(255,255,255,0.04)' stroke-width='1' fill='none'/%3E%3C/svg%3E") !important;
-  color: #FFF8E7 !important;
-}
-
-/* EFECTO HOVER RESPLANDOR/ALUMBRADO DE HALLOWEEN EN LAS TARJETAS */
-.card {
-  border: 1px solid rgba(230, 81, 0, 0.4) !important;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
-}
-
-.card:hover {
-  transform: translateY(-6px) scale(1.01) !important;
-  border-color: #FF9800 !important;
-  box-shadow: 0 0 25px rgba(255, 152, 0, 0.65), 0 0 10px rgba(255, 107, 0, 0.4) !important; /* Alumbra con luz naranja brillante */
-}
-
-/* Título principal del Hero ("EDICIÓN DE ESPANTO") */
-.hero h1 {
-  color: #FF9800 !important;
-  text-shadow: 0 0 10px rgba(255, 152, 0, 0.4) !important;
-}
-
-   /* ===== Sección de Redes Sociales en el Footer ===== */
+  /* ===== Sección de Redes Sociales en el Footer ===== */
   .footer-socials {
     display: flex;
     justify-content: center;
@@ -107,270 +80,6 @@ body {
     height: 16px;
     object-fit: contain;
   }
-/* 1. Color de texto dentro de TODOS los inputs (Nombre, Ciudad, etc.) */
-  .field input,
-  .region-select input,
-  .region-select select {
-    color: #FFF8E7 !important; /* Texto blanco/crema muy claro y legible */
-    background-color: #1E1225 !important; /* Fondo oscuro acorde a Halloween */
-  }
-  
-  .field input::placeholder,
-  .region-select input::placeholder {
-    color: #B3A3C4 !important; /* Color claro para el texto guía (placeholder) */
-  }
-
-  /* 2. Corrección para el texto del aviso flotante o de estado abajo */
-  .status-banner__box,
-  .contra-msg,
-  #statusBox {
-    color: #FFF8E7 !important; /* Texto claro para que no se pierda con el fondo */
-    font-weight: 600 !important;
-  }
-/* Título de la sección del catálogo ("BLOQUES DE CONSTRUCCIÓN", etc.) */
-.section-title h2 {
-  color: #FF9800 !important; /* Naranja brillante bien legible */
-  text-shadow: 0 0 8px rgba(255, 152, 0, 0.4) !important;
-}
-
-/* 1. Nombre de la tienda en la barra superior */
-.brand__text .display {
-  color: #FFC107 !important;
-  text-shadow: 0 0 8px rgba(255, 193, 7, 0.4);
-}
-
-/* 2. Banner: "ENTRE MÁS COMPRAS, MÁS AHORRAS" */
-.discount-banner__title {
-  color: #FFA726 !important;
-  text-shadow: 0 0 6px rgba(255, 167, 38, 0.3);
-}
-
-/* 3. Buscador y filtro desplegable (A-Z) */
-.search-box input {
-  background-color: #1E1225 !important;
-  color: #FFFFFF !important;
-  border-color: #E65100 !important;
-}
-.search-box input::placeholder {
-  color: #B3A3C4 !important;
-}
-.sort-box select {
-  background-color: #1E1225 !important;
-  color: #FFC107 !important;
-  border-color: #E65100 !important;
-}
-
-/* 4. Precios de las tarjetas del catálogo */
-.card__price {
-  color: #FFC107 !important;
-  font-size: 16px !important;
-  text-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
-}
-
-/* 5. Subtítulos, cantidad de productos y descripciones de las tarjetas */
-.section-title span,
-.card__desc,
-.card__cat {
-  color: #D1C4E9 !important;
-}
-
-/* 6. Círculo del logo/icono flotante de la categoría en la imagen */
-.card__patch {
-  background-color: #FFFFFF !important;
-  border: 2px solid #FF9800 !important;
-  color: #120A16 !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* 7. Ficha del Producto (Modal) */
-.modal__head h3 {
-  color: #FFFFFF !important;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
-}
-
-#closeProductModalBtn {
-  color: #FFFFFF !important;
-  font-size: 24px !important;
-  font-weight: 800 !important;
-  opacity: 1 !important;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
-}
-
-/* Título del producto dentro de la ficha (Modal) */
-.pd-name {
-  color: #FF9800 !important; /* Naranja brillante bien claro */
-  text-shadow: 0 0 8px rgba(255, 152, 0, 0.4) !important;
-}
-
-.pd-description__more {
-  color: #FFC107 !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-}
-
-.pd-price {
-  color: #FFC107 !important;
-  font-size: 22px !important;
-  text-shadow: 0 0 8px rgba(255, 193, 7, 0.3);
-}
-
-.pd-qty__label,
-.pd-variants__label {
-  color: #FFF8E7 !important;
-}
-
-/* Botones de Variantes / Opciones de productos */
-.variant-chip {
-  background-color: #1E1225 !important;
-  color: #FFC107 !important;
-  border: 1.5px solid #FF9800 !important;
-}
-
-.variant-chip.is-selected {
-  background-color: #E65100 !important;
-  color: #FFFFFF !important;
-  border-color: #FF9800 !important;
-}
-
-.pd-qty__stepper button {
-  background-color: #2A173B !important;
-  color: #FFC107 !important;
-  border: 1.5px solid #FF9800 !important;
-  font-size: 18px !important;
-  font-weight: 800 !important;
-}
-
-.pd-qty__stepper span {
-  color: #FFFFFF !important;
-  font-size: 16px !important;
-  font-weight: 700 !important;
-}
-
-/* 8. Carrito / Orden (Drawer) */
-.drawer__head h2 {
-  color: #FFFFFF !important;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
-}
-
-.drawer__close {
-  color: #FFFFFF !important;
-  font-size: 24px !important;
-  font-weight: 800 !important;
-  opacity: 1 !important;
-}
-
-.cart-item__unit {
-  color: #FFC107 !important;
-}
-
-.cart-item__remove {
-  color: #FF5252 !important;
-}
-
-.qty button {
-  background-color: #2A173B !important;
-  color: #FFC107 !important;
-  border: 1px solid #FF9800 !important;
-}
-
-.qty span {
-  color: #FFFFFF !important;
-}
-
-.option-block__label {
-  color: #FFF8E7 !important;
-}
-
-.pay-toggle label {
-  border-color: #FF9800 !important;
-  color: #FFC107 !important;
-}
-
-.region-select input {
-  background-color: #1E1225 !important;
-  color: #FFFFFF !important;
-  border-color: #E65100 !important;
-}
-
-.region-select input::placeholder {
-  color: #B3A3C4 !important;
-}
-
-.receipt {
-  background-color: #1E1225 !important;
-  border-color: #FF9800 !important;
-}
-
-.receipt__row {
-  color: #FFF8E7 !important;
-}
-
-.receipt__row.discount {
-  color: #FFA726 !important;
-}
-
-.receipt__row.total {
-  color: #FFC107 !important;
-  font-size: 17px !important;
-}
-
-.drawer__nudge {
-  background-color: rgba(230, 81, 0, 0.18) !important;
-  border-color: #FF9800 !important;
-  color: #FFC107 !important;
-}
-
-/* Telarañas en las esquinas superiores */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 140px;
-  height: 140px;
-  pointer-events: none;
-  z-index: 100;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L0 100 Z M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M20 0 Q20 20 0 20 M40 0 Q40 40 0 40 M60 0 Q60 60 0 60 M80 0 Q80 80 0 80' stroke='rgba(255,152,0,0.45)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 140px;
-  height: 140px;
-  pointer-events: none;
-  z-index: 100;
-  transform: scaleX(-1);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L0 100 Z M0 0 L100 100 M0 0 L50 100 M0 0 L100 50 M20 0 Q20 20 0 20 M40 0 Q40 40 0 40 M60 0 Q60 60 0 60 M80 0 Q80 80 0 80' stroke='rgba(255,152,0,0.45)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-  
-  :root{
-  --green:#00A83B;
-  --green-dark:#006B2D;
-  --green-light:#6FE05A;
-
-  --gold:#FFD21F;
-
-  --cream:#FFF1C2;
-  --paper:#FFFFFF;
-
-  --red:#E52B2B;
-
-  --ink:#151515;
-  --ink-soft:#555555;
-
-  --line:rgba(0,0,0,0.16);
-
-  --radius:20px;
-
-  --banner-black:#080808;
-}
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
@@ -553,25 +262,25 @@ body::after {
     box-shadow:0 2px 0 rgba(20,35,28,0.05);
     position:relative;
   }
-  .card__art {
-    position: relative;
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-    background: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px; /* Tenía un padding mayor, lo que dejaba más espacio alrededor */
-    border-radius: 16px;
-  }
+  .card__art{
+  position:relative;
+  aspect-ratio:1 / 1;
+  overflow:hidden;
+  background:#ffffff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px;
+  border-radius: 16px;
+}
 
-  .card__art img {
-    width: 100% !important;   
-    height: 100% !important;  
-    object-fit: contain;     /* Ajustaba la imagen completa mostrando todo el fondo original con aire */
+.card__art img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
     transition: opacity .2s ease;
-    border-radius: 12px;
-  }
+    border-radius: 16px;
+}
   .card__art.is-mosaic{
     display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2px;
   }
@@ -776,27 +485,27 @@ body::after {
   cursor:pointer;
 }
   .product-modal .modal__body{ overflow-y:auto; }
-    .pd-gallery__main {
-    position: relative;
-    width: 100%;
-    max-width: 300px;
-    aspect-ratio: 1/1;
-    margin: 0 auto;
-    border-radius: 16px;
-    overflow: hidden;
-    background: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-  }
+ .pd-gallery__main{
+    position:relative;
+    width:100%;
+    max-width:300px;
+    aspect-ratio:1/1;
+    margin:0 auto;
+    border-radius:16px;
+    overflow:hidden;
+    background:#ffffff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:10px;
+}
 
-  .pd-gallery__main img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain;
+.pd-gallery__main img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
     border-radius: 12px;
-  }
+}
 
 .pd-gallery__arrow{
     position:absolute;
@@ -1007,11 +716,11 @@ body::after {
     </div>
   </div>
 
- <!-- ===== Hero Halloween ===== -->
+  <!-- ===== Hero ===== -->
  <div class="hero">
   <div>
-    <h1>🎃 Edición de Espanto · TDA Store 🕷️</h1>
-    <p>¡Coleccionables, mini-figuras y novedades antes de que desaparezcan! Arma tu pedido en el carrito y nos encargamos de todo. 🦇👻</p>
+    <h1>Catálogo TDA Store</h1>
+    <p>Elige tus productos favoritos, arma tu carrito y envía tu pedido. Del resto nos encargamos nosotros. 😉</p>
   </div>
   </div>
 
@@ -1189,242 +898,238 @@ body::after {
   //    el cliente no está en esta lista, se usa SHIPPING_DEFAULT.
   //    Para agregar o corregir una ciudad, solo edita este listado.
   const SHIPPING_BY_CITY = {
-    "Acacías": 16000,
-    "Aguachica": 16000,
-    "Aguazul": 16000,
-    "Alcalá": 16000,
+    "Acacías": 17000,
+    "Aguachica": 17000,
+    "Aguazul": 17000,
+    "Alcalá": 17000,
     "Alvarado": 11000,
-    "Andes (Antioquia)": 16000,
-    "Anolaima": 16000,
-    "Anserma": 16000,
-    "Aratoca": 16000,
-    "Arauca": 16000,
-    "Argelia (Cauca)": 16000,
-    "Argelia (Valle del Cauca)": 16000,
+    "Andes (Antioquia)": 17000,
+    "Anolaima": 17000,
+    "Anserma": 17000,
+    "Aratoca": 17000,
+    "Arauca": 17000,
+    "Argelia (Cauca)": 17000,
+    "Argelia (Valle del Cauca)": 17000,
     "Armenia (Quindío)": 11000,
     "Armero (Guayabal)": 11000,
     "Ataco": 11000,
-    "Ayapel": 16000,
-    "Barichara": 16000,
-    "Barrancabermeja": 16000,
-    "Barranquilla": 16000,
-    "Belalcázar (Caldas)": 16000,
-    "Bello": 16000,
+    "Ayapel": 17000,
+    "Barichara": 17000,
+    "Barrancabermeja": 17000,
+    "Barranquilla": 17000,
+    "Belalcázar (Caldas)": 17000,
+    "Bello": 17000,
     "Bogotá": 11000,
     "Briseño Sopo": 11000,
-    "Bucaramanga": 16000,
-    "Buenaventura": 16000,
-    "Buenavista (Córdoba)": 16000,
-    "Buga": 16000,
-    "Cachipay": 16000,
-    "Caicedonia": 16000,
+    "Bucaramanga": 17000,
+    "Buenaventura": 17000,
+    "Buenavista (Córdoba)": 17000,
+    "Buga": 17000,
+    "Cachipay": 17000,
+    "Caicedonia": 17000,
     "Cajamarca": 11000,
     "Cajicá": 11000,
-    "Calarcá": 16000,
-    "Caldas (Antioquia)": 16000,
+    "Calarcá": 17000,
+    "Caldas (Antioquia)": 17000,
     "Cali": 11000,
-    "Calima Darién": 16000,
+    "Calima Darién": 17000,
     "Campoalegre": 11000,
-    "Candelaria": 16000,
-    "Cantagallo": 16000,
-    "Caparrapí": 16000,
+    "Candelaria": 17000,
+    "Cantagallo": 17000,
+    "Caparrapí": 17000,
     "Carmen de Apicalá": 11000,
-    "Carmen de Viboral": 16000,
-    "Cartagena de Indias": 16000,
+    "Carmen de Viboral": 17000,
+    "Cartagena de Indias": 17000,
     "Cartago": 11000,
-    "Caucasia": 16000,
+    "Caucasia": 17000,
     "Chaparral": 11000,
     "Chía": 11000,
     "Chicoral": 11000,
-    "Chinácota": 16000,
-    "Chinchiná": 16000,
-    "Chinú": 16000,
-    "Chiquinquirá": 16000,
-    "Ciénega (Boyacá)": 16000,
-    "Circasia": 16000,
-    "Cisneros": 16000,
-    "Ciudad Bolívar": 16000,
+    "Chinácota": 17000,
+    "Chinchiná": 17000,
+    "Chinú": 17000,
+    "Chiquinquirá": 17000,
+    "Ciénega (Boyacá)": 17000,
+    "Circasia": 17000,
+    "Ciudad Bolívar": 17000,
     "Coello": 11000,
-    "Cogua": 16000,
-    "Covarachía": 16000,
-    "Coveñas": 16000,
+    "Cogua": 17000,
+    "Covarachía": 17000,
+    "Coveñas": 17000,
     "Coyaima": 11000,
-    "Cúcuta": 16000,
-    "Cumbal": 16000,
+    "Cúcuta": 17000,
+    "Cumbal": 17000,
     "Dolores (Tolima)": 11000,
     "Dosquebradas": 11000,
-    "Duitama": 16000,
-    "El Aguila": 16000,
-    "El Bagre": 16000,
-    "El Cairo": 16000,
-    "El Colegio (Mesitas)": 16000,
-    "El Copey": 16000,
-    "El Dovio": 16000,
-    "Envigado": 16000,
+    "Duitama": 17000,
+    "El Aguila": 17000,
+    "El Bagre": 17000,
+    "El Cairo": 17000,
+    "El Colegio (Mesitas)": 17000,
+    "El Copey": 17000,
+    "El Dovio": 17000,
+    "Envigado": 17000,
     "Espinal": 11000,
     "Facatativá": 11000,
-    "Filandia": 16000,
+    "Filandia": 17000,
     "Flandes": 11000,
     "Florencia Caquetá": 11000,
-    "Floridablanca": 16000,
-    "Fosca": 16000,
+    "Floridablanca": 17000,
+    "Fosca": 17000,
     "Fresno": 11000,
     "Frontino": 11000,
     "Funza": 11000,
-    "Fusagasugá": 16000,
-    "Gachancipá": 16000,
+    "Fusagasugá": 17000,
+    "Gachancipá": 17000,
     "Gaitania": 11000,
-    "Galeras": 16000,
-    "Garagoa": 16000,
-    "Garzón": 16000,
-    "Genova (Quindío)": 16000,
-    "Gigante": 16000,
-    "Giraldo": 16000,
+    "Galeras": 17000,
+    "Garagoa": 17000,
+    "Garzón": 17000,
+    "Genova (Quindío)": 17000,
+    "Gigante": 17000,
+    "Giraldo": 17000,
     "Girardot": 11000,
-    "Girón": 16000,
-    "Guadalajara de Buga": 16000,
+    "Girón": 17000,
     "Gualanday": 11000,
-    "Guamal": 16000,
+    "Guamal": 17000,
     "Guamo": 11000,
-    "Guatape": 16000,
+    "Guatape": 17000,
     "Herrera": 11000,
-    "Hispania": 16000,
-    "Honda": 16000,
+    "Hispania": 17000,
+    "Honda": 17000,
     "Ibagué": 7000,
     "Icononzo": 11000,
-    "Ipiales": 16000,
-    "Irra": 16000,
-    "Itagüi": 16000,
-    "Jamundí": 16000,
-    "Jardín": 16000,
-    "La Apartada": 16000,
+    "Ipiales": 17000,
+    "Irra": 17000,
+    "Itagüi": 17000,
+    "Jamundí": 17000,
+    "Jardín": 17000,
+    "La Apartada": 17000,
     "La Calera": 11000,
-    "La Ceja": 16000,
-    "La Dorada": 16000,
-    "La Estrella": 16000,
-    "La Merced": 16000,
-    "La Plata": 16000,
-    "La Tebaida": 16000,
-    "La Unión": 16000,
-    "La Victoria": 16000,
+    "La Ceja": 17000,
+    "La Dorada": 17000,
+    "La Estrella": 17000,
+    "La Merced": 17000,
+    "La Plata": 17000,
+    "La Tebaida": 17000,
+    "La Unión": 17000,
+    "La Victoria": 17000,
     "La Virginia (Risaralda)": 11000,
     "Líbano": 11000,
-    "Luruaco": 16000,
+    "Luruaco": 17000,
     "Madrid": 11000,
-    "Magangué": 16000,
+    "Magangué": 17000,
     "Manizales": 11000,
-    "Manzanares": 16000,
-    "Marinilla": 16000,
+    "Manzanares": 17000,
+    "Marinilla": 17000,
     "Mariquita": 11000,
-    "Marquetalia": 16000,
-    "Marsella": 16000,
-    "Medellín": 16000,
-    "Melgar": 16000,
-    "Mistrató": 16000,
-    "Mocoa": 16000,
-    "Mondomo": 16000,
-    "Moniquirá": 16000,
-    "Montenegro": 16000,
-    "Montería": 16000,
-    "Monterrey": 16000,
-    "Morelia": 16000,
+    "Marquetalia": 17000,
+    "Marsella": 17000,
+    "Medellín": 17000,
+    "Melgar": 17000,
+    "Mistrató": 17000,
+    "Mocoa": 17000,
+    "Mondomo": 17000,
+    "Moniquirá": 17000,
+    "Montenegro": 17000,
+    "Montería": 17000,
+    "Monterrey": 17000,
+    "Morelia": 17000,
     "Mosquera": 11000,
     "Murillo": 11000,
     "Natagaima": 11000,
-    "Necoclí": 16000,
-    "Neira": 16000,
+    "Necoclí": 17000,
+    "Neira": 17000,
     "Neiva": 11000,
-    "Nemocón": 16000,
-    "Obando": 16000,
-    "Orito": 16000,
+    "Nemocón": 17000,
+    "Obando": 17000,
+    "Orito": 17000,
     "Ortega": 11000,
-    "Pácora": 16000,
-    "Palestina": 16000,
-    "Palmira": 16000,
+    "Pácora": 17000,
+    "Palestina": 17000,
+    "Palmira": 17000,
     "Palocabildo": 11000,
-    "Pasto": 16000,
-    "Pensilvania": 16000,
+    "Pasto": 17000,
+    "Pensilvania": 17000,
     "Pereira": 11000,
-    "Piedecuesta": 16000,
-    "Pitalito": 16000,
+    "Piedecuesta": 17000,
+    "Pitalito": 17000,
     "Planadas": 11000,
-    "Plato": 16000,
-    "Popayán": 16000,
-    "Puerto Boyacá": 16000,
-    "Puerto Colombia": 16000,
-    "Puerto Gaitán": 16000,
+    "Plato": 17000,
+    "Popayán": 17000,
+    "Puerto Boyacá": 17000,
+    "Puerto Colombia": 17000,
+    "Puerto Gaitán": 17000,
     "Purificación": 11000,
-    "Quibdó": 16000,
-    "Quimbaya": 16000,
-    "Quinchia": 16000,
-    "Rionegro (Antioquia)": 16000,
-    "Rionegro (Santander)": 16000,
+    "Quibdó": 17000,
+    "Quimbaya": 17000,
+    "Quinchia": 17000,
+    "Rionegro (Antioquia)": 17000,
+    "Rionegro (Santander)": 17000,
     "Rivera": 11000,
-    "Roldanillo": 16000,
+    "Roldanillo": 17000,
     "Roncesvalles": 11000,
     "Rovira": 11000,
-    "Sáchica": 16000,
-    "Saladoblanco": 16000,
-    "Salamina": 16000,
+    "Sáchica": 17000,
+    "Saladoblanco": 17000,
+    "Salamina": 17000,
     "Saldaña": 11000,
-    "Samacá": 16000,
-    "Samaná": 16000,
-    "San Alberto": 16000,
-    "San Antero": 16000,
+    "Samacá": 17000,
+    "Samaná": 17000,
+    "San Alberto": 17000,
+    "San Antero": 17000,
     "San Antonio": 11000,
-    "San Bernardo": 16000,
-    "San Gil": 16000,
-    "San José del Guaviare": 16000,
-    "San Juan de Betulia": 16000,
+    "San Bernardo": 17000,
+    "San Gil": 17000,
+    "San José del Guaviare": 17000,
+    "San Juan de Betulia": 17000,
     "San Luís": 11000,
-    "San Martín": 16000,
-    "San Miguel de Sema": 16000,
-    "San Vicente de Chucurí": 16000,
-    "San Vicente del Caguán": 16000,
-    "Santa Fé": 16000,
+    "San Martín": 17000,
+    "San Miguel de Sema": 17000,
+    "San Vicente de Chucurí": 17000,
+    "San Vicente del Caguán": 17000,
+    "Santa Fé": 17000,
     "Santa Isabel": 11000,
-    "Santa Marta": 16000,
+    "Santa Marta": 17000,
     "Santa Rosa de Cabal": 11000,
-    "Santa Rosa de Osos": 16000,
-    "Santa Rosa de Viterbo": 16000,
-    "Santander de Quilichao": 16000,
+    "Santa Rosa de Osos": 17000,
+    "Santa Rosa de Viterbo": 17000,
+    "Santander de Quilichao": 17000,
     "Santiago Pérez - Tolima": 11000,
-    "Sardinata": 16000,
-    "Sevilla": 16000,
-    "Sibaté": 16000,
-    "Sibundoy": 16000,
-    "Silvania": 16000,
-    "Sincelejo": 16000,
+    "Sardinata": 17000,
+    "Sevilla": 17000,
+    "Sibaté": 17000,
+    "Sibundoy": 17000,
+    "Silvania": 17000,
+    "Sincelejo": 17000,
     "Soacha": 11000,
-    "Socha (Boyacá)": 16000,
-    "Sogamoso": 16000,
-    "Suárez (Cauca)": 16000,
-    "Suaza": 16000,
-    "Suesca": 16000,
-    "Tabio": 16000,
-    "Támesis": 16000,
-    "Tibasosa": 16000,
-    "Tierralta": 16000,
-    "Tocancipá": 16000,
-    "Tuluá": 16000,
-    "Tumaco": 16000,
-    "Tunja": 16000,
-    "Ubaté": 16000,
-    "Valledupar": 16000,
-    " Valparaíso (Caquetá)": 16000,
+    "Socha (Boyacá)": 17000,
+    "Sogamoso": 17000,
+    "Suárez (Cauca)": 17000,
+    "Suaza": 17000,
+    "Suesca": 17000,
+    "Tabio": 17000,
+    "Támesis": 17000,
+    "Tibasosa": 17000,
+    "Tierralta": 17000,
+    "Tocancipá": 17000,
+    "Tuluá": 17000,
+    "Tumaco": 17000,
+    "Tunja": 17000,
+    "Ubaté": 17000,
+    "Valledupar": 17000,
+    " Valparaíso (Caquetá)": 17000,
     "Venadillo": 11000,
-    "Villa Rica": 16000,
+    "Villa Rica": 17000,
     "Villahermosa": 11000,
     "Villamaría": 11000,
-    "Villavicencio": 16000,
-    "Yopal": 16000,
+    "Villavicencio": 17000,
+    "Yopal": 17000,
     "Yumbo": 11000,
-    "Zarzal": 16000,
+    "Zarzal": 17000,
     "Zipaquirá": 11000,
   };
-
-  const SHIPPING_DEFAULT = 16000;
- // envío para ciudades que no están en la lista
+  const SHIPPING_DEFAULT = 17000; // envío para ciudades que no están en la lista
 
   // 4) Descuento por cantidad total de piezas en el pedido.
   //    Es un descuento POR UNIDAD (no un monto fijo total): se multiplica por
@@ -2159,7 +1864,7 @@ if(getPayMethod() === 'contraentrega'){
 
 
 const contraEntrega = document.getElementById('payCE');
-const minimoContraEntrega = 40000;
+const minimoContraEntrega = 35000;
 
 if((productsTotal + shipping) < minimoContraEntrega){
   contraEntrega.checked = false;
