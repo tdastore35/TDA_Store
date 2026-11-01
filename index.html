@@ -735,9 +735,12 @@
 
   <!-- ===== Search + sort ===== -->
   <div class="toolbar">
-<!-- ===== FILTRO DE SUBCATEGORÍAS ===== -->
-<div class="filter-container" style="margin: 15px auto; max-width: 600px; text-align: center; padding: 0 15px;">
-  <select id="subcatFilter" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px;">
+<!-- ===== Barra de herramientas unificada (Filtro + Buscador + Orden) ===== -->
+<div class="toolbar" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 15px; margin: 20px auto; max-width: 1100px; padding: 0 15px;">
+
+  <!-- 1. Selector de Subcategorías -->
+  <div class="filter-container" style="flex: 1; min-width: 240px; max-width: 320px;">
+    <select id="subcatFilter" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; outline: none;">
 <option value="">✨ Todas las Franquicias y Subcategorías ✨</option>
 <option value="Attack on Titan">Attack on Titan</option>
 <option value="Back to the Future (Volver al Futuro)">Back to the Future (Volver al Futuro)</option>
@@ -802,7 +805,6 @@ Tragones y Mazmorras</option>"
 <option value="Los Simpson">Los Simpson</option>
 <option value="Mario Bros">Mario Bros</option>
 <option value="Marvel">Marvel</option>
-<option value="Marvel ">Marvel </option>
 <option value="Marvel / DC">Marvel / DC</option>
 <option value="Marvel 4 Fantásticos">Marvel 4 Fantásticos</option>
 <option value="Marvel Capitán América">Marvel Capitán América</option>
@@ -890,7 +892,13 @@ New Avengers</option>"
 <option value="WWE">WWE</option>
   </select>
 </div>
-    
+   <!-- 2. Buscador de texto con la lupa alineada por CSS -->
+  <div class="search-box" style="flex: 2; min-width: 260px; max-width: 500px; position: relative; display: flex; align-items: center;">
+    <span class="search-box__icon" style="position: absolute; left: 14px; pointer-events: none; font-size: 16px;">🔎</span>
+    <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding: 12px 12px 12px 42px; background: #FFFFFF; border: 2px solid #00A83B; border-radius: 12px; font-weight: 600; font-size: 14px; outline: none; color: #151515;">
+  </div>
+
+</div> 
     <div class="search-box">
       <span class="search-box__icon">🔎</span>
       <input type="text" id="searchInput" placeholder="Buscar producto por nombre...">
