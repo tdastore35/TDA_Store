@@ -31,7 +31,6 @@
 
   --banner-black:#080808;
 }
-   
    /* ===== Efecto de luz flotante / sombra en las tarjetas ===== */
   .card {
     transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
@@ -699,24 +698,7 @@
 </style>
 </head>
 <body>
-  
-<!-- ===== FILTRO DE SUBCATEGORÍAS ===== -->
-<div class="filter-container" style="margin: 15px auto; max-width: 600px; text-align: center; padding: 0 15px;">
-  <select id="subcatFilter" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px;">
-    <option value="">✨ Todas las Franquicias y Subcategorías ✨</option>
-    <option value="Attack on Titan">Attack on Titan</option>
-    <option value="Batman">Batman / DC</option>
-    <option value="Chainsaw Man">Chainsaw Man</option>
-    <option value="Dragon Ball Z">Dragon Ball Z</option>
-    <option value="Marvel Spider-Man">Marvel Spider-Man</option>
-    <option value="Marvel Venom">Marvel Venom</option>
-    <option value="Naruto">Naruto</option>
-    <option value="One Piece">One Piece</option>
-    <option value="Pokemon">Pokemon</option>
-    <option value="Star Wars">Star Wars</option>
-    <option value="Transformers">Transformers</option>
-  </select>
-</div>
+
   <!-- ===== Top bar ===== -->
   <div class="topbar">
     <div class="topbar__inner">
@@ -753,6 +735,24 @@
 
   <!-- ===== Search + sort ===== -->
   <div class="toolbar">
+<!-- ===== FILTRO DE SUBCATEGORÍAS ===== -->
+<div class="filter-container" style="margin: 15px auto; max-width: 600px; text-align: center; padding: 0 15px;">
+  <select id="subcatFilter" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px;">
+    <option value="">✨ Todas las Franquicias y Subcategorías ✨</option>
+    <option value="Attack on Titan">Attack on Titan</option>
+    <option value="Batman">Batman / DC</option>
+    <option value="Chainsaw Man">Chainsaw Man</option>
+    <option value="Dragon Ball Z">Dragon Ball Z</option>
+    <option value="Marvel Spider-Man">Marvel Spider-Man</option>
+    <option value="Marvel Venom">Marvel Venom</option>
+    <option value="Naruto">Naruto</option>
+    <option value="One Piece">One Piece</option>
+    <option value="Pokemon">Pokemon</option>
+    <option value="Star Wars">Star Wars</option>
+    <option value="Transformers">Transformers</option>
+  </select>
+</div>
+    
     <div class="search-box">
       <span class="search-box__icon">🔎</span>
       <input type="text" id="searchInput" placeholder="Buscar producto por nombre...">
@@ -884,21 +884,6 @@
 <span>Habla con un asesor</span>
 
 </a>
-  <script>
-  document.getElementById('subcatFilter').addEventListener('change', function() {
-    const selectedValue = this.value.toLowerCase();
-    const cards = document.querySelectorAll('.card');
-
-    cards.forEach(card => {
-      const textContent = card.textContent.toLowerCase();
-      if (selectedValue === "" || textContent.includes(selectedValue)) {
-        card.style.display = "";
-      } else {
-        card.style.display = "none";
-      }
-    });
-  });
-</script>
 <script>
   // =========================================================================
   // CONFIGURACIÓN — esto es lo único que Jeff necesita tocar en el código.
@@ -2235,7 +2220,7 @@ if(galleryMain && images.length > 1){
       addToCart(product.id, pdState.variant, pdState.qty);
       showToast('Agregado a tu orden');
       closeProductModal();
-    });
+});
   }
 
   // ---------- Init ----------
@@ -2249,6 +2234,21 @@ if(galleryMain && images.length > 1){
   }
 
   loadCatalog();
+  
+  // Script del filtro de subcategorías
+  document.getElementById('subcatFilter').addEventListener('change', function() {
+    const selectedValue = this.value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+      const textContent = card.textContent.toLowerCase();
+      if (selectedValue === "" || textContent.includes(selectedValue)) {
+        card.style.display = "";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  });
 </script>
 </body>
 </html>
