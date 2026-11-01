@@ -696,36 +696,51 @@
   }
   }
 <style>
-  /* Estilo por defecto para Celulares (Vertical y cómodo) */
+  /* Contenedor general de la barra */
   .store-toolbar {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
-    margin: 15px auto;
-    max-width: 100%;
-    padding: 0 12px;
-  }
-  .store-toolbar .filter-container,
-  .store-toolbar .search-box,
-  .store-toolbar .sort-box {
-    width: 100% !important;
-    max-width: 100% !important;
+    margin: 20px auto;
+    max-width: 950px; /* Ancho controlado para que no se estire de más en PC */
+    padding: 0 15px;
   }
 
-  /* Estilo para Computadoras / Pantallas grandes (Horizontal en una sola línea) */
-  @media (min-width: 768px) {
+  /* Elementos individuales adaptables */
+  .store-toolbar .filter-container {
+    flex: 1.2;
+    min-width: 220px;
+    max-width: 280px;
+  }
+  .store-toolbar .search-box {
+    flex: 1.8;
+    min-width: 240px;
+    max-width: 380px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+  .store-toolbar .sort-box {
+    flex: 0.8;
+    min-width: 130px;
+    max-width: 160px;
+  }
+
+  /* Ajuste automático para celulares pequeños */
+  @media (max-width: 768px) {
     .store-toolbar {
-      flex-direction: row;
-      flex-wrap: nowrap;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      max-width: 1050px;
-      padding: 0 15px;
+      flex-direction: column;
+      align-items: stretch;
     }
-    .store-toolbar .filter-container { flex: 1.2; min-width: 200px; }
-    .store-toolbar .search-box { flex: 2; min-width: 240px; }
-    .store-toolbar .sort-box { flex: 0.8; min-width: 120px; max-width: 150px; }
+    .store-toolbar .filter-container,
+    .store-toolbar .search-box,
+    .store-toolbar .sort-box {
+      max-width: 100% !important;
+      width: 100% !important;
+    }
   }
 </style>
 </head>
@@ -767,10 +782,10 @@
 
   <!-- ===== Search + sort ===== -->
   <div class="toolbar">
-<!-- ===== Barra de herramientas adaptable (Vertical en Celular / Horizontal en PC) ===== -->
+<!-- ===== Barra de herramientas elegante ===== -->
 <div class="store-toolbar">
 
-  <!-- 1. Selector de Subcategorías y Franquicias -->
+  <!-- 1. Franquicias -->
   <div class="filter-container">
     <select id="subcatFilter" style="width: 100%; padding: 10px 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 13px; outline: none;">
 <option value="">✨ Franquicias ✨</option>
@@ -925,15 +940,15 @@ New Avengers</option>"
     </select>
   </div>
 
-  <!-- 2. Buscador de texto con lupa integrada -->
-  <div class="search-box" style="position: relative; display: flex; align-items: center; margin: 0;">
+  <!-- 2. Buscador con lupa centrada -->
+  <div class="search-box">
     <span class="search-box__icon" style="position: absolute; left: 14px; pointer-events: none; font-size: 15px; z-index: 2;">🔎</span>
-    <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding: 12px 12px 12px 40px; background: #FFFFFF; border: 2px solid #00A83B; border-radius: 12px; font-weight: 600; font-size: 14px; outline: none; color: #151515;">
+    <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding: 11px 12px 11px 40px; background: #FFFFFF; border: 2px solid #00A83B; border-radius: 12px; font-weight: 600; font-size: 14px; outline: none; color: #151515;">
   </div>
 
-  <!-- 3. Selector de orden -->
+  <!-- 3. Orden (A-Z / Precios) -->
   <div class="sort-box">
-    <select id="sortSelect" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; outline: none;">
+    <select id="sortSelect" style="width: 100%; padding: 11px 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; outline: none;">
       <option value="az">A-Z</option>
       <option value="za">Z-A</option>
       <option value="recientes">Más recientes</option>
