@@ -1641,46 +1641,19 @@ activeSub = "all";
 
     return list;
   }
- function renderGrid() {
+ function appendMoreProducts(list) {
     const grid = document.getElementById('productGrid') || document.getElementById('grid') || document.querySelector('.grid');
     if (!grid) return;
 
-    const list = typeof getFilteredProducts === 'function' ? getFilteredProducts() : [];
-
-    const sectionTitleEl = document.getElementById('sectionTitle');
-    const sectionCountEl = document.getElementById('sectionCount');
-
-    if (sectionTitleEl) {
-      sectionTitleEl.textContent = activeCat === 'all' ? 'Todo el catálogo' :
-        (activeSub !== 'all' ? subLabel(activeCat, activeSub) : catLabel(activeCat));
-    }
-
-    if (sectionCountEl) {
-      sectionCountEl.textContent = `${list.length} producto${list.length !== 1 ? 's' : ''}`;
-    }
-
-    document.querySelectorAll('.empty-state').forEach(e => e.remove());
-    
-    // Limpiamos el sensor anterior
+    // Quitamos el sensor temporalmente mientras pintamos los nuevos
     const oldSentinel = document.getElementById('scrollSentinel');
     if (oldSentinel) oldSentinel.remove();
 
-    if (list.length === 0) {
-      grid.innerHTML = "";
-      const empty = document.createElement('div');
-      empty.className = 'empty-state';
-      empty.textContent = PRODUCTS.length === 0
-        ? 'Todavía no hay productos cargados en el Sheet.'
-        : 'No hay productos que coincidan con esta búsqueda o filtro.';
-      if (grid.parentElement) {
-        grid.parentElement.insertBefore(empty, grid.nextSibling);
-      }
-      return;
-    }
-
-    const itemsToRender = list.slice(0, visibleLimit);
-
-    grid.innerHTML = itemsToRender.map(pr => {
+    // Tomamos el siguiente bloque de productos que toca mostrar
+    const nextItems = list.slice(0, visibleLimit);
+    
+    // Generamos solo el HTML de los nuevos productos
+    const newHtml = nextItems.slice(visibleLimit - PAGE_SIZE).map(pr => {
       let artHtml;
       if (!pr.images || pr.images.length === 0) {
         artHtml = '📦';
@@ -1716,7 +1689,10 @@ activeSub = "all";
     `;
     }).join('');
 
-    // 🕹️ SENSOR INTELIGENTE: Solo aparece si REALMENTE quedan productos por mostrar
+    // Insertamos los nuevos productos antes de donde terminaba la grilla
+    grid.insertAdjacentHTML('beforeend', newHtml);
+
+    // Si aún quedan más productos, volvemos a poner el sensor al final
     if (list.length > visibleLimit) {
       const sentinel = document.createElement('div');
       sentinel.id = 'scrollSentinel';
@@ -1728,9 +1704,6 @@ activeSub = "all";
         if (entries[0].isIntersecting) {
           observer.disconnect();
           visibleLimit += PAGE_SIZE;
-          
-          // En lugar de recargar toda la grilla de golpe causando parpadeo, 
-          // llamamos a una función ligera que añade los nuevos bloques al final de forma fluida
           appendMoreProducts(list);
         }
       }, { rootMargin: '300px' });
@@ -1738,8 +1711,37 @@ activeSub = "all";
       observer.observe(sentinel);
     }
 
-    // Eventos de clic y botones (igual que antes)
+    // Reenganchamos los eventos táctiles y de clic solo a los elementos nuevos
     attachCardEvents(grid);
+  }
+
+  // Pequeña función para organizar los clics y no repetir código
+  function attachCardEvents(grid) {
+    grid.querySelectorAll('.card').forEach(card => {
+      if (!card.dataset.bound) {
+        card.dataset.bound = "true";
+        card.addEventListener('click', () => openProductModal(card.dataset.id));
+      }
+    });
+
+    grid.querySelectorAll('.add-btn').forEach(btn => {
+      if (!btn.dataset.bound) {
+        btn.dataset.bound = "true";
+        btn.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          const product = PRODUCTS.find(p => p.id === btn.dataset.id);
+          if (!product) return;
+          if (product.variants && product.variants.length > 0) {
+            openProductModal(product.id);
+            return;
+          }
+          addToCart(product.id, '', 1);
+          btn.textContent = "✓ Agregado";
+          btn.classList.add('is-added');
+          setTimeout(() => { btn.textContent = "Agregar"; btn.classList.remove('is-added'); }, 900);
+        });
+      }
+    });
   }
   // ---------- Cart logic ----------
   // cart[key] = { productId, variant, qty }  — key = productId, o productId::variante si aplica.
