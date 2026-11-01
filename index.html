@@ -893,8 +893,8 @@ New Avengers</option>"
       <span class="search-box__icon" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; font-size: 16px;">🔎</span>
       <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding-left: 42px;">
     </div>
-    <div class="sort-box">
-      <select id="sortSelect">
+    <div class="sort-box" style="display: flex; align-items: center;">
+      <select id="sortSelect" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; outline: none;">
         <option value="az">A-Z</option>
         <option value="za">Z-A</option>
         <option value="recientes">Más recientes</option>
@@ -2434,7 +2434,14 @@ if(galleryMain && images.length > 1){
 
   const searchInputEl = document.getElementById('searchInput');
   if (searchInputEl) {
-    searchInputEl.addEventListener('input', applyFilters);
+    let searchTimeout;
+    searchInputEl.addEventListener('input', () => {
+      // Espera 300 milisegundos después de que el usuario deje de teclear para buscar
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        applyFilters();
+      }, 300);
+    });
   }
 
   document.addEventListener('click', function(e) {
