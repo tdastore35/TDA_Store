@@ -1641,7 +1641,7 @@ activeSub = "all";
 
     return list;
   }
- function renderGrid(){
+ function renderGrid() {
     setTimeout(() => {
       const grid = document.getElementById('productGrid') || document.getElementById('grid') || document.querySelector('.grid');
       if (!grid) return;
@@ -1662,8 +1662,9 @@ activeSub = "all";
 
       document.querySelectorAll('.empty-state').forEach(e => e.remove());
       
-      const existingLoadMore = document.getElementById('loadMoreContainer');
-      if (existingLoadMore) existingLoadMore.remove();
+      // Limpiamos el sensor anterior si existía
+      const oldSentinel = document.getElementById('scrollSentinel');
+      if (oldSentinel) oldSentinel.remove();
 
       if (list.length === 0) {
         grid.innerHTML = "";
@@ -1678,6 +1679,7 @@ activeSub = "all";
         return;
       }
 
+      // 🚀 Recortamos la lista según los productos que deben verse por ahora
       const itemsToRender = list.slice(0, visibleLimit);
 
       grid.innerHTML = itemsToRender.map(pr => {
@@ -1716,27 +1718,32 @@ activeSub = "all";
       `;
       }).join('');
 
+      // 🎮 EL TRUCO DEL VIDEOJUEGO: Si faltan productos por mostrar, ponemos un sensor invisible al final
       if (list.length > visibleLimit) {
-        const loadMoreContainer = document.createElement('div');
-        loadMoreContainer.id = 'loadMoreContainer';
-        loadMoreContainer.style.cssText = 'grid-column: 1 / -1; text-align: center; padding: 25px 0;';
-        loadMoreContainer.innerHTML = `
-          <button id="loadMoreBtn" style="background: var(--green); color: #fff; border: none; border-radius: 999px; padding: 12px 28px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
-            Ver más productos (${list.length - visibleLimit} restantes) ↓
-          </button>
-        `;
-        grid.appendChild(loadMoreContainer);
+        const sentinel = document.createElement('div');
+        sentinel.id = 'scrollSentinel';
+        sentinel.style.cssText = 'grid-column: 1 / -1; height: 40px; text-align: center; padding: 10px; color: #888; font-size: 13px;';
+        sentinel.textContent = 'Cargando más productos... 🕹️';
+        grid.appendChild(sentinel);
 
-        document.getElementById('loadMoreBtn').addEventListener('click', () => {
-          visibleLimit += PAGE_SIZE;
-          renderGrid();
-        });
+        // Creamos el observador que detecta cuando el usuario llega al final de la pantalla
+        const observer = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            observer.disconnect(); // Detenemos temporalmente el sensor
+            visibleLimit += 40;    // Sumamos 40 productos más a la zona visible
+            renderGrid();          // Volvemos a renderizar fluidamente
+          }
+        }, { rootMargin: '200px' }); // Se activa un poquito antes de llegar al final para que sea imperceptible
+
+        observer.observe(sentinel);
       }
 
+      // Eventos de clic en tarjeta
       grid.querySelectorAll('.card').forEach(card => {
         card.addEventListener('click', () => openProductModal(card.dataset.id));
       });
 
+      // Hover / cambio de imágenes
       grid.querySelectorAll('.card__art img').forEach(img => {
         let images = [];
         try {
@@ -1769,6 +1776,7 @@ activeSub = "all";
         });
       });
 
+      // Evento del botón Agregar/Elegir
       grid.querySelectorAll('.add-btn').forEach(btn => {
         btn.addEventListener('click', (ev) => {
           ev.stopPropagation();
