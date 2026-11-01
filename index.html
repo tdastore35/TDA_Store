@@ -1634,16 +1634,10 @@ activeSub = "all";
     }
     else if(sortMode==='precio-asc') list = list.slice().sort((a,b)=>a.price-b.price);
     else if(sortMode==='precio-desc') list = list.slice().sort((a,b)=>b.price-a.price);
-    else if(sortMode==='za') list = list.slice().sort((a,b)=>b.name.localeCompare(b.name,'es'));
+    else if(sortMode==='za') list = list.slice().sort((a,b)=>b.name.localeCompare(a.name,'es'));
     else list = list.slice().sort((a,b)=>a.name.localeCompare(b.name,'es')); // az por defecto
 
-    // 🚀 OPTIMIZACIÓN MÓVIL: Si estamos en celular o la lista supera los 60 items,
-    // limitamos la carga inicial de golpe para que el cambio de categoría sea instantáneo.
-    // (Puedes ajustar el 60 si prefieres mostrar un poco más o menos).
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile && list.length > 60) {
-      list = list.slice(0, 60);
-    }
+    // (Quitamos el slice para que el filtro devuelva TODO lo que debe mostrar)
 
     return list;
   }
