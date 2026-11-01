@@ -1647,130 +1647,136 @@ else list = list.slice().sort((a,b)=>a.name.localeCompare(b.name,'es')); // az p
   }
 
   function renderGrid(){
-    const grid = document.getElementById('productGrid');
-    const list = getFilteredProducts();
+    requestAnimationFrame(() => {
+      const grid = document.getElementById('productGrid') || document.getElementById('grid') || document.querySelector('.grid');
+      if (!grid) return;
 
-    document.getElementById('sectionTitle').textContent =
-      activeCat==='all' ? 'Todo el catálogo' :
-      (activeSub!=='all' ? subLabel(activeCat, activeSub) : catLabel(activeCat));
-    document.getElementById('sectionCount').textContent = `${list.length} producto${list.length!==1?'s':''}`;
+      const list = typeof getFilteredProducts === 'function' ? getFilteredProducts() : [];
 
-    document.querySelectorAll('.empty-state').forEach(e=>e.remove());
-    if(list.length===0){
-      grid.innerHTML = "";
-      const empty = document.createElement('div');
-      empty.className = 'empty-state';
-      empty.textContent = PRODUCTS.length===0
-        ? 'Todavía no hay productos cargados en el Sheet.'
-        : 'No hay productos que coincidan con esta búsqueda o filtro.';
-      grid.parentElement.insertBefore(empty, grid.nextSibling);
-      return;
-    }
+      const sectionTitleEl = document.getElementById('sectionTitle');
+      const sectionCountEl = document.getElementById('sectionCount');
 
-    grid.innerHTML = list.map(pr => {
-      let artHtml;
-      if(pr.images.length === 0){
-        artHtml = '📦';
-      } else {
-        artHtml = `<img
+      if (sectionTitleEl) {
+        sectionTitleEl.textContent = activeCat === 'all' ? 'Todo el catálogo' :
+          (activeSub !== 'all' ? subLabel(activeCat, activeSub) : catLabel(activeCat));
+      }
+
+      if (sectionCountEl) {
+        sectionCountEl.textContent = `${list.length} producto${list.length !== 1 ? 's' : ''}`;
+      }
+
+      document.querySelectorAll('.empty-state').forEach(e => e.remove());
+
+      if (list.length === 0) {
+        grid.innerHTML = "";
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = PRODUCTS.length === 0
+          ? 'Todavía no hay productos cargados en el Sheet.'
+          : 'No hay productos que coincidan con esta búsqueda o filtro.';
+        if (grid.parentElement) {
+          grid.parentElement.insertBefore(empty, grid.nextSibling);
+        }
+        return;
+      }
+
+      grid.innerHTML = list.map(pr => {
+        let artHtml;
+        if (!pr.images || pr.images.length === 0) {
+          artHtml = '📦';
+        } else {
+          artHtml = `<img
 src="${pr.images[0]}"
 data-images='${JSON.stringify(pr.images)}'
 alt="${pr.name}"
 loading="lazy"
 onerror="this.parentElement.innerHTML='📦'">`;
-      }
+        }
 
-      const badges = [];
-if(pr.nuevo) badges.push('<div class="card__badge nuevo">Nuevo</div>');
-if(pr.restock) badges.push('<div class="card__badge restock">Repuesto</div>');
-if(pr.estado === "N") badges.push('<div class="card__badge reciente">Recién Agregado</div>');
+        const badges = [];
+        if (pr.nuevo) badges.push('<div class="card__badge nuevo">Nuevo</div>');
+        if (pr.restock) badges.push('<div class="card__badge restock">Repuesto</div>');
+        if (pr.estado === "N") badges.push('<div class="card__badge reciente">Recién Agregado</div>');
 
-      return `
-      <div class="card" data-id="${pr.id}">
-        <div class="card__art">
-          ${artHtml}
-          <div class="card__patch">${catIcon(pr.cat)}</div>
-          ${badges.join('')}
-        </div>
-        <div class="card__body">
-          <div class="card__cat">${pr.sub ? subLabel(pr.cat, pr.sub) : catLabel(pr.cat)}</div>
-          <div class="card__name">${pr.name}</div>
-          ${pr.description ? `<div class="card__desc">${pr.description}</div>` : ''}
-          <div class="card__row">
-            <div>
-              <div class="card__price mono">${fmt.format(pr.price)}</div>
-              ${pr.priceCE!==pr.price ? `<div class="card__price-ce mono">${fmt.format(pr.priceCE)} contraentrega</div>` : ''}
+        return `
+        <div class="card" data-id="${pr.id}">
+          <div class="card__art">
+            ${artHtml}
+            <div class="card__patch">${catIcon(pr.cat)}</div>
+            ${badges.join('')}
+          </div>
+          <div class="card__body">
+            <div class="card__cat">${pr.sub ? subLabel(pr.cat, pr.sub) : catLabel(pr.cat)}</div>
+            <div class="card__name">${pr.name}</div>
+            ${pr.description ? `<div class="card__desc">${pr.description}</div>` : ''}
+            <div class="card__row">
+              <div>
+                <div class="card__price mono">${fmt.format(pr.price)}</div>
+                ${pr.priceCE !== pr.price ? `<div class="card__price-ce mono">${fmt.format(pr.priceCE)} contraentrega</div>` : ''}
+              </div>
+              <button class="add-btn" data-id="${pr.id}">${pr.variants && pr.variants.length > 0 ? 'Elegir' : 'Agregar'}</button>
             </div>
-            <button class="add-btn" data-id="${pr.id}">${pr.variants.length>0 ? 'Elegir' : 'Agregar'}</button>
           </div>
         </div>
-      </div>
-    `;
-    }).join('');
+      `;
+      }).join('');
 
-    // Click en la tarjeta (fuera del botón) abre la ficha del producto.
-    grid.querySelectorAll('.card').forEach(card=>{
-      card.addEventListener('click', ()=> openProductModal(card.dataset.id));
-    });
-grid.querySelectorAll('.card__art img').forEach(img => {
+      // Eventos de clic en tarjeta
+      grid.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', () => openProductModal(card.dataset.id));
+      });
 
-  let images = [];
-
-try{
-    images = JSON.parse(img.dataset.images || "[]");
-}catch(e){
-    console.log("Error en imágenes:", img.dataset.images);
-    return;
-}
-  if(images.length <= 1) return;
-
-  let index = 0;
-  let timer = null;
-
-  img.parentElement.addEventListener('mouseenter', () => {
-
-    clearInterval(timer);
-
-    timer = setInterval(() => {
-      index = (index + 1) % images.length;
-
-      img.style.opacity = "0";
-
-      setTimeout(() => {
-        img.src = images[index];
-        img.style.opacity = "1";
-      }, 150);
-
-    }, 1000);
-
-  });
-
-  img.parentElement.addEventListener('mouseleave', () => {
-
-    clearInterval(timer);
-    index = 0;
-    img.src = images[0];
-    img.style.opacity = "1";
-
-  });
-
-});
-    grid.querySelectorAll('.add-btn').forEach(btn=>{
-      btn.addEventListener('click', (ev)=>{
-        ev.stopPropagation();
-        const product = PRODUCTS.find(p=>p.id===btn.dataset.id);
-        if(!product) return;
-        if(product.variants.length > 0){
-          openProductModal(product.id);
+      // Hover / cambio de imágenes
+      grid.querySelectorAll('.card__art img').forEach(img => {
+        let images = [];
+        try {
+          images = JSON.parse(img.dataset.images || "[]");
+        } catch (e) {
           return;
         }
-        addToCart(product.id, '', 1);
-        btn.textContent = "✓ Agregado";
-        btn.classList.add('is-added');
-        setTimeout(()=>{ btn.textContent = "Agregar"; btn.classList.remove('is-added'); }, 900);
+        if (images.length <= 1) return;
+
+        let index = 0;
+        let timer = null;
+
+        img.parentElement.addEventListener('mouseenter', () => {
+          clearInterval(timer);
+          timer = setInterval(() => {
+            index = (index + 1) % images.length;
+            img.style.opacity = "0";
+            setTimeout(() => {
+              img.src = images[index];
+              img.style.opacity = "1";
+            }, 150);
+          }, 1000);
+        });
+
+        img.parentElement.addEventListener('mouseleave', () => {
+          clearInterval(timer);
+          index = 0;
+          img.src = images[0];
+          img.style.opacity = "1";
+        });
+      });
+
+      // Evento del botón Agregar/Elegir
+      grid.querySelectorAll('.add-btn').forEach(btn => {
+        btn.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          const product = PRODUCTS.find(p => p.id === btn.dataset.id);
+          if (!product) return;
+          if (product.variants && product.variants.length > 0) {
+            openProductModal(product.id);
+            return;
+          }
+          addToCart(product.id, '', 1);
+          btn.textContent = "✓ Agregado";
+          btn.classList.add('is-added');
+          setTimeout(() => { btn.textContent = "Agregar"; btn.classList.remove('is-added'); }, 900);
+        });
       });
     });
-    }
+  }
 
   // ---------- Cart logic ----------
   // cart[key] = { productId, variant, qty }  — key = productId, o productId::variante si aplica.
