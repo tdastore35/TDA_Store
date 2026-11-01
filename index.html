@@ -1641,92 +1641,118 @@ activeSub = "all";
 
     return list;
   }
- function appendMoreProducts(list) {
-    const grid = document.getElementById('productGrid') || document.getElementById('grid') || document.querySelector('.grid');
-    if (!grid) return;
+  function renderGrid(){
+    // Damos un respiro inmediato al procesador del celular con setTimeout
+    setTimeout(() => {
+      const grid = document.getElementById('productGrid') || document.getElementById('grid') || document.querySelector('.grid');
+      if (!grid) return;
 
-    // Quitamos el sensor temporalmente mientras pintamos los nuevos
-    const oldSentinel = document.getElementById('scrollSentinel');
-    if (oldSentinel) oldSentinel.remove();
+      const list = typeof getFilteredProducts === 'function' ? getFilteredProducts() : [];
 
-    // Tomamos el siguiente bloque de productos que toca mostrar
-    const nextItems = list.slice(0, visibleLimit);
-    
-    // Generamos solo el HTML de los nuevos productos
-    const newHtml = nextItems.slice(visibleLimit - PAGE_SIZE).map(pr => {
-      let artHtml;
-      if (!pr.images || pr.images.length === 0) {
-        artHtml = '📦';
-      } else {
-        artHtml = `<img src="${pr.images[0]}" data-images='${JSON.stringify(pr.images)}' alt="${pr.name}" loading="lazy" onerror="this.parentElement.innerHTML='📦'">`;
+      const sectionTitleEl = document.getElementById('sectionTitle');
+      const sectionCountEl = document.getElementById('sectionCount');
+
+      if (sectionTitleEl) {
+        sectionTitleEl.textContent = activeCat === 'all' ? 'Todo el catálogo' :
+          (activeSub !== 'all' ? subLabel(activeCat, activeSub) : catLabel(activeCat));
       }
 
-      const badges = [];
-      if (pr.nuevo) badges.push('<div class="card__badge nuevo">Nuevo</div>');
-      if (pr.restock) badges.push('<div class="card__badge restock">Repuesto</div>');
-      if (pr.estado === "N") badges.push('<div class="card__badge reciente">Recién Agregado</div>');
+      if (sectionCountEl) {
+        sectionCountEl.textContent = `${list.length} producto${list.length !== 1 ? 's' : ''}`;
+      }
 
-      return `
-      <div class="card" data-id="${pr.id}">
-        <div class="card__art">
-          ${artHtml}
-          <div class="card__patch">${catIcon(pr.cat)}</div>
-          ${badges.join('')}
-        </div>
-        <div class="card__body">
-          <div class="card__cat">${pr.sub ? subLabel(pr.cat, pr.sub) : catLabel(pr.cat)}</div>
-          <div class="card__name">${pr.name}</div>
-          ${pr.description ? `<div class="card__desc">${pr.description}</div>` : ''}
-          <div class="card__row">
-            <div>
-              <div class="card__price mono">${fmt.format(pr.price)}</div>
-              ${pr.priceCE !== pr.price ? `<div class="card__price-ce mono">${fmt.format(pr.priceCE)} contraentrega</div>` : ''}
+      document.querySelectorAll('.empty-state').forEach(e => e.remove());
+
+      if (list.length === 0) {
+        grid.innerHTML = "";
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.textContent = PRODUCTS.length === 0
+          ? 'Todavía no hay productos cargados en el Sheet.'
+          : 'No hay productos que coincidan con esta búsqueda o filtro.';
+        if (grid.parentElement) {
+          grid.parentElement.insertBefore(empty, grid.nextSibling);
+        }
+        return;
+      }
+
+      // Renderizado ultrarrápido optimizado para pantallas táctiles
+      grid.innerHTML = list.map(pr => {
+        let artHtml;
+        if (!pr.images || pr.images.length === 0) {
+          artHtml = '📦';
+        } else {
+          artHtml = `<img src="${pr.images[0]}" data-images='${JSON.stringify(pr.images)}' alt="${pr.name}" loading="lazy" onerror="this.parentElement.innerHTML='📦'">`;
+        }
+
+        const badges = [];
+        if (pr.nuevo) badges.push('<div class="card__badge nuevo">Nuevo</div>');
+        if (pr.restock) badges.push('<div class="card__badge restock">Repuesto</div>');
+        if (pr.estado === "N") badges.push('<div class="card__badge reciente">Recién Agregado</div>');
+
+        return `
+        <div class="card" data-id="${pr.id}">
+          <div class="card__art">
+            ${artHtml}
+            <div class="card__patch">${catIcon(pr.cat)}</div>
+            ${badges.join('')}
+          </div>
+          <div class="card__body">
+            <div class="card__cat">${pr.sub ? subLabel(pr.cat, pr.sub) : catLabel(pr.cat)}</div>
+            <div class="card__name">${pr.name}</div>
+            ${pr.description ? `<div class="card__desc">${pr.description}</div>` : ''}
+            <div class="card__row">
+              <div>
+                <div class="card__price mono">${fmt.format(pr.price)}</div>
+                ${pr.priceCE !== pr.price ? `<div class="card__price-ce mono">${fmt.format(pr.priceCE)} contraentrega</div>` : ''}
+              </div>
+              <button class="add-btn" data-id="${pr.id}">${pr.variants && pr.variants.length > 0 ? 'Elegir' : 'Agregar'}</button>
             </div>
-            <button class="add-btn" data-id="${pr.id}">${pr.variants && pr.variants.length > 0 ? 'Elegir' : 'Agregar'}</button>
           </div>
         </div>
-      </div>
-    `;
-    }).join('');
+      `;
+      }).join('');
 
-    // Insertamos los nuevos productos antes de donde terminaba la grilla
-    grid.insertAdjacentHTML('beforeend', newHtml);
-
-    // Si aún quedan más productos, volvemos a poner el sensor al final
-    if (list.length > visibleLimit) {
-      const sentinel = document.createElement('div');
-      sentinel.id = 'scrollSentinel';
-      sentinel.style.cssText = 'grid-column: 1 / -1; height: 50px; text-align: center; padding: 15px; color: #888; font-size: 13px;';
-      sentinel.textContent = 'Cargando más productos... 🕹️';
-      grid.appendChild(sentinel);
-
-      const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          observer.disconnect();
-          visibleLimit += PAGE_SIZE;
-          appendMoreProducts(list);
-        }
-      }, { rootMargin: '300px' });
-
-      observer.observe(sentinel);
-    }
-
-    // Reenganchamos los eventos táctiles y de clic solo a los elementos nuevos
-    attachCardEvents(grid);
-  }
-
-  // Pequeña función para organizar los clics y no repetir código
-  function attachCardEvents(grid) {
-    grid.querySelectorAll('.card').forEach(card => {
-      if (!card.dataset.bound) {
-        card.dataset.bound = "true";
+      // Eventos ligeros para las tarjetas
+      grid.querySelectorAll('.card').forEach(card => {
         card.addEventListener('click', () => openProductModal(card.dataset.id));
-      }
-    });
+      });
 
-    grid.querySelectorAll('.add-btn').forEach(btn => {
-      if (!btn.dataset.bound) {
-        btn.dataset.bound = "true";
+      // Efecto hover/carrusel de imágenes en PC (sin afectar rendimiento en móvil)
+      grid.querySelectorAll('.card__art img').forEach(img => {
+        let images = [];
+        try {
+          images = JSON.parse(img.dataset.images || "[]");
+        } catch (e) {
+          return;
+        }
+        if (images.length <= 1) return;
+
+        let index = 0;
+        let timer = null;
+
+        img.parentElement.addEventListener('mouseenter', () => {
+          clearInterval(timer);
+          timer = setInterval(() => {
+            index = (index + 1) % images.length;
+            img.style.opacity = "0";
+            setTimeout(() => {
+              img.src = images[index];
+              img.style.opacity = "1";
+            }, 150);
+          }, 1000);
+        });
+
+        img.parentElement.addEventListener('mouseleave', () => {
+          clearInterval(timer);
+          index = 0;
+          img.src = images[0];
+          img.style.opacity = "1";
+        });
+      });
+
+      // Evento de botones de compra
+      grid.querySelectorAll('.add-btn').forEach(btn => {
         btn.addEventListener('click', (ev) => {
           ev.stopPropagation();
           const product = PRODUCTS.find(p => p.id === btn.dataset.id);
@@ -1740,9 +1766,10 @@ activeSub = "all";
           btn.classList.add('is-added');
           setTimeout(() => { btn.textContent = "Agregar"; btn.classList.remove('is-added'); }, 900);
         });
-      }
-    });
+      });
+    }, 0);
   }
+
   // ---------- Cart logic ----------
   // cart[key] = { productId, variant, qty }  — key = productId, o productId::variante si aplica.
   function cartKey(productId, variant){
@@ -2064,10 +2091,6 @@ if(shipping > 0){
   // ---------- Search + sort ----------
   document.getElementById('searchInput').addEventListener('input', (e)=>{
     searchTerm = normalizeText(e.target.value).trim();
-
-  const checkMobile = window.innerWidth <= 768;
-    visibleLimit = checkMobile ? 40 : 99999;
-    
     renderGrid();
   });
   document.getElementById('sortSelect').addEventListener('change', (e)=>{
@@ -2347,16 +2370,12 @@ if(galleryMain && images.length > 1){
     const selectEl = document.getElementById('subcatFilter');
     if (selectEl) selectEl.value = "";
   });
-  
-  const isMobile = window.innerWidth <= 768;
-  let visibleLimit = isMobile ? 40 : 99999;
-  const PAGE_SIZE = 40;
 
   function applyFilters() {
     const searchInput = document.getElementById('searchInput');
     const selectEl = document.getElementById('subcatFilter');
     if (!selectEl) return;
-       
+
     const searchText = searchInput ? searchInput.value.toLowerCase().trim() : '';
     const subcatValue = selectEl.value.toLowerCase();
     const cards = document.querySelectorAll('.card');
@@ -2379,7 +2398,6 @@ if(galleryMain && images.length > 1){
       } else {
         card.style.display = "none";
       }
-      
     });
 
     if (subcatValue !== "") {
