@@ -1716,28 +1716,45 @@ activeSub = "all";
           </button>
         `;
         
-        if (grid.parentElement) {
-          grid.parentElement.insertBefore(empty, grid.nextSibling);
-        }
+        if (list.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
+            <div style="font-size: 16px; font-weight: 700; color: #151515; margin-bottom: 12px;">
+              ${PRODUCTS.length === 0 ? 'Todavía no hay productos cargados en el Sheet.' : 'No hay productos que coincidan con esta búsqueda o filtro.'}
+            </div>
+            <button id="resetFilterBtn" style="background-color: #00A83B; color: #FFFFFF; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; box-shadow: 0 4px 10px rgba(0,168,59,0.2);">
+              🧹 Limpiar filtro / Ver todo
+            </button>
+          </div>
+        `;
 
         const resetBtn = document.getElementById('resetFilterBtn');
         if (resetBtn) {
           resetBtn.addEventListener('click', () => {
             const selectEl = document.getElementById('subcatFilter');
-            if (selectEl) selectEl.value = "";
+            if (selectEl) {
+              selectEl.value = "";
+              selectEl.dispatchEvent(new Event('change'));
+            }
             
             const searchInput = document.getElementById('searchInput');
-            if (searchInput) searchInput.value = "";
+            if (searchInput) {
+              searchInput.value = "";
+              searchInput.dispatchEvent(new Event('input'));
+            }
             
             if (typeof searchTerm !== 'undefined') searchTerm = "";
             if (typeof activeSub !== 'undefined') activeSub = "all";
             
-            renderGrid();
+            if (typeof applyFilters === 'function') {
+              applyFilters();
+            } else {
+              renderGrid();
+            }
           });
         }
         return;
       }
-
       // Renderizado ultrarrápido optimizado para pantallas táctiles
       grid.innerHTML = list.map(pr => {
         let artHtml;
