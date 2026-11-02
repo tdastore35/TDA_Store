@@ -773,7 +773,7 @@
   <div class="toolbar">
 <!-- ===== FILTRO DE SUBCATEGORÍAS ===== -->
 <div class="filter-container" style="margin: 15px auto; max-width: 600px; text-align: center; padding: 0 15px;">
-  <select id="subcatFilter" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px;">
+  <select id="subcatFilter" class="custom-select">
 <option value="">✨ Franquicias ✨</option>
 <option value="Attack on Titan">Attack on Titan</option>
 <option value="Back to the Future (Volver al Futuro)">Back to the Future (Volver al Futuro)</option>
@@ -2403,7 +2403,7 @@ if(galleryMain && images.length > 1){
 
   // ---------- Filtro Inteligente de Subcategorías ----------
   window.addEventListener('DOMContentLoaded', () => {
-    const selectEl = document.getElementById('subcatFilter');
+    const selectEl = document.getElementById('');
     if (selectEl) selectEl.value = "";
   });
 
