@@ -803,19 +803,18 @@
     display: none;
   }
 
-  /* 💻 EN PC (Pantallas mayores a 768px): Proporción ajustada */
+  /* 💻 EN PC (Pantallas mayores a 768px): Proporción y diseño */
   @media (min-width: 769px) {
     .store-header-wrapper {
       display: grid;
-      grid-template-columns: 1.3fr 1fr; /* 👈 Aquí ampliamos la parte izquierda y dejamos la derecha más proporcionada */
+      grid-template-columns: 1.3fr 1fr;
       gap: 30px;
       align-items: center;
-      max-width: 1150px; /* Ampliamos un poco el ancho máximo para darle más aire */
+      max-width: 1150px;
       margin: 20px auto;
       padding: 0 15px;
     }
 
-    /* Mostramos la tarjeta animada solo en PC */
     .pc-hero-card {
       display: flex;
       justify-content: space-between;
@@ -828,6 +827,22 @@
       box-shadow: 0 10px 25px rgba(0, 168, 59, 0.25);
       gap: 15px;
     }
+  }
+
+  /* 🔍 TAMAÑOS DE LETRA AMPLIADOS PARA LA PARTE IZQUIERDA */
+  .hero h1 {
+    font-size: 30px !important; /* Título principal más grande y destacado */
+    font-weight: 900;
+  }
+
+  .hero p {
+    font-size: 15px !important; /* Subtítulo más legible */
+    line-height: 1.5;
+  }
+
+  .discount-banner__title {
+    font-size: 16px !important; /* Texto de descuentos más visible */
+    font-weight: 800;
   }
 
   /* Estilos internos de la tarjeta animada de PC */
@@ -894,7 +909,6 @@
     100% { transform: translateY(-12px) rotate(5deg); }
   }
 </style>
-
   
   <div class="status-banner" id="statusBanner" style="display:none;">
     <div class="status-banner__box" id="statusBox"></div>
