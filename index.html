@@ -803,19 +803,19 @@
     display: none;
   }
 
-  /* 💻 EN PC (Pantallas mayores a 768px): Se divide en dos columnas paralelas */
+  /* 💻 EN PC (Pantallas mayores a 768px): Proporción ajustada */
   @media (min-width: 769px) {
     .store-header-wrapper {
       display: grid;
-      grid-template-columns: 1fr 1.1fr; /* Columna izq tus elementos, col der el banner animado */
-      gap: 25px;
+      grid-template-columns: 1.3fr 1fr; /* 👈 Aquí ampliamos la parte izquierda y dejamos la derecha más proporcionada */
+      gap: 30px;
       align-items: center;
-      max-width: 1100px;
+      max-width: 1150px; /* Ampliamos un poco el ancho máximo para darle más aire */
       margin: 20px auto;
       padding: 0 15px;
     }
 
-    /* Mostramos la tarjeta animada solo en PC ocupando el espacio libre */
+    /* Mostramos la tarjeta animada solo en PC */
     .pc-hero-card {
       display: flex;
       justify-content: space-between;
