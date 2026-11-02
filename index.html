@@ -754,29 +754,68 @@
 
   <!-- ===== Hero ===== -->
 
-/* ===== ESTRUCTURA GENERAL ===== */
+<!-- ===== ESTRUCTURA PRINCIPAL DE LA CABECERA ===== -->
+<div class="store-header-wrapper">
+  
+  <!-- Columna Izquierda (Tu contenido original intacto) -->
+  <div class="header-left-content">
+    <div class="hero">
+      <div>
+        <h1>Catálogo TDA Store</h1>
+        <p>Elige tus productos favoritos, arma tu carrito y envía tu pedido. Del resto nos encargamos nosotros. 😉</p>
+      </div>
+    </div>
+
+    <div class="discount-banner">
+      <div class="discount-banner__title">🎉 Entre más compras, más ahorras 😲</div>
+      <div class="discount-tiers" id="discountTiers"></div>
+    </div>
+  </div>
+
+  <!-- Columna Derecha (Banner animado exclusivo para PC, se oculta en móvil) -->
+  <div class="pc-hero-card">
+    <div class="hero-content">
+      <span class="hero-badge">⭐ EDICIÓN LIMITADA & COLECCIONABLES ⭐</span>
+      <h2>¡Lleva tu colección al siguiente nivel!</h2>
+      <p>Explora figuras exclusivas y piezas únicas.</p>
+    </div>
+    <div class="hero-decor">
+      <div class="floating-icon">🦸‍♂️</div>
+      <div class="floating-icon">🧱</div>
+      <div class="floating-icon">🚀</div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ===== ESTILOS CSS COMPLETOS ===== -->
+<style>
+  /* Por defecto (Celular): Todo se muestra en columna vertical normal */
   .store-header-wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
   }
 
+  /* En celular ocultamos la tarjeta de PC para respetar tu diseño original */
   .pc-hero-card {
     display: none;
   }
 
-  /* 💻 EN PC (Pantallas mayores a 768px): Aquí aplicamos el diseño en dos columnas y las letras más grandes */
+  /* 💻 EN PC (Pantallas mayores a 768px): Proporción ajustada */
   @media (min-width: 769px) {
     .store-header-wrapper {
       display: grid;
-      grid-template-columns: 1.3fr 1fr;
+      grid-template-columns: 1.3fr 1fr; /* 👈 Aquí ampliamos la parte izquierda y dejamos la derecha más proporcionada */
       gap: 30px;
       align-items: center;
-      max-width: 1150px;
+      max-width: 1150px; /* Ampliamos un poco el ancho máximo para darle más aire */
       margin: 20px auto;
       padding: 0 15px;
     }
 
+    /* Mostramos la tarjeta animada solo en PC */
     .pc-hero-card {
       display: flex;
       justify-content: space-between;
@@ -788,22 +827,6 @@
       color: #FFFFFF;
       box-shadow: 0 10px 25px rgba(0, 168, 59, 0.25);
       gap: 15px;
-    }
-
-    /* 🔍 TAMAÑOS DE LETRA AMPLIADOS (SOLO PARA PC) */
-    .hero h1 {
-      font-size: 30px !important;
-      font-weight: 900;
-    }
-
-    .hero p {
-      font-size: 15px !important;
-      line-height: 1.5;
-    }
-
-    .discount-banner__title {
-      font-size: 16px !important;
-      font-weight: 800;
     }
   }
 
@@ -871,6 +894,7 @@
     100% { transform: translateY(-12px) rotate(5deg); }
   }
 </style>
+
   
   <div class="status-banner" id="statusBanner" style="display:none;">
     <div class="status-banner__box" id="statusBox"></div>
