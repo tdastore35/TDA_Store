@@ -753,80 +753,117 @@
   </div>
 
   <!-- ===== Hero ===== -->
- <!-- ===== ENCABEZADO CON BANNER INTEGRADO AL LADO ===== -->
-<div class="header-banner-container" style="margin: 20px auto; max-width: 1000px; padding: 0 15px;">
-  <div class="header-grid">
-    <!-- Columna izquierda: Tu título y subtítulo original -->
-    <div class="header-titles">
-      <h1 style="font-size: 24px; font-weight: 900; color: #004D20; margin: 0 0 5px 0;">CATÁLOGO TDA STORE</h1>
-      <p style="font-size: 13px; color: #4A5568; margin: 0; font-weight: 500;">
-        Elige tus productos favoritos, arma tu carrito y envía tu pedido. Del resto nos encargamos nosotros. 😊
-      </p>
-    </div>
+ <div class="hero">
+  <div>
+    <h1>Catálogo TDA Store</h1>
+    <p>Elige tus productos favoritos, arma tu carrito y envía tu pedido. Del resto nos encargamos nosotros. 😉</p>
+  </div>
+  </div>
 
-    <!-- Columna derecha: Banner con degradado y estilo integrado -->
-    <div class="header-banner-side">
-      <div class="banner-content">
-        <span class="star-icon">⭐</span>
-        <span class="banner-text">EDICIÓN LIMITADA & COLECCIONABLES</span>
-        <span class="star-icon">⭐</span>
-      </div>
+  <div class="discount-banner">
+    <div class="discount-banner__title">🎉 Entre más compras, más ahorras 😲</div>
+    <div class="discount-tiers" id="discountTiers"></div>
+  </div>
+<!-- ===== BANNER / PORTADA ANIMADA (SOLO VISIBLE EN PC) ===== -->
+<div class="store-hero-banner" style="margin: 20px auto; max-width: 1000px; padding: 0 15px;">
+  <div class="hero-card">
+    <div class="hero-content">
+      <span class="hero-badge">⭐ EDICIÓN LIMITADA & COLECCIONABLES ⭐</span>
+      <h2>¡Lleva tu colección al siguiente nivel!</h2>
+      <p>Explora figuras exclusivas, bloques y piezas únicas listas para armar o exhibir.</p>
+    </div>
+    <div class="hero-decor">
+      <div class="floating-icon">🦸‍♂️</div>
+      <div class="floating-icon">🧱</div>
+      <div class="floating-icon">🚀</div>
     </div>
   </div>
 </div>
 
 <style>
-  .header-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    align-items: center;
-  }
-
-  .header-banner-side {
-    background: linear-gradient(135deg, #0a1f12 0%, #004d20 70%, #006b2d 100%);
-    border: 2.5px solid #00A83B;
-    border-radius: 16px;
-    padding: 18px 20px;
-    text-align: center;
-    box-shadow: 0 6px 20px rgba(0, 168, 59, 0.2);
+  .hero-card {
+    background: linear-gradient(135deg, #0a1f12 0%, #004d20 100%);
+    border: 3px solid #00A83B;
+    border-radius: 20px;
+    padding: 25px 30px;
+    color: #FFFFFF;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 168, 59, 0.25);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .hero-badge {
+    background-color: #FFD21F;
+    color: #151515;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 10px rgba(255, 210, 31, 0.3);
   }
 
-  .banner-content {
+  .hero-content h2 {
+    font-size: 22px;
+    font-weight: 900;
+    margin: 0 0 8px 0;
+    color: #FFFFFF;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  .hero-content p {
+    font-size: 14px;
+    color: #E2E8F0;
+    margin: 0;
+    font-weight: 500;
+    max-width: 500px;
+  }
+
+  .hero-decor {
+    display: flex;
+    gap: 15px;
+  }
+
+  .floating-icon {
+    font-size: 32px;
+    background: rgba(255, 255, 255, 0.1);
+    width: 55px;
+    height: 55px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: floatAnim 3s ease-in-out infinite alternate;
   }
 
-  .banner-text {
-    color: #FFFFFF;
-    font-size: 14px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  .floating-icon:nth-child(2) {
+    animation-delay: 1s;
+    background: rgba(255, 210, 31, 0.15);
+    border-color: rgba(255, 210, 31, 0.3);
   }
 
-  .star-icon {
-    font-size: 16px;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  .floating-icon:nth-child(3) {
+    animation-delay: 2s;
   }
 
-  /* En celulares se acomoda en una sola columna vertical para que no se apriete */
+  @keyframes floatAnim {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(-6px) rotate(3deg); }
+  }
+
+  /* 📱 REGLA MÓVIL: Oculta completamente el banner en celulares y tablets pequeñas */
   @media (max-width: 768px) {
-    .header-grid {
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    .header-banner-side {
-      padding: 14px;
-    }
-    .banner-text {
-      font-size: 13px;
+    .store-hero-banner {
+      display: none !important;
     }
   }
 </style>
