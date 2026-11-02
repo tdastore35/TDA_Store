@@ -789,21 +789,18 @@
 </div>
 
 
-<!-- ===== ESTILOS CSS COMPLETOS ===== -->
-<style>
-  /* Por defecto (Celular): Todo se muestra en columna vertical normal */
+/* ===== ESTRUCTURA GENERAL ===== */
   .store-header-wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
   }
 
-  /* En celular ocultamos la tarjeta de PC para respetar tu diseño original */
   .pc-hero-card {
     display: none;
   }
 
-  /* 💻 EN PC (Pantallas mayores a 768px): Proporción y diseño */
+  /* 💻 EN PC (Pantallas mayores a 768px): Aquí aplicamos el diseño en dos columnas y las letras más grandes */
   @media (min-width: 769px) {
     .store-header-wrapper {
       display: grid;
@@ -827,22 +824,22 @@
       box-shadow: 0 10px 25px rgba(0, 168, 59, 0.25);
       gap: 15px;
     }
-  }
 
-  /* 🔍 TAMAÑOS DE LETRA AMPLIADOS PARA LA PARTE IZQUIERDA */
-  .hero h1 {
-    font-size: 30px !important; /* Título principal más grande y destacado */
-    font-weight: 900;
-  }
+    /* 🔍 TAMAÑOS DE LETRA AMPLIADOS (SOLO PARA PC) */
+    .hero h1 {
+      font-size: 30px !important;
+      font-weight: 900;
+    }
 
-  .hero p {
-    font-size: 15px !important; /* Subtítulo más legible */
-    line-height: 1.5;
-  }
+    .hero p {
+      font-size: 15px !important;
+      line-height: 1.5;
+    }
 
-  .discount-banner__title {
-    font-size: 16px !important; /* Texto de descuentos más visible */
-    font-weight: 800;
+    .discount-banner__title {
+      font-size: 16px !important;
+      font-weight: 800;
+    }
   }
 
   /* Estilos internos de la tarjeta animada de PC */
