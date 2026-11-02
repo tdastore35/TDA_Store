@@ -1686,121 +1686,128 @@ activeSub = "all";
     return list;
   }
  function renderGrid(){
-    const grid = document.getElementById('productGrid') || document.getElementById('grid') || document.querySelector('.grid');
-    if (!grid) return;
+    // Restablecemos el setTimeout para fluidez total en celular
+    setTimeout(() => {
+      const grid = document.getElementById('productGrid') || document.getElementById('grid') || document.querySelector('.grid');
+      if (!grid) return;
 
-    const list = typeof getFilteredProducts === 'function' ? getFilteredProducts() : [];
+      const list = typeof getFilteredProducts === 'function' ? getFilteredProducts() : [];
 
-    const sectionTitleEl = document.getElementById('sectionTitle');
-    const sectionCountEl = document.getElementById('sectionCount');
+      const sectionTitleEl = document.getElementById('sectionTitle');
+      const sectionCountEl = document.getElementById('sectionCount');
 
-    if (sectionTitleEl) {
-      sectionTitleEl.textContent = activeCat === 'all' ? 'Todo el catálogo' :
-        (activeSub !== 'all' ? subLabel(activeCat, activeSub) : catLabel(activeCat));
-    }
+      if (sectionTitleEl) {
+        sectionTitleEl.textContent = activeCat === 'all' ? 'Todo el catálogo' :
+          (activeSub !== 'all' ? subLabel(activeCat, activeSub) : catLabel(activeCat));
+      }
 
-    if (sectionCountEl) {
-      sectionCountEl.textContent = `${list.length} producto${list.length !== 1 ? 's' : ''}`;
-    }
+      if (sectionCountEl) {
+        sectionCountEl.textContent = `${list.length} producto${list.length !== 1 ? 's' : ''}`;
+      }
 
-    // 🧹 SI NO HAY RESULTADOS: Mostramos el mensaje y el botón de reinicio claramente
-    if (list.length === 0) {
-      grid.innerHTML = `
-        <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; background: #FFFFFF; border-radius: 20px; border: 2px dashed #00A83B; margin: 20px 0;">
-          <div style="font-size: 18px; font-weight: 800; color: #151515; margin-bottom: 15px;">
-            🔍 No hay productos que coincidan con esta búsqueda o filtro.
+      document.querySelectorAll('.empty-state').forEach(e => e.remove());
+
+      // 🧹 BOTÓN DE LIMPIAR FILTRO (Aparece cuando no hay resultados)
+      if (list.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; background: #FFFFFF; border-radius: 16px; border: 2px dashed #00A83B; margin: 20px 0;">
+            <div style="font-size: 16px; font-weight: 700; color: #151515; margin-bottom: 12px;">
+              ${PRODUCTS.length === 0 ? 'Todavía no hay productos cargados en el Sheet.' : 'No hay productos que coincidan con esta búsqueda o filtro.'}
+            </div>
+            <button id="resetFilterBtn" style="background-color: #00A83B; color: #FFFFFF; border: none; padding: 12px 22px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; box-shadow: 0 4px 10px rgba(0,168,59,0.2);">
+              🧹 Limpiar filtro / Ver todo
+            </button>
           </div>
-          <button id="resetFilterBtn" style="background-color: #00A83B; color: #FFFFFF; border: none; padding: 14px 24px; border-radius: 14px; font-weight: 800; cursor: pointer; font-size: 15px; box-shadow: 0 6px 0 #006B2D, 0 8px 15px rgba(0,168,59,0.3); transition: all 0.1s ease;">
-            🧹 Limpiar filtro / Ver todo
-          </button>
+        `;
+
+        const resetBtn = document.getElementById('resetFilterBtn');
+        if (resetBtn) {
+          resetBtn.addEventListener('click', () => {
+            // Reiniciar el select de franquicias
+            const selectEl = document.getElementById('subcatFilter');
+            if (selectEl) selectEl.value = "";
+
+            // Reiniciar el buscador de texto
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = "";
+
+            // Resetear variables de estado
+            if (typeof searchTerm !== 'undefined') searchTerm = "";
+            if (typeof activeSub !== 'undefined') activeSub = "all";
+            if (typeof activeCat !== 'undefined') activeCat = "all";
+
+            // Disparar eventos de actualización de filtros
+            if (selectEl) selectEl.dispatchEvent(new Event('change'));
+            if (searchInput) searchInput.dispatchEvent(new Event('input'));
+
+            if (typeof applyFilters === 'function') {
+              applyFilters();
+            } else {
+              renderGrid();
+            }
+          });
+        }
+        return;
+      }
+
+      // Renderizado ultrarrápido y fluido de la tienda
+      grid.innerHTML = list.map(pr => {
+        let artHtml;
+        if (!pr.images || pr.images.length === 0) {
+          artHtml = '📦';
+        } else {
+          artHtml = `<img src="${pr.images[0]}" data-images='${JSON.stringify(pr.images)}' alt="${pr.name}" loading="lazy" onerror="this.parentElement.innerHTML='📦'">`;
+        }
+
+        const badges = [];
+        if (pr.nuevo) badges.push('<div class="card__badge nuevo">Nuevo</div>');
+        if (pr.restock) badges.push('<div class="card__badge restock">Repuesto</div>');
+        if (pr.estado === "N") badges.push('<div class="card__badge reciente">Recién Agregado</div>');
+
+        return `
+        <div class="card" data-id="${pr.id}">
+          <div class="card__art">
+            ${artHtml}
+            <div class="card__patch">${catIcon(pr.cat)}</div>
+            ${badges.join('')}
+          </div>
+          <div class="card__body">
+            <div class="card__cat">${pr.sub ? subLabel(pr.cat, pr.sub) : catLabel(pr.cat)}</div>
+            <div class="card__name">${pr.name}</div>
+            ${pr.description ? `<div class="card__desc">${pr.description}</div>` : ''}
+            <div class="card__row">
+              <div>
+                <div class="card__price mono">${fmt.format(pr.price)}</div>
+                ${pr.priceCE !== pr.price ? `<div class="card__price-ce mono">${fmt.format(pr.priceCE)} contraentrega</div>` : ''}
+              </div>
+              <button class="add-btn" data-id="${pr.id}">${pr.variants && pr.variants.length > 0 ? 'Elegir' : 'Agregar'}</button>
+            </div>
+          </div>
         </div>
       `;
+      }).join('');
 
-      const resetBtn = document.getElementById('resetFilterBtn');
-      if (resetBtn) {
-        resetBtn.addEventListener('click', () => {
-          const selectEl = document.getElementById('subcatFilter');
-          if (selectEl) {
-            selectEl.value = "";
-          }
-          
-          const searchInput = document.getElementById('searchInput');
-          if (searchInput) {
-            searchInput.value = "";
-          }
-          
-          if (typeof searchTerm !== 'undefined') searchTerm = "";
-          if (typeof activeSub !== 'undefined') activeSub = "all";
-          if (typeof activeCat !== 'undefined') activeCat = "all";
-          
-          if (typeof applyFilters === 'function') {
-            applyFilters();
-          } else {
-            renderGrid();
-          }
-        });
-      }
-      return;
-    }
-
-    // Renderizado ultrarrápido normal de la tienda
-    grid.innerHTML = list.map(pr => {
-      let artHtml;
-      if (!pr.images || pr.images.length === 0) {
-        artHtml = '📦';
-      } else {
-        artHtml = `<img src="${pr.images[0]}" data-images='${JSON.stringify(pr.images)}' alt="${pr.name}" loading="lazy" onerror="this.parentElement.innerHTML='📦'">`;
-      }
-
-      const badges = [];
-      if (pr.nuevo) badges.push('<div class="card__badge nuevo">Nuevo</div>');
-      if (pr.restock) badges.push('<div class="card__badge restock">Repuesto</div>');
-      if (pr.estado === "N") badges.push('<div class="card__badge reciente">Recién Agregado</div>');
-
-      return `
-      <div class="card" data-id="${pr.id}">
-        <div class="card__art">
-          ${artHtml}
-          <div class="card__patch">${catIcon(pr.cat)}</div>
-          ${badges.join('')}
-        </div>
-        <div class="card__body">
-          <div class="card__cat">${pr.sub ? subLabel(pr.cat, pr.sub) : catLabel(pr.cat)}</div>
-          <div class="card__name">${pr.name}</div>
-          ${pr.description ? `<div class="card__desc">${pr.description}</div>` : ''}
-          <div class="card__row">
-            <div>
-              <div class="card__price mono">${fmt.format(pr.price)}</div>
-              ${pr.priceCE !== pr.price ? `<div class="card__price-ce mono">${fmt.format(pr.priceCE)} contraentrega</div>` : ''}
-            </div>
-            <button class="add-btn" data-id="${pr.id}">${pr.variants && pr.variants.length > 0 ? 'Elegir' : 'Agregar'}</button>
-          </div>
-        </div>
-      </div>
-    `;
-    }).join('');
-
-    // Eventos de clic para las tarjetas
-    grid.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('click', () => openProductModal(card.dataset.id));
-    });
-
-    // Eventos de botones de compra
-    grid.querySelectorAll('.add-btn').forEach(btn => {
-      btn.addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        const product = PRODUCTS.find(p => p.id === btn.dataset.id);
-        if (!product) return;
-        if (product.variants && product.variants.length > 0) {
-          openProductModal(product.id);
-          return;
-        }
-        addToCart(product.id, '', 1);
-        btn.textContent = "✓ Agregado";
-        btn.classList.add('is-added');
-        setTimeout(() => { btn.textContent = "Agregar"; btn.classList.remove('is-added'); }, 900);
+      // Eventos ligeros de tarjetas y botones
+      grid.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', () => openProductModal(card.dataset.id));
       });
-    });
+
+      grid.querySelectorAll('.add-btn').forEach(btn => {
+        btn.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          const product = PRODUCTS.find(p => p.id === btn.dataset.id);
+          if (!product) return;
+          if (product.variants && product.variants.length > 0) {
+            openProductModal(product.id);
+            return;
+          }
+          addToCart(product.id, '', 1);
+          btn.textContent = "✓ Agregado";
+          btn.classList.add('is-added');
+          setTimeout(() => { btn.textContent = "Agregar"; btn.classList.remove('is-added'); }, 900);
+        });
+      });
+    }, 0);
   }
   // ---------- Cart logic ----------
   // cart[key] = { productId, variant, qty }  — key = productId, o productId::variante si aplica.
