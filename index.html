@@ -789,7 +789,7 @@
 
 <!-- ===== ESTILOS CSS COMPLETOS ===== -->
 <style>
-  /* Por defecto (Celular): Todo se muestra en columna vertical normal con sus tamaños originales */
+  /* Por defecto (Celular): Todo se muestra en columna vertical normal */
   .store-header-wrapper {
     display: flex;
     flex-direction: column;
@@ -801,19 +801,27 @@
     display: none;
   }
 
-  /* 💻 EN PC (Pantallas mayores a 768px): Proporción ajustada y textos más grandes */
+  /* 📱 EN CELULAR: Hacemos que SOLO el título principal se vea un poco más grande y destacado */
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 26px !important; /* Título un poco más grande en cel */
+      font-weight: 900;
+    }
+    /* El resto (párrafo y banner de descuentos) se queda 100% intacto como lo tenías */
+  }
+
+  /* 💻 EN PC (Pantallas mayores a 768px): Proporción ajustada y textos más grandes para PC */
   @media (min-width: 769px) {
     .store-header-wrapper {
       display: grid;
-      grid-template-columns: 1.3fr 1fr; /* Ampliamos la parte izquierda y dejamos la derecha proporcionada */
+      grid-template-columns: 1.3fr 1fr;
       gap: 30px;
       align-items: center;
-      max-width: 1150px; /* Ancho máximo para darle más aire */
+      max-width: 1150px;
       margin: 20px auto;
       padding: 0 15px;
     }
 
-    /* Mostramos la tarjeta animada solo en PC */
     .pc-hero-card {
       display: flex;
       justify-content: space-between;
@@ -827,7 +835,7 @@
       gap: 15px;
     }
 
-    /* 🔍 TAMAÑOS DE LETRA AMPLIADOS (EXCLUSIVO PARA PC) */
+    /* 🔍 Tamaños ampliados exclusivos para PC */
     .hero h1 {
       font-size: 30px !important;
       font-weight: 900;
@@ -908,7 +916,6 @@
     100% { transform: translateY(-12px) rotate(5deg); }
   }
 </style>
-
   
   <div class="status-banner" id="statusBanner" style="display:none;">
     <div class="status-banner__box" id="statusBox"></div>
