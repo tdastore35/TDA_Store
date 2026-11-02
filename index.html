@@ -2453,10 +2453,40 @@ if(galleryMain && images.length > 1){
       emptyMsg.id = 'emptyFilterMsg';
       // Fondo claro con texto oscuro y bordes acordes a tu diseño
       emptyMsg.style.cssText = 'text-align:center; padding:35px 20px; background: #FFF1C2; color: #151515; border: 2px dashed #00A83B; border-radius: 16px; font-size: 15px; font-weight: 700; width:100%; display:none; grid-column: 1 / -1; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.1);';
-      emptyMsg.innerHTML = '⚠️ No se encontraron productos con este filtro o búsqueda.😔 ¡Prueba con otra opción!';
+      
+      // 🚀 AQUÍ METEMOS EL TEXTO Y EL BOTÓN DE LIMPIAR FILTRO JUNTOS
+      emptyMsg.innerHTML = `
+        <div style="margin-bottom: 15px;">⚠️ No se encontraron productos con este filtro o búsqueda.😔 ¡Prueba con otra opción!</div>
+        <button id="resetFilterBtn" style="background-color: #00A83B; color: #FFFFFF; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 15px; box-shadow: 0 4px 10px rgba(0,168,59,0.3); transition: all 0.1s ease;">
+          🧹 Limpiar filtro / Ver todo
+        </button>
+      `;
       
       const grid = document.querySelector('.grid') || document.querySelector('#grid') || document.querySelector('.catalog-grid') || document.querySelector('main');
       if (grid) grid.appendChild(emptyMsg);
+
+      // 🧹 ACCIÓN DEL BOTÓN DE REINICIO
+      const resetBtn = document.getElementById('resetFilterBtn');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          const selectEl = document.getElementById('subcatFilter');
+          if (selectEl) {
+            selectEl.value = "";
+            selectEl.dispatchEvent(new Event('change'));
+          }
+          
+          const searchInput = document.getElementById('searchInput');
+          if (searchInput) {
+            searchInput.value = "";
+            searchInput.dispatchEvent(new Event('input'));
+          }
+          
+          // Si tienes funciones de filtrado globales, las ejecutamos
+          if (typeof applyFilters === 'function') {
+            applyFilters();
+          }
+        });
+      }
     }
 
     if (emptyMsg) {
