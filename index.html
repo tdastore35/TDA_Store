@@ -752,9 +752,7 @@
     </div>
   </div>
 
-  <!-- ===== Hero ===== -->
-
-<!-- ===== ESTRUCTURA PRINCIPAL DE LA CABECERA ===== -->
+ <!-- ===== ESTRUCTURA PRINCIPAL DE LA CABECERA ===== -->
 <div class="store-header-wrapper">
   
   <!-- Columna Izquierda (Tu contenido original intacto) -->
@@ -791,7 +789,7 @@
 
 <!-- ===== ESTILOS CSS COMPLETOS ===== -->
 <style>
-  /* Por defecto (Celular): Todo se muestra en columna vertical normal */
+  /* Por defecto (Celular): Todo se muestra en columna vertical normal con sus tamaños originales */
   .store-header-wrapper {
     display: flex;
     flex-direction: column;
@@ -803,14 +801,14 @@
     display: none;
   }
 
-  /* 💻 EN PC (Pantallas mayores a 768px): Proporción ajustada */
+  /* 💻 EN PC (Pantallas mayores a 768px): Proporción ajustada y textos más grandes */
   @media (min-width: 769px) {
     .store-header-wrapper {
       display: grid;
-      grid-template-columns: 1.3fr 1fr; /* 👈 Aquí ampliamos la parte izquierda y dejamos la derecha más proporcionada */
+      grid-template-columns: 1.3fr 1fr; /* Ampliamos la parte izquierda y dejamos la derecha proporcionada */
       gap: 30px;
       align-items: center;
-      max-width: 1150px; /* Ampliamos un poco el ancho máximo para darle más aire */
+      max-width: 1150px; /* Ancho máximo para darle más aire */
       margin: 20px auto;
       padding: 0 15px;
     }
@@ -827,6 +825,22 @@
       color: #FFFFFF;
       box-shadow: 0 10px 25px rgba(0, 168, 59, 0.25);
       gap: 15px;
+    }
+
+    /* 🔍 TAMAÑOS DE LETRA AMPLIADOS (EXCLUSIVO PARA PC) */
+    .hero h1 {
+      font-size: 30px !important;
+      font-weight: 900;
+    }
+
+    .hero p {
+      font-size: 15px !important;
+      line-height: 1.5;
+    }
+
+    .discount-banner__title {
+      font-size: 16px !important;
+      font-weight: 800;
     }
   }
 
