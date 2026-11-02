@@ -1676,7 +1676,7 @@ activeSub = "all";
 
     return list;
   }
-  function renderGrid(){
+ function renderGrid(){
     // Damos un respiro inmediato al procesador del celular con setTimeout
     setTimeout(() => {
       const grid = document.getElementById('productGrid') || document.getElementById('grid') || document.querySelector('.grid');
@@ -1698,15 +1698,39 @@ activeSub = "all";
 
       document.querySelectorAll('.empty-state').forEach(e => e.remove());
 
+      // 🚀 AQUÍ ESTÁ EL CAMBIO: Botón para limpiar filtro cuando no hay resultados
       if (list.length === 0) {
         grid.innerHTML = "";
         const empty = document.createElement('div');
         empty.className = 'empty-state';
-        empty.textContent = PRODUCTS.length === 0
-          ? 'Todavía no hay productos cargados en el Sheet.'
-          : 'No hay productos que coincidan con esta búsqueda o filtro.';
+        empty.style.cssText = 'grid-column: 1 / -1; text-align: center; padding: 40px 20px;';
+        empty.innerHTML = `
+          <div style="font-size: 16px; font-weight: 700; color: #151515; margin-bottom: 12px;">
+            ${PRODUCTS.length === 0 ? 'Todavía no hay productos cargados en el Sheet.' : 'No hay productos que coincidan con esta búsqueda o filtro.'}
+          </div>
+          <button id="resetFilterBtn" style="background-color: #00A83B; color: #FFFFFF; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; box-shadow: 0 4px 10px rgba(0,168,59,0.2);">
+            🧹 Limpiar filtro / Ver todo
+          </button>
+        `;
+        
         if (grid.parentElement) {
           grid.parentElement.insertBefore(empty, grid.nextSibling);
+        }
+
+        const resetBtn = document.getElementById('resetFilterBtn');
+        if (resetBtn) {
+          resetBtn.addEventListener('click', () => {
+            const selectEl = document.getElementById('subcatFilter');
+            if (selectEl) selectEl.value = "";
+            
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = "";
+            
+            if (typeof searchTerm !== 'undefined') searchTerm = "";
+            if (typeof activeSub !== 'undefined') activeSub = "all";
+            
+            renderGrid();
+          });
         }
         return;
       }
@@ -1753,7 +1777,7 @@ activeSub = "all";
         card.addEventListener('click', () => openProductModal(card.dataset.id));
       });
 
-      // Efecto hover/carrusel de imágenes en PC (sin afectar rendimiento en móvil)
+      // Efecto hover/carrusel de imágenes en PC
       grid.querySelectorAll('.card__art img').forEach(img => {
         let images = [];
         try {
@@ -1804,7 +1828,6 @@ activeSub = "all";
       });
     }, 0);
   }
-
   // ---------- Cart logic ----------
   // cart[key] = { productId, variant, qty }  — key = productId, o productId::variante si aplica.
   function cartKey(productId, variant){
