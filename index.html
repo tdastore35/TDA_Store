@@ -921,35 +921,35 @@
     <div class="status-banner__box" id="statusBox"></div>
   </div>
 
-  <!-- ===== Search + sort (Buscador y Orden A-Z arriba en móvil) ===== -->
-  <div class="toolbar" style="display: flex; flex-direction: column; gap: 10px;">
-    <div class="search-box" style="position: relative; display: flex; align-items: center;">
-      <span class="search-box__icon" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; font-size: 16px;">🔎</span>
-      <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding-left: 42px;">
-    </div>
-    <div class="sort-box" style="display: flex; align-items: center;">
-      <select id="sortSelect" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; outline: none;">
-        <option value="az">A-Z</option>
-        <option value="za">Z-A</option>
-        <option value="recientes">Más recientes</option>
-        <option value="precio-asc">Menor precio</option>
-        <option value="precio-desc">Mayor precio</option>
-      </select>
-    </div>
+  <!-- ===== Search + sort (Único buscador y ordenamiento arriba) ===== -->
+<div class="toolbar" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+  <div class="search-box" style="position: relative; display: flex; align-items: center;">
+    <span class="search-box__icon" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; font-size: 16px;">🔎</span>
+    <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding-left: 42px;">
   </div>
-
-  <!-- ===== Category rail (Botones de categorías) ===== -->
-  <div class="rail-wrap">
-    <div class="rail" id="categoryRail"></div>
+  
+  <div class="sort-box" style="display: flex; align-items: center;">
+    <select id="sortSelect" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; outline: none;">
+      <option value="az">A-Z</option>
+      <option value="za">Z-A</option>
+      <option value="recientes">Más recientes</option>
+      <option value="precio-asc">Menor precio</option>
+      <option value="precio-desc">Mayor precio</option>
+    </select>
   </div>
-  <div class="subrail" id="subRail"></div>
+</div>
 
+<!-- ===== Category rail (Botones de categorías principales) ===== -->
+<div class="rail-wrap">
+  <div class="rail" id="categoryRail"></div>
+</div>
+<div class="subrail" id="subRail"></div>
 
-  <!-- ===== FILTRO DE FRANQUICIAS (Ubicado aquí para que en móvil quede abajo de los botones) ===== -->
-  <div class="filter-container mobile-franquicias-slot" style="margin: 20px auto; max-width: 600px; text-align: center; padding: 0 15px;">
-    <div style="position: relative; display: inline-block; width: 100%; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">
-      <select id="subcatFilter" style="width: 100%; padding: 16px 20px; background-color: #FFFFFF; color: #151515; border: 3px solid #00A83B; border-radius: 16px; font-weight: 800; cursor: pointer; font-size: 16px; outline: none; appearance: none; -webkit-appearance: none; -moz-appearance: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);">
-        <option value="">✨ Franquicias ✨</option>
+<!-- ===== FILTRO DE FRANQUICIAS (ÚNICO, UBICADO DEBAJO DE LAS CATEGORÍAS) ===== -->
+<div class="filter-container" style="margin: 15px auto 20px auto; max-width: 600px; text-align: center; padding: 0 15px;">
+  <div style="position: relative; display: inline-block; width: 100%; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">
+    <select id="subcatFilter" style="width: 100%; padding: 16px 20px; background-color: #FFFFFF; color: #151515; border: 3px solid #00A83B; border-radius: 16px; font-weight: 800; cursor: pointer; font-size: 16px; outline: none; appearance: none; -webkit-appearance: none; -moz-appearance: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);">
+      <option value="">✨ Franquicias ✨</option>
 <option value="Attack on Titan">Attack on Titan</option>
 <option value="Back to the Future (Volver al Futuro)">Back to the Future (Volver al Futuro)</option>
 <option value="Basketball">Basketball</option>
