@@ -915,41 +915,66 @@
     0% { transform: translateY(0px) rotate(0deg); }
     100% { transform: translateY(-12px) rotate(5deg); }
   }
+
+/* 💻 EN PC: Mantenemos el orden natural (Franquicias arriba) */
+@media (min-width: 769px) {
+  .mobile-toolbar-layout {
+    display: flex;
+    flex-direction: column;
+  }
+  .pc-franquicias-item {
+    order: 1;
+  }
+  .search-box {
+    order: 2;
+  }
+  .sort-box {
+    order: 3;
+  }
+}
+
+/* 📱 EN CELULAR: Mandamos Franquicias al final (después de las categorías) */
+@media (max-width: 768px) {
+  /* Si quieres que baje de la barra superior, 
+     puedes ubicar este bloque mediante CSS grid/flex o dejarlo limpio abajo */
+}
+  
 </style>
   
   <div class="status-banner" id="statusBanner" style="display:none;">
     <div class="status-banner__box" id="statusBox"></div>
   </div>
 
-  <!-- ===== Search + sort (Único buscador y ordenamiento arriba) ===== -->
-<div class="toolbar" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+  <div class="toolbar mobile-toolbar-layout" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+  
+  <!-- Franquicias -->
+  <div class="filter-container pc-franquicias-item" style="margin: 0 auto; max-width: 600px; text-align: center; width: 100%;">
+    <!-- (Tu select con todas las franquicias y su ID subcatFilter) -->
+    <select id="subcatFilter">...</select>
+  </div>
+
+  <!-- Buscador -->
   <div class="search-box" style="position: relative; display: flex; align-items: center;">
-    <span class="search-box__icon" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; font-size: 16px;">🔎</span>
-    <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding-left: 42px;">
+    <input type="text" id="searchInput" placeholder="Buscar producto por nombre...">
   </div>
   
+  <!-- Orden A-Z -->
   <div class="sort-box" style="display: flex; align-items: center;">
-    <select id="sortSelect" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; outline: none;">
-      <option value="az">A-Z</option>
-      <option value="za">Z-A</option>
-      <option value="recientes">Más recientes</option>
-      <option value="precio-asc">Menor precio</option>
-      <option value="precio-desc">Mayor precio</option>
-    </select>
+    <select id="sortSelect">...</select>
   </div>
 </div>
 
-<!-- ===== Category rail (Botones de categorías principales) ===== -->
-<div class="rail-wrap">
-  <div class="rail" id="categoryRail"></div>
-</div>
+<!-- Rail de categorías -->
+<div class="rail-wrap"><div class="rail" id="categoryRail"></div></div>
 <div class="subrail" id="subRail"></div>
-
-<!-- ===== FILTRO DE FRANQUICIAS (ÚNICO, UBICADO DEBAJO DE LAS CATEGORÍAS) ===== -->
-<div class="filter-container" style="margin: 15px auto 20px auto; max-width: 600px; text-align: center; padding: 0 15px;">
-  <div style="position: relative; display: inline-block; width: 100%; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">
-    <select id="subcatFilter" style="width: 100%; padding: 16px 20px; background-color: #FFFFFF; color: #151515; border: 3px solid #00A83B; border-radius: 16px; font-weight: 800; cursor: pointer; font-size: 16px; outline: none; appearance: none; -webkit-appearance: none; -moz-appearance: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);">
-      <option value="">✨ Franquicias ✨</option>
+  <!-- ===== Search + sort (Buscador, Orden y Franquicias arriba) ===== -->
+<div class="toolbar pc-toolbar-layout" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+  
+  <!-- 1. Franquicias (Arriba en PC) -->
+  <div class="filter-container pc-franquicias-slot" style="margin: 0 auto; max-width: 600px; text-align: center; width: 100%;">
+    <div style="position: relative; display: inline-block; width: 100%; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">
+      <select id="subcatFilter" style="width: 100%; padding: 16px 20px; background-color: #FFFFFF; color: #151515; border: 3px solid #00A83B; border-radius: 16px; font-weight: 800; cursor: pointer; font-size: 16px; outline: none; appearance: none; -webkit-appearance: none; -moz-appearance: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);">
+        <option value="">✨ Franquicias ✨</option>
 <option value="Attack on Titan">Attack on Titan</option>
 <option value="Back to the Future (Volver al Futuro)">Back to the Future (Volver al Futuro)</option>
 <option value="Basketball">Basketball</option>
@@ -1097,27 +1122,51 @@ New Avengers</option>"
 <option value="Wednesday">Wednesday</option>
 <option value="World of Warcraft (WOW)">World of Warcraft (WOW)</option>
 <option value="WWE">WWE</option>
-  </select>
-<!-- Flecha elegante incorporada -->
+      </select>
+      <div style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); pointer-events: none; background-color: #00A83B; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Buscador -->
+  <div class="search-box" style="position: relative; display: flex; align-items: center;">
+    <span class="search-box__icon" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; font-size: 16px;">🔎</span>
+    <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding-left: 42px;">
+  </div>
+  
+  <!-- 3. Orden A-Z -->
+  <div class="sort-box" style="display: flex; align-items: center;">
+    <select id="sortSelect" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; outline: none;">
+      <option value="az">A-Z</option>
+      <option value="za">Z-A</option>
+      <option value="recientes">Más recientes</option>
+      <option value="precio-asc">Menor precio</option>
+      <option value="precio-desc">Mayor precio</option>
+    </select>
+  </div>
+</div>
+
+<!-- ===== Category rail (Botones de categorías) ===== -->
+<div class="rail-wrap">
+  <div class="rail" id="categoryRail"></div>
+</div>
+<div class="subrail" id="subRail"></div>
+
+<!-- ===== SEGUNDO ESPACIO DE FRANQUICIAS (Exclusivo para móvil, oculto en PC) ===== -->
+<div class="filter-container mobile-franquicias-slot" style="margin: 15px auto 20px auto; max-width: 600px; text-align: center; padding: 0 15px;">
+  <div style="position: relative; display: inline-block; width: 100%; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">
+    <!-- Nota: Usamos id="subcatFilterMobile" para evitar conflictos con el script de JavaScript si busca por ID único -->
+    <select id="subcatFilterMobile" style="width: 100%; padding: 16px 20px; background-color: #FFFFFF; color: #151515; border: 3px solid #00A83B; border-radius: 16px; font-weight: 800; cursor: pointer; font-size: 16px; outline: none; appearance: none; -webkit-appearance: none; -moz-appearance: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);">
+      <!-- (Aquí van las mismas opciones de Franquicias que arriba) -->
+      <option value="">✨ Franquicias ✨</option>
+      <!-- ... (mismas opciones) ... -->
+    </select>
     <div style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); pointer-events: none; background-color: #00A83B; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </div>
   </div>
 </div>
-    <div class="search-box" style="position: relative; display: flex; align-items: center;">
-      <span class="search-box__icon" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; font-size: 16px;">🔎</span>
-      <input type="text" id="searchInput" placeholder="Buscar producto por nombre..." style="width: 100%; padding-left: 42px;">
-    </div>
-    <div class="sort-box" style="display: flex; align-items: center;">
-      <select id="sortSelect" style="width: 100%; padding: 12px; background: #FFFFFF; color: #151515; border: 2px solid #00A83B; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 14px; outline: none;">
-        <option value="az">A-Z</option>
-        <option value="za">Z-A</option>
-        <option value="recientes">Más recientes</option>
-        <option value="precio-asc">Menor precio</option>
-        <option value="precio-desc">Mayor precio</option>
-      </select>
-    </div>
-  </div>
   <!-- ===== Category rail ===== -->
   <div class="rail-wrap">
     <div class="rail" id="categoryRail"></div>
