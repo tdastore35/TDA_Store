@@ -2571,18 +2571,19 @@ if(galleryMain && images.length > 1){
     const selectEl = document.getElementById('subcatFilter');
     if (!selectEl) return;
 
-    const searchText = searchInput ? searchInput.value.toLowerCase().trim() : '';
-    const subcatValue = selectEl.value.toLowerCase();
+    const searchText = searchInput ? normalizeText(searchInput.value).trim() : '';
+    const subcatValue = normalizeText(selectEl.value).trim();
     const cards = document.querySelectorAll('.card');
     
     let visibleCount = 0;
 
     cards.forEach(card => {
-      const textContent = card.textContent.toLowerCase();
+      const textContent = normalizeText(card.textContent);
       let show = false;
 
       if (searchText !== "") {
-        show = textContent.includes(searchText);
+        const words = searchText.split(/\s+/);
+        show = words.every(w => textContent.includes(w));
       } else {
         show = (subcatValue === "" || textContent.includes(subcatValue));
       }
